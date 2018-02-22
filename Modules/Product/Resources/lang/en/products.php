@@ -14,6 +14,11 @@ return [
         'create product' => 'Create a product',
     ],
     'table' => [
+        'attrset' => 'Attribute Set',
+        'productname' => 'Product Title',
+        'price' => 'Price',
+        'stock' => 'Stock',
+        'status' => 'Status'
     ],
     'form' => [
         'title' => 'Title',

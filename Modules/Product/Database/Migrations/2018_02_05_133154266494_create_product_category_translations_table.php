@@ -21,7 +21,8 @@ class CreateProductCategoryTranslationsTable extends Migration
             $table->text('key_words');
             $table->text('meta_description');
             $table->text('description');
-
+            $table->string('slug');
+            
             $table->integer('category_id')->unsigned();
             $table->string('locale')->index();
             $table->unique(['category_id', 'locale']);

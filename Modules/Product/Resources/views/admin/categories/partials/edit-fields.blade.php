@@ -14,6 +14,13 @@
         {!! $errors->first("$lang.title", '<span class="help-block">:message</span>') !!}
     </div>
 
+    <div class='form-group{{ $errors->has("$lang.slug") ? ' has-error' : '' }}'>
+        <?php $oldSlug = isset($category->translate($lang)->slug) ? $category->translate($lang)->slug : ''; ?>
+        {!! Form::label("{$lang}[slug]", trans('product::categories.form.slug')) !!}
+        {!! Form::text("{$lang}[slug]", old("$lang.slug", $oldSlug), ['class' => 'form-control slug', 'data-slug' => 'target', 'placeholder' => trans('blog::post.form.slug')]) !!}
+        {!! $errors->first("$lang.slug", '<span class="help-block">:message</span>') !!}
+    </div>
+
     <div class='form-group{{ $errors->has("$lang.key_words") ? ' has-error' : '' }}'>
         <?php $key_words = isset($category->translate($lang)->key_words) ? $category->translate($lang)->key_words : ''; ?>
         {!! Form::label("{$lang}[key_words]", trans('product::categories.form.key_words')) !!}

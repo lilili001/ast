@@ -17,6 +17,7 @@
         <div class="col-md-10">
             <div class="nav-tabs-custom">
                 @include('partials.form-tab-headers')
+
                 <div class="tab-content">
                     <?php $i = 0; ?>
                     @foreach (LaravelLocalization::getSupportedLocales() as $locale => $language)
@@ -33,7 +34,6 @@
                 </div>
             </div> {{-- end nav-tabs-custom --}}
         </div>
-
         <div class="col-md-2">
             <div class="box box-primary">
                 <div class="box-body">
@@ -42,7 +42,7 @@
                         <select name="pid" id="pid" class="form-control">
                             <option value="0">请选择</option>
                             <?php foreach ($attrsets as $set): ?>
-                            <option value="{{ $set->id }}"  {{  $set->id == $attrset->id ? 'disabled' : ''  }}  {{ old('pid', $set->id) == $attrset->pid ? 'selected' : '' }}>{{ $attrset->name }}</option>
+                            <option value="{{ $set->id }}"  {{  $set->id == $attrset->id ? 'disabled' : ''  }}  {{ $set->id == $attrset->pid ? 'selected' : '' }}>{{ $set->name }}</option>
                             <?php endforeach; ?>
                         </select>
                     </div>

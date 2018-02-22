@@ -159,23 +159,6 @@ module.exports = function (it) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store = __webpack_require__(73)('wks');
-var uid = __webpack_require__(43);
-var Symbol = __webpack_require__(2).Symbol;
-var USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function (name) {
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -281,6 +264,23 @@ module.exports = function normalizeComponent (
     options: options
   }
 }
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var store = __webpack_require__(73)('wks');
+var uid = __webpack_require__(43);
+var Symbol = __webpack_require__(2).Symbol;
+var USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function (name) {
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
 
 
 /***/ }),
@@ -21728,7 +21728,7 @@ if (__webpack_require__(7)) {
   var gOPN = __webpack_require__(48).f;
   var getIterFn = __webpack_require__(113);
   var uid = __webpack_require__(43);
-  var wks = __webpack_require__(5);
+  var wks = __webpack_require__(6);
   var createArrayMethod = __webpack_require__(33);
   var createArrayIncludes = __webpack_require__(74);
   var speciesConstructor = __webpack_require__(81);
@@ -22524,7 +22524,7 @@ var meta = module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.31 Array.prototype[@@unscopables]
-var UNSCOPABLES = __webpack_require__(5)('unscopables');
+var UNSCOPABLES = __webpack_require__(6)('unscopables');
 var ArrayProto = Array.prototype;
 if (ArrayProto[UNSCOPABLES] == undefined) __webpack_require__(16)(ArrayProto, UNSCOPABLES, {});
 module.exports = function (key) {
@@ -22708,7 +22708,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 var global = __webpack_require__(2);
 var dP = __webpack_require__(8);
 var DESCRIPTORS = __webpack_require__(7);
-var SPECIES = __webpack_require__(5)('species');
+var SPECIES = __webpack_require__(6)('species');
 
 module.exports = function (KEY) {
   var C = global[KEY];
@@ -23195,7 +23195,7 @@ function applyToTag (styleElement, obj) {
 
 var def = __webpack_require__(8).f;
 var has = __webpack_require__(15);
-var TAG = __webpack_require__(5)('toStringTag');
+var TAG = __webpack_require__(6)('toStringTag');
 
 module.exports = function (it, tag, stat) {
   if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
@@ -23416,7 +23416,7 @@ exports.f = {}.propertyIsEnumerable;
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(25);
-var TAG = __webpack_require__(5)('toStringTag');
+var TAG = __webpack_require__(6)('toStringTag');
 // ES3 wrong here
 var ARG = cof(function () { return arguments; }()) == 'Arguments';
 
@@ -23527,7 +23527,7 @@ module.exports = Array.isArray || function isArray(arg) {
 // 7.2.8 IsRegExp(argument)
 var isObject = __webpack_require__(4);
 var cof = __webpack_require__(25);
-var MATCH = __webpack_require__(5)('match');
+var MATCH = __webpack_require__(6)('match');
 module.exports = function (it) {
   var isRegExp;
   return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
@@ -23538,7 +23538,7 @@ module.exports = function (it) {
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ITERATOR = __webpack_require__(5)('iterator');
+var ITERATOR = __webpack_require__(6)('iterator');
 var SAFE_CLOSING = false;
 
 try {
@@ -23592,7 +23592,7 @@ var hide = __webpack_require__(16);
 var redefine = __webpack_require__(17);
 var fails = __webpack_require__(3);
 var defined = __webpack_require__(30);
-var wks = __webpack_require__(5);
+var wks = __webpack_require__(6);
 
 module.exports = function (KEY, length, exec) {
   var SYMBOL = wks(KEY);
@@ -23624,7 +23624,7 @@ module.exports = function (KEY, length, exec) {
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject = __webpack_require__(1);
 var aFunction = __webpack_require__(13);
-var SPECIES = __webpack_require__(5)('species');
+var SPECIES = __webpack_require__(6)('species');
 module.exports = function (O, D) {
   var C = anObject(O).constructor;
   var S;
@@ -41219,7 +41219,7 @@ var Iterators = __webpack_require__(59);
 var $iterCreate = __webpack_require__(108);
 var setToStringTag = __webpack_require__(57);
 var getPrototypeOf = __webpack_require__(21);
-var ITERATOR = __webpack_require__(5)('iterator');
+var ITERATOR = __webpack_require__(6)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
 var KEYS = 'keys';
@@ -41293,7 +41293,7 @@ var setToStringTag = __webpack_require__(57);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(16)(IteratorPrototype, __webpack_require__(5)('iterator'), function () { return this; });
+__webpack_require__(16)(IteratorPrototype, __webpack_require__(6)('iterator'), function () { return this; });
 
 module.exports = function (Constructor, NAME, next) {
   Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
@@ -41319,7 +41319,7 @@ module.exports = function (that, searchString, NAME) {
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MATCH = __webpack_require__(5)('match');
+var MATCH = __webpack_require__(6)('match');
 module.exports = function (KEY) {
   var re = /./;
   try {
@@ -41339,7 +41339,7 @@ module.exports = function (KEY) {
 
 // check on default Array iterator
 var Iterators = __webpack_require__(59);
-var ITERATOR = __webpack_require__(5)('iterator');
+var ITERATOR = __webpack_require__(6)('iterator');
 var ArrayProto = Array.prototype;
 
 module.exports = function (it) {
@@ -41367,7 +41367,7 @@ module.exports = function (object, index, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(70);
-var ITERATOR = __webpack_require__(5)('iterator');
+var ITERATOR = __webpack_require__(6)('iterator');
 var Iterators = __webpack_require__(59);
 module.exports = __webpack_require__(28).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR]
@@ -43543,7 +43543,7 @@ module.exports = !__webpack_require__(7) && !__webpack_require__(3)(function () 
 /* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(5);
+exports.f = __webpack_require__(6);
 
 
 /***/ }),
@@ -44334,7 +44334,7 @@ var isArray = __webpack_require__(76);
 var isObject = __webpack_require__(4);
 var toLength = __webpack_require__(9);
 var ctx = __webpack_require__(24);
-var IS_CONCAT_SPREADABLE = __webpack_require__(5)('isConcatSpreadable');
+var IS_CONCAT_SPREADABLE = __webpack_require__(6)('isConcatSpreadable');
 
 function flattenIntoArray(target, original, source, sourceLen, start, depth, mapper, thisArg) {
   var targetIndex = start;
@@ -49477,7 +49477,7 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(559)
 /* template */
@@ -49524,7 +49524,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(561)
 /* template */
@@ -49571,7 +49571,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(592)
 /* template */
@@ -49618,7 +49618,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(593)
 /* template */
@@ -49665,7 +49665,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(216);
-module.exports = __webpack_require__(638);
+module.exports = __webpack_require__(641);
 
 
 /***/ }),
@@ -49741,6 +49741,7 @@ _vue2.default.component('TagsInput', __webpack_require__(624));
 _vue2.default.component('SingleMedia', __webpack_require__(627));
 _vue2.default.component('MediaManager', __webpack_require__(211));
 _vue2.default.component('sku', __webpack_require__(635));
+_vue2.default.component('attr', __webpack_require__(638));
 
 var currentLocale = window.AsgardCMS.currentLocale;
 var adminPrefix = window.AsgardCMS.adminPrefix;
@@ -50048,7 +50049,7 @@ var $fails = __webpack_require__(3);
 var shared = __webpack_require__(73);
 var setToStringTag = __webpack_require__(57);
 var uid = __webpack_require__(43);
-var wks = __webpack_require__(5);
+var wks = __webpack_require__(6);
 var wksExt = __webpack_require__(145);
 var wksDefine = __webpack_require__(96);
 var enumKeys = __webpack_require__(220);
@@ -50510,7 +50511,7 @@ $export($export.S, 'Object', { setPrototypeOf: __webpack_require__(100).set });
 // 19.1.3.6 Object.prototype.toString()
 var classof = __webpack_require__(70);
 var test = {};
-test[__webpack_require__(5)('toStringTag')] = 'z';
+test[__webpack_require__(6)('toStringTag')] = 'z';
 if (test + '' != '[object z]') {
   __webpack_require__(17)(Object.prototype, 'toString', function toString() {
     return '[object ' + classof(this) + ']';
@@ -50558,7 +50559,7 @@ NAME in FProto || __webpack_require__(7) && dP(FProto, NAME, {
 
 var isObject = __webpack_require__(4);
 var getPrototypeOf = __webpack_require__(21);
-var HAS_INSTANCE = __webpack_require__(5)('hasInstance');
+var HAS_INSTANCE = __webpack_require__(6)('hasInstance');
 var FunctionProto = Function.prototype;
 // 19.2.3.6 Function.prototype[@@hasInstance](V)
 if (!(HAS_INSTANCE in FunctionProto)) __webpack_require__(8).f(FunctionProto, HAS_INSTANCE, { value: function (O) {
@@ -51668,7 +51669,7 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 /* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var TO_PRIMITIVE = __webpack_require__(5)('toPrimitive');
+var TO_PRIMITIVE = __webpack_require__(6)('toPrimitive');
 var proto = Date.prototype;
 
 if (!(TO_PRIMITIVE in proto)) __webpack_require__(16)(proto, TO_PRIMITIVE, __webpack_require__(301));
@@ -51878,7 +51879,7 @@ $export($export.P + $export.F * !STRICT, 'Array', {
 
 var isObject = __webpack_require__(4);
 var isArray = __webpack_require__(76);
-var SPECIES = __webpack_require__(5)('species');
+var SPECIES = __webpack_require__(6)('species');
 
 module.exports = function (original) {
   var C;
@@ -52139,7 +52140,7 @@ var re2 = /a/g;
 var CORRECT_NEW = new $RegExp(re1) !== re1;
 
 if (__webpack_require__(7) && (!CORRECT_NEW || __webpack_require__(3)(function () {
-  re2[__webpack_require__(5)('match')] = false;
+  re2[__webpack_require__(6)('match')] = false;
   // RegExp constructor can alter flags and IsRegExp works correct with @@match
   return $RegExp(re1) != re1 || $RegExp(re2) == re2 || $RegExp(re1, 'i') != '/a/i';
 }))) {
@@ -52362,7 +52363,7 @@ var USE_NATIVE = !!function () {
   try {
     // correct subclassing with @@species support
     var promise = $Promise.resolve(1);
-    var FakePromise = (promise.constructor = {})[__webpack_require__(5)('species')] = function (exec) {
+    var FakePromise = (promise.constructor = {})[__webpack_require__(6)('species')] = function (exec) {
       exec(empty, empty);
     };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
@@ -54026,7 +54027,7 @@ var $export = __webpack_require__(0);
 var global = __webpack_require__(2);
 var core = __webpack_require__(28);
 var microtask = __webpack_require__(118)();
-var OBSERVABLE = __webpack_require__(5)('observable');
+var OBSERVABLE = __webpack_require__(6)('observable');
 var aFunction = __webpack_require__(13);
 var anObject = __webpack_require__(1);
 var anInstance = __webpack_require__(50);
@@ -54269,7 +54270,7 @@ var redefine = __webpack_require__(17);
 var global = __webpack_require__(2);
 var hide = __webpack_require__(16);
 var Iterators = __webpack_require__(59);
-var wks = __webpack_require__(5);
+var wks = __webpack_require__(6);
 var ITERATOR = wks('iterator');
 var TO_STRING_TAG = wks('toStringTag');
 var ArrayValues = Iterators.Array;
@@ -106752,7 +106753,7 @@ exports.default = [{
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(524)
 /* template */
@@ -107847,7 +107848,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(545)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(548)
 /* template */
@@ -108632,7 +108633,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(552)
 /* template */
@@ -110693,7 +110694,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(563)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(565)
 /* template */
@@ -111013,7 +111014,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(568)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(570)
 /* template */
@@ -111228,7 +111229,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(573)
 /* template */
@@ -111496,7 +111497,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(576)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(578)
 /* template */
@@ -112334,7 +112335,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(582)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(584)
 /* template */
@@ -113078,7 +113079,7 @@ exports.default = [
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(588)
 /* template */
@@ -113635,7 +113636,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(591)
 /* template */
@@ -114686,7 +114687,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(598)
 /* template */
@@ -115286,7 +115287,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(601)
 /* template */
@@ -116315,7 +116316,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(604)
 /* template */
@@ -116901,7 +116902,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(607)
 /* template */
@@ -117330,7 +117331,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(614)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(616)
 /* template */
@@ -117558,7 +117559,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(619)
 /* template */
@@ -117696,7 +117697,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(622)
 /* template */
@@ -117805,7 +117806,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(625)
 /* template */
@@ -117964,7 +117965,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(628)
 /* template */
@@ -118157,7 +118158,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(630)
 }
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(632)
 /* template */
@@ -118485,7 +118486,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(6)
+var normalizeComponent = __webpack_require__(5)
 /* script */
 var __vue_script__ = __webpack_require__(636)
 /* template */
@@ -118555,19 +118556,21 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 
 exports.default = {
-    props: ['sku-attrs', 'pdc', 'filled-attr', 'filled-sku'],
+    props: ['sku-attrs', 'pdc', 'filled-attr', 'filled-sku', 'locale'],
     name: 'sku',
     data: function data() {
         var skuAttrs = JSON.parse(this.skuAttrs);
         var checkList = {},
             atrKeys = [];
-        for (var attr in skuAttrs) {
-            if (attr !== 'price' && attr !== 'stock') {
-                checkList[attr] = [];
+
+        _.each(skuAttrs, function (item, index) {
+            if (item) {
+                checkList[item['key']] = [];
+                atrKeys.push(item['key']);
             }
-            atrKeys.push(attr);
-        }
-        atrKeys = [].concat(_toConsumableArray(atrKeys));
+        });
+        atrKeys = [].concat(_toConsumableArray(atrKeys), ['price', 'stock']);
+
         return {
             tableData6: [],
             checkList: checkList,
@@ -118590,13 +118593,13 @@ exports.default = {
     mounted: function mounted() {
         var _this2 = this;
 
-        if (this.fillDataAttr.length == 0 && this.fillDataSku.length == 0) return;
+        if (this.fillDataAttr.length == 0 || this.fillDataSku.length == 0) return;
+
         //反填选中的sku
         this.fillDataAttr.map(function (item) {
             var val = item.value.replace(/^"+/, "").replace(/"+$/, "");
             _this2.checkList[item['attr_key']] = JSON.parse(val);
         });
-
         //反填sku table
         this.tableData6 = this.fillDataSku.map(function (item) {
             return item.settings;
@@ -118607,13 +118610,23 @@ exports.default = {
 
     methods: {
         handleSubmit: function handleSubmit() {
+            var _this3 = this;
+
             axios.post(route('admin.product.product.edit.sku', { productid: this.pdcObj['id'] }), {
                 tableData6: this.tableData6,
                 checkList: this.checkList
-            }).then(function (res) {});
+            }).then(function (res) {
+                if (res.data.code == 0) {
+                    _this3.$message({
+                        message: '成功',
+                        type: 'success'
+                    });
+                }
+            });
         },
         handleResult: function handleResult() {
             var arr1 = _.values(this.checkList);
+
             _.remove(arr1, function (arr) {
                 return arr.length == 0;
             });
@@ -118621,16 +118634,16 @@ exports.default = {
             return arr1;
         },
         createTableAndMerge: function createTableAndMerge() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.createTable();
             var table = $('table');
             _.values(this.checkList).map(function (arr, i) {
-                return _this3.mergeCell(table, i);
+                return _this4.mergeCell(table, i);
             });
         },
         labelChange: function labelChange() {
-            var _this4 = this;
+            var _this5 = this;
 
             //this.tableData6 = [];
             var arr1 = this.handleResult();
@@ -118638,7 +118651,7 @@ exports.default = {
                 this.tableData6 = this.result.map(function (str) {
                     var item = {};
                     var newArr = str.split(','); //m,l
-                    _this4.atrKeys.map(function (key, i) {
+                    _this5.atrKeys.map(function (key, i) {
                         item[key] = !!newArr[i] ? newArr[i] : '';
                         return item;
                     });
@@ -118652,7 +118665,7 @@ exports.default = {
             }
             var table = $('table');
             arr1.map(function (arr, i) {
-                return _this4.mergeCell(table, i);
+                return _this5.mergeCell(table, i);
             });
         },
         checkEveryAttrSelected: function checkEveryAttrSelected(arr1) {
@@ -118798,37 +118811,35 @@ var render = function() {
     [
       _c("h1", [_vm._v(_vm._s(_vm.trans("media.title.edit media")))]),
       _vm._v(" "),
-      _vm._l(JSON.parse(_vm.skuAttrs), function(options, key) {
-        return key !== "price" && key !== "stock"
-          ? _c(
-              "div",
-              [
-                _c("span", [_vm._v(_vm._s(key) + ":")]),
-                _vm._v(" "),
-                _c(
-                  "el-checkbox-group",
-                  {
-                    on: { change: _vm.labelChange },
-                    model: {
-                      value: _vm.checkList[key],
-                      callback: function($$v) {
-                        _vm.$set(_vm.checkList, key, $$v)
-                      },
-                      expression: "checkList[key]"
-                    }
+      _vm._l(JSON.parse(_vm.skuAttrs), function(item, key) {
+        return _c(
+          "div",
+          [
+            _c("span", [_vm._v(_vm._s(item.name) + ":")]),
+            _vm._v(" "),
+            _c(
+              "el-checkbox-group",
+              {
+                on: { change: _vm.labelChange },
+                model: {
+                  value: _vm.checkList[item["key"]],
+                  callback: function($$v) {
+                    _vm.$set(_vm.checkList, item["key"], $$v)
                   },
-                  _vm._l(options, function(option) {
-                    return _c(
-                      "el-checkbox",
-                      { key: option, attrs: { label: option } },
-                      [_vm._v(_vm._s(option))]
-                    )
-                  })
+                  expression: "checkList[item['key']]"
+                }
+              },
+              _vm._l(item.options, function(option, key1) {
+                return _c(
+                  "el-checkbox",
+                  { key: key1, attrs: { label: key1 } },
+                  [_vm._v(_vm._s(option[_vm.locale]))]
                 )
-              ],
-              1
+              })
             )
-          : _vm._e()
+          ],
+          1
+        )
       }),
       _vm._v(" "),
       _c("div", {
@@ -118878,6 +118889,248 @@ if (false) {
 
 /***/ }),
 /* 638 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(5)
+/* script */
+var __vue_script__ = __webpack_require__(639)
+/* template */
+var __vue_template__ = __webpack_require__(640)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "Modules/Product/Assets/js/components/attr.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c2a23a2c", Component.options)
+  } else {
+    hotAPI.reload("data-v-c2a23a2c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 639 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['attrsets', 'locale', 'product', 'fillsale'],
+    computed: {
+        attrsetsObj: function attrsetsObj() {
+            return JSON.parse(this.attrsets);
+        },
+        productObj: function productObj() {
+            return JSON.parse(this.product);
+        },
+        fillSaleObj: function fillSaleObj() {
+            return JSON.parse(this.fillsale);
+        }
+    },
+    data: function data() {
+        return {
+            ruleForm: {},
+            saleAttrs: [],
+            rules: {
+                //                    attrset_id: [
+                //                        { required: true, message: '请选择属性集', trigger: 'change' }
+                //                    ]
+            }
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        this.fnChangeAttrSet();
+        if (!this.fillSaleObj) return;
+        this.fillSaleObj.map(function (item) {
+            var val = item.value.replace(/^"+/, "").replace(/"+$/, "");
+            _this.ruleForm[item['attr_key']] = val;
+        });
+    },
+
+    methods: {
+        fnChangeAttrSet: function fnChangeAttrSet() {
+            var _this2 = this;
+
+            axios.post(route('admin.product.attrset.saleAttrs'), {
+                attrset_id: this.productObj.attrset_id
+            }).then(function (res) {
+                _this2.saleAttrs = res.data[0].attrs;
+            });
+        },
+        submitForm: function submitForm(formName) {
+            var _this3 = this;
+
+            this.$refs[formName].validate(function (valid) {
+                if (valid) {
+                    axios.post(route('admin.product.edit.updateSaleAttrs', { 'productid': _this3.productObj.id }), _this3.ruleForm).then(function (res) {
+                        if (res.data.code == 0) {
+                            _this3.$message({
+                                message: '成功',
+                                type: 'success'
+                            });
+                        }
+                    });
+                } else {
+                    return false;
+                }
+            });
+        },
+        resetForm: function resetForm(formName) {
+            this.$refs[formName].resetFields();
+        }
+    }
+};
+
+/***/ }),
+/* 640 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticStyle: { "margin-top": "20px" } },
+    [
+      _c(
+        "el-form",
+        {
+          ref: "ruleForm",
+          staticClass: "demo-ruleForm",
+          attrs: {
+            model: _vm.ruleForm,
+            rules: _vm.rules,
+            "label-width": "100px"
+          }
+        },
+        [
+          _vm._l(_vm.saleAttrs, function(attr, key1) {
+            return _c(
+              "div",
+              [
+                _c(
+                  "el-form-item",
+                  {
+                    key: attr.key,
+                    attrs: { label: attr.name, prop: attr.key }
+                  },
+                  [
+                    _c(
+                      "el-select",
+                      {
+                        attrs: { placeholder: "请选择属性集" },
+                        on: { change: function($event) {} },
+                        model: {
+                          value: _vm.ruleForm[attr.key],
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, attr.key, $$v)
+                          },
+                          expression: "ruleForm[attr.key]"
+                        }
+                      },
+                      _vm._l(attr.options, function(option, key) {
+                        return _c("el-option", {
+                          key: key,
+                          attrs: { label: option[_vm.locale], value: key }
+                        })
+                      })
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "el-form-item",
+            [
+              _c(
+                "el-button",
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      _vm.submitForm("ruleForm")
+                    }
+                  }
+                },
+                [_vm._v("立即创建")]
+              )
+            ],
+            1
+          )
+        ],
+        2
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c2a23a2c", module.exports)
+  }
+}
+
+/***/ }),
+/* 641 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -14,7 +14,7 @@
 @section('content')
     {!! Form::open(['route' => ['admin.product.product.store'], 'method' => 'post']) !!}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="nav-tabs-custom">
                 @include('partials.form-tab-headers')
                 <div class="tab-content">
@@ -25,15 +25,34 @@
                             @include('product::admin.products.partials.create-fields', ['lang' => $locale])
                         </div>
                     @endforeach
-
+                        <div class="box box-primary">
+                            @mediaMultiple('gallery')
+                        </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.create') }}</button>
                         <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.product.product.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
                     </div>
                 </div>
                 {{--@mediaSingle('profile_image')--}}
-                {{--@mediaMultiple('gallery')--}}
+
             </div> {{-- end nav-tabs-custom --}}
+        </div>
+        <div class="col-md-2">
+            {!! Form::label("attrset", 'attrset:') !!}
+            <select name="attrset_id" id="attrset_id" class="form-control">
+                <option value="">请选择</option>
+                <?php foreach ($attrsets as $set): ?>
+                <option value="{{ $set->id }}">{{ $set->name }}</option>
+                <?php endforeach; ?>
+            </select>
+
+            {!! Form::label("category", 'category:') !!}
+            <select name="category_id" id="category_id" class="form-control">
+                <option value="">请选择</option>
+                <?php foreach ($cats as $cat): ?>
+                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </div>
     {!! Form::close() !!}

@@ -19,6 +19,6 @@ class Attrset extends Model
 
     public function attrs()
     {
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsToMany(Attribute::class,'attrset_attr');
     }
 }

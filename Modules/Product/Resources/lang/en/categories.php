@@ -15,11 +15,15 @@ return [
         'create category' => 'Create a category',
     ],
     'table' => [
-        'name' => 'Attribute Set Name'
+        'name' => 'Name',
+        'title' => 'Title',
+        'created at' => 'Created At'
     ],
     'form' => [
         'name' => 'Name',
         'title' => 'Title',
+        'slug' => 'Slug',
+        'key_words' => 'Key Words',
         'description' => 'Description',
         'meta_keywords' => 'Meta Keywords',
         'meta_description' => 'Meta Description',

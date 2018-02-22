@@ -13,7 +13,7 @@
         }
     }
 </style>
-<nav class="admin-nav-bar navbar navbar-default navbar-fixed-top">
+<nav class="admin-nav-bar navbar navbar-default" style="margin-bottom: 0">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">

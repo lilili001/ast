@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>{{ trans('media.title.edit media') }}</h1>
-        <div v-for="(options,key ) in JSON.parse(skuAttrs)" v-if=" key!=='price' && key !== 'stock' ">
-            <span>{{key}}:</span>
-            <el-checkbox-group v-model="checkList[key]" @change="labelChange">
-                <el-checkbox :label="option" :key="option" v-for="option in options">{{option}}</el-checkbox>
+        <div v-for="(item,key ) in JSON.parse(skuAttrs)">
+            <span>{{item.name}}:</span>
+            <el-checkbox-group v-model="checkList[item['key']]" @change="labelChange">
+                <el-checkbox :label="key1" :key="key1" v-for="(option,key1) in item.options">{{option[locale]}}</el-checkbox>
             </el-checkbox-group>
         </div>
         <div id="createTable" v-show="tableData6.length>0" class="el-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition"></div>
@@ -13,18 +13,20 @@
 </template>
 <script type="text/javascript">
 export default {
-        props:['sku-attrs','pdc','filled-attr','filled-sku'],
+        props:['sku-attrs','pdc','filled-attr','filled-sku','locale'],
         name:'sku',
         data(){
             const skuAttrs = JSON.parse(this.skuAttrs);
             let checkList={},atrKeys=[];
-            for(let attr in skuAttrs){
-                if(attr !== 'price' && attr !== 'stock' ){
-                    checkList[attr] = [];
+
+            _.each(skuAttrs,(item,index)=>{
+                if(item){
+                    checkList[item['key']] = [];
+                    atrKeys.push(item['key']);
                 }
-                atrKeys.push(attr);
-            }
-            atrKeys = [...atrKeys];
+            });
+            atrKeys = [...atrKeys,'price','stock'];
+
             return {
                 tableData6: [],
                 checkList:checkList,
@@ -44,13 +46,13 @@ export default {
           },
         },
         mounted(){
-            if(this.fillDataAttr.length==0 && this.fillDataSku.length==0 ) return;
+            if(this.fillDataAttr.length==0 || this.fillDataSku.length==0 ) return;
+
             //反填选中的sku
             this.fillDataAttr.map((item)=>{
                 let val = item.value.replace(/^"+/,"").replace(/"+$/,"");
-                this.checkList[item['attr_key']] = JSON.parse(val) ;
+                this.checkList[item['attr_key']] =  JSON.parse(val) ;
             });
-
             //反填sku table
             this.tableData6 = this.fillDataSku.map((item)=>{
                 return item.settings;
@@ -64,11 +66,17 @@ export default {
                     tableData6:this.tableData6,
                     checkList:this.checkList
                 }).then((res)=>{
-
+                    if(res.data.code == 0){
+                        this.$message({
+                            message: '成功',
+                            type: 'success'
+                        });
+                    }
                 });
             },
             handleResult(){
                 var arr1 = _.values(this.checkList);
+
                 _.remove(arr1,(arr)=> arr.length==0 );
                 this.result = doExchange(arr1);
                 return arr1;

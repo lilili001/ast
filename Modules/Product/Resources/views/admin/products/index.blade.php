@@ -29,6 +29,11 @@
                         <table class="data-table table table-bordered table-hover">
                             <thead>
                             <tr>
+                                <th>{{ trans('product::products.table.attrset') }}</th>
+                                <th>{{ trans('product::products.table.productname') }}</th>
+                                <th>{{ trans('product::products.table.price') }}</th>
+                                <th>{{ trans('product::products.table.stock') }}</th>
+                                <th>{{ trans('product::products.table.status') }}</th>
                                 <th>{{ trans('core::core.table.created at') }}</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
@@ -37,6 +42,11 @@
                             <?php if (isset($products)): ?>
                             <?php foreach ($products as $product): ?>
                             <tr>
+                                <td>{{ $product->attrset_id }}</td>
+                                <td>{{ $product->title }}</td>
+                                <td>{{ $product->price }}</td>
+                                <td>{{ $product->stock }}</td>
+                                <td>{{ $product->status }}</td>
                                 <td>
                                     <a href="{{ route('admin.product.product.edit', [$product->id]) }}">
                                         {{ $product->created_at }}

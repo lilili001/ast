@@ -43,6 +43,19 @@ class RegisterProductSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                 $item->authorize(
                      /* append */
                 );
+
+
+
+                $item->item(trans('attribute::attributes.attributes'), function (Item $item) {
+                    $item->icon('fa fa-copy');
+                    $item->weight(0);
+                    $item->append('admin.attribute.attribute.create');
+                    $item->route('admin.attribute.attribute.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('attribute.attributes.index')
+                    );
+                });
+
                 $item->item(trans('product::attrsets.title.attrsets'), function (Item $item) {
                     $item->icon('fa fa-copy');
                     $item->weight(0);

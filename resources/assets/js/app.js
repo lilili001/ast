@@ -29,6 +29,7 @@ Vue.component('TagsInput', require('../../../Modules/Tag/Assets/js/components/Ta
 Vue.component('SingleMedia', require('../../../Modules/Media/Assets/js/components/SingleMedia.vue'));
 Vue.component('MediaManager', require('../../../Modules/Media/Assets/js/components/MediaManager.vue'));
 Vue.component('sku', require('../../../Modules/Product/Assets/js/components/sku.vue'));
+Vue.component('attr', require('../../../Modules/Product/Assets/js/components/attr.vue'));
 
 const currentLocale = window.AsgardCMS.currentLocale;
 const adminPrefix = window.AsgardCMS.adminPrefix;

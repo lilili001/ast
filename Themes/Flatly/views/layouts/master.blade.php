@@ -17,9 +17,14 @@
 <body>
 
 @auth
-    @include('partials.admin-bar')
+    @if(Auth::user()->hasAccess('dashboard.index'))
+        <div>
+            @include('partials.admin-bar')
+        </div>
+    @endif
 @endauth
 @include('partials.navigation')
+
 
 <div class="container">
     @yield('content')

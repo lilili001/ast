@@ -18,6 +18,7 @@ $( document ).ready(function() {
     var $body = $('body');
 
     $body.on('change', '.jsOptionLanguage', function (event) {
+        if(this.value == -1) return;
         $(this).parent().find('.lang-group').each(function (i ,element) {
             $(element).hide();
         });

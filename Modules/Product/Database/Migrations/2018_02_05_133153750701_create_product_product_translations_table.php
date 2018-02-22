@@ -20,7 +20,7 @@ class CreateProductProductTranslationsTable extends Migration
             $table->text('keywords');
             $table->text('meta_description');
             $table->text('description');
-
+            $table->string('slug');
 
             $table->integer('product_id')->unsigned();
             $table->string('locale')->index();
