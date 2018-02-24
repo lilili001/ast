@@ -17,11 +17,7 @@
 <body>
 
 @auth
-    @if(Auth::user()->hasAccess('dashboard.index'))
-        <div>
-            @include('partials.admin-bar')
-        </div>
-    @endif
+    @include('partials.admin-bar')
 @endauth
 @include('partials.navigation')
 

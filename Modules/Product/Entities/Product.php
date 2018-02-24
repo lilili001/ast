@@ -33,4 +33,8 @@ class Product extends Model
     {
         return $this->id;
     }
+    public function getFeaturedImagesAttribute()
+    {
+        return $this->filesByZone('gallery')->get();
+    }
 }

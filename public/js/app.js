@@ -118554,6 +118554,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
     props: ['sku-attrs', 'pdc', 'filled-attr', 'filled-sku', 'locale'],
@@ -118575,7 +118579,9 @@ exports.default = {
             tableData6: [],
             checkList: checkList,
             result: [],
-            atrKeys: atrKeys
+            atrKeys: atrKeys,
+            price: '',
+            stock: ''
         };
     },
 
@@ -118604,6 +118610,11 @@ exports.default = {
         this.tableData6 = this.fillDataSku.map(function (item) {
             return item.settings;
         });
+
+        //反填price and stock
+        this.price = this.pdcObj.price;
+        this.stock = this.pdcObj.stock;
+
         this.handleResult();
         this.createTableAndMerge();
     },
@@ -118614,7 +118625,9 @@ exports.default = {
 
             axios.post(route('admin.product.product.edit.sku', { productid: this.pdcObj['id'] }), {
                 tableData6: this.tableData6,
-                checkList: this.checkList
+                checkList: this.checkList,
+                price: this.price,
+                stock: this.stock
             }).then(function (res) {
                 if (res.data.code == 0) {
                     _this3.$message({
@@ -118695,17 +118708,35 @@ exports.default = {
             }
             $('#createTable tbody').html(strBody);
             var _this = this;
-            $('.sku_input').on('change', function () {
+            $('.sku_input').on('keyup', function () {
                 var index = $(this).parents('tr').index();
+                console.log('change');
                 switch (this.name) {
                     case 'sku_row_price[]':
                         _this.tableData6[index].price = this.value;
+                        _this.getBasePrice();
                         break;
                     case 'sku_row_qty[]':
                         _this.tableData6[index].stock = this.value;
+                        _this.getTotalStock();
                         break;
                 }
             });
+            //$('.sku_input').trigger('keyup');
+        },
+        getBasePrice: function getBasePrice() {
+            this.tableData6.sort(function (n1, n2) {
+                return n1.price - n2.price;
+            });
+            this.price = this.tableData6[0].price;
+        },
+        getTotalStock: function getTotalStock() {
+            var stock = 0;
+            this.tableData6.map(function (item, index) {
+                stock += Number(item.stock);
+            });
+            this.stock = stock;
+            return stock;
         },
         mergeCell: function mergeCell($table, colIndex) {
             $table.data('col-content', ''); // 存放单元格内容
@@ -118856,22 +118887,72 @@ var render = function() {
         attrs: { id: "createTable" }
       }),
       _vm._v(" "),
-      _c(
-        "el-button",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.tableData6.length > 0,
-              expression: "tableData6.length>0"
-            }
+      _c("el-row", { staticClass: "mar-t20 mar-b14" }, [
+        _c(
+          "div",
+          { staticClass: "grid-content" },
+          [
+            _vm._v("price: "),
+            _c("el-input", {
+              staticClass: "w300",
+              attrs: { size: "small", clearable: "" },
+              model: {
+                value: _vm.price,
+                callback: function($$v) {
+                  _vm.price = $$v
+                },
+                expression: "price"
+              }
+            })
           ],
-          staticStyle: { marginTop: "20px" },
-          attrs: { type: "primary" },
-          on: { click: _vm.handleSubmit }
-        },
-        [_vm._v("确认")]
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("el-row", [
+        _c(
+          "div",
+          { staticClass: "grid-content" },
+          [
+            _vm._v("stock: "),
+            _c("el-input", {
+              staticClass: "w300",
+              attrs: { size: "small", clearable: "" },
+              model: {
+                value: _vm.stock,
+                callback: function($$v) {
+                  _vm.stock = $$v
+                },
+                expression: "stock"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        [
+          _c(
+            "el-button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.tableData6.length > 0,
+                  expression: "tableData6.length>0"
+                }
+              ],
+              staticStyle: { marginTop: "20px" },
+              attrs: { type: "primary" },
+              on: { click: _vm.handleSubmit }
+            },
+            [_vm._v("确认")]
+          )
+        ],
+        1
       )
     ],
     2
@@ -119107,7 +119188,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("立即创建")]
+                [_vm._v("确认")]
               )
             ],
             1

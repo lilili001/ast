@@ -19,6 +19,13 @@ class EloquentSkuRepository extends EloquentBaseRepository implements SkuReposit
                $product = Product::find($data['productId']);
                $tableData6 = $data['tableData6'];
                $skuCheckList = $data['checkList'];
+
+               //更新product price和stock
+               $product->update([
+                   'price' => $data['price'],
+                   'stock' => $data['stock']
+               ]);
+
                //获取sku options列表
                $dataSkus = (new Util())->assignSkuIds($tableData6,$productId);
                //获取选中的sku 属性值列表

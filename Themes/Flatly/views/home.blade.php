@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-    <div class="row">
+    <div class="main">
         <h1>{{ $page->title }}</h1>
         {!! $page->body !!}
         check blog posts <a href="{{route(locale() . '.blog')}}">-></a>

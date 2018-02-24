@@ -28,10 +28,11 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     }
     public function update($product, $data)
     {
-        info($data);
        return DB::transaction(function ()use($product,$data){
             $product->update($data);
-            $product->cats()->sync([$data['category_id']]);
+            if (isset($data['category_id'])){
+                $product->cats()->sync([$data['category_id']]);
+            }
             event(new ProductWasUpdated($product, $data));
             return $product;
         });
@@ -89,4 +90,6 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         $attrs = $product->attr()->where('is_for_sku',$isForSku)->get();
         return $attrs;
     }
+
+
 }

@@ -8,7 +8,11 @@
             </el-checkbox-group>
         </div>
         <div id="createTable" v-show="tableData6.length>0" class="el-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition"></div>
-        <el-button @click="handleSubmit" v-show="tableData6.length>0" style="marginTop:20px;" type="primary">确认</el-button>
+         <el-row class="mar-t20 mar-b14"><div class="grid-content">price: <el-input v-model="price" class="w300" size="small" clearable></el-input></div></el-row>
+        <el-row><div class="grid-content">stock: <el-input class="w300" v-model="stock" size="small" clearable></el-input></div></el-row>
+        <el-row>
+            <el-button @click="handleSubmit" v-show="tableData6.length>0" style="marginTop:20px;" type="primary">确认</el-button>
+        </el-row>
     </div>
 </template>
 <script type="text/javascript">
@@ -32,6 +36,8 @@ export default {
                 checkList:checkList,
                 result : [],
                 atrKeys: atrKeys,
+                price:'',
+                stock:''
             }
         },
         computed:{
@@ -57,6 +63,11 @@ export default {
             this.tableData6 = this.fillDataSku.map((item)=>{
                 return item.settings;
             });
+
+            //反填price and stock
+            this.price = this.pdcObj.price;
+            this.stock = this.pdcObj.stock;
+
             this.handleResult();
             this.createTableAndMerge();
         },
@@ -64,7 +75,9 @@ export default {
             handleSubmit(){
                 axios.post(route('admin.product.product.edit.sku',{productid:this.pdcObj['id']}),{
                     tableData6:this.tableData6,
-                    checkList:this.checkList
+                    checkList:this.checkList,
+                    price: this.price,
+                    stock: this.stock
                 }).then((res)=>{
                     if(res.data.code == 0){
                         this.$message({
@@ -137,17 +150,35 @@ export default {
                 }
                 $('#createTable tbody').html(strBody);
                 var _this = this;
-                $('.sku_input').on( 'change', function(){
+                $('.sku_input').on('keyup', function(){
                     var index = $(this).parents('tr').index();
+                    console.log('change');
                     switch(this.name){
                         case 'sku_row_price[]':
                             _this.tableData6[index].price = this.value;
+                            _this.getBasePrice();
                             break;
                         case 'sku_row_qty[]':
                             _this.tableData6[index].stock = this.value;
+                            _this.getTotalStock();
                             break;
                     }
-                })
+                });
+                //$('.sku_input').trigger('keyup');
+            },
+            getBasePrice(){
+                this.tableData6.sort(function(n1,n2){
+                    return n1.price - n2.price;
+                });
+                this.price = this.tableData6[0].price
+            },
+            getTotalStock(){
+                let stock = 0 ;
+                this.tableData6.map( (item,index) =>{
+                    stock += Number(item.stock)
+                });
+                this.stock=stock;
+                return stock;
             },
             mergeCell($table,colIndex){
                 $table.data('col-content', ''); // 存放单元格内容
