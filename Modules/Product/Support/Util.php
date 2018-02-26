@@ -18,18 +18,24 @@ class Util
     }
 
     //attr table
-    public function assignAttrIds($data=[],$product_id,$isSku=false)
+    public function assignAttrIds($data,$product_id,$isSku=false)
     {
-        $arr=[];
-        foreach ($data as $key=>$item){
-            $arr[] = [
-                'attr_key' => $key,
-                'value' => json_encode($item),
-                'product_id' => $product_id,
-                'is_for_sku' => $isSku,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
+
+        if(is_array($data) || is_object($data)){
+            info(  $isSku .'|'. gettype($data) );
+            foreach ($data as $key=>$item){
+                $arr[] = [
+                    'attr_key' => $key,
+                    'value' => json_encode($item),
+                    'product_id' => $product_id,
+                    'is_for_sku' => $isSku,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            }
+        }else{
+            $arr = [];
+            info( $isSku .'| not an array nor an object'.$data);
         }
         return $arr;
     }

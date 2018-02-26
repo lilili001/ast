@@ -12,12 +12,14 @@
 @stop
 
 @section('content')
+{!! Form::open(['route' => ['admin.product.product.update', $product->id], 'method' => 'put']) !!}
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#base" data-toggle="tab">
                 基础信息
             </a>
         </li>
+        <li><a href="#images" data-toggle="tab">图片信息</a></li>
         <li><a href="#sku" data-toggle="tab">sku属性</a></li>
         <li><a href="#attr" data-toggle="tab">销售属性</a></li>
     </ul>
@@ -26,7 +28,7 @@
         <div class="tab-pane fade in active" id="base">
             <div class="col-md-12" style="margin-top: 20px;">
                     {{--main content start--}}
-                    {!! Form::open(['route' => ['admin.product.product.update', $product->id], 'method' => 'put']) !!}
+                    
                     <div class="row">
                         <div class="col-md-10">
                             <div class="nav-tabs-custom">
@@ -41,42 +43,48 @@
                                         </div>
                                     @endforeach
                                         {{--@mediaSingle('profile_image', $product)--}}
+ 
 
-                                        <div class="box box-primary">
-                                            @mediaMultiple('gallery',$product)
-                                        </div>
-
-                                    <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.product.product.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
-                                    </div>
+                                    
                                 </div>
                             </div> {{-- end nav-tabs-custom --}}
                         </div>
 
                     <div class="col-md-2">
                         {!! Form::label("attrset", 'attrset:') !!}
-                        <select name="attrset_id" id="attrset_id" class="form-control" disabled>
+                        <!-- <select name="attrset_id" id="attrset_id" class="form-control" disabled>
                             <option value="">请选择</option>
                             <?php foreach ($attrsets as $set): ?>
                             <option value="{{ $set->id }}" {{ $set->id == $product->attrset_id ? 'selected' : ''  }}>{{ $set->name }}</option>
                             <?php endforeach; ?>
-                        </select>
+                        </select> -->
+
+                        <attrset attrsets="{{json_encode($attrsets)}}" attrset-id="{{$product->attrset_id}}"></attrset>
 
                         {!! Form::label("category", 'category:') !!}
+                        @if( !empty($cats)  )
                         <select name="category_id" id="category_id" class="form-control">
                             <option value="">请选择</option>
                             <?php foreach ($cats as $cat): ?>
-                            <option value="{{ $cat->id }}" {{ $cat->id == $product->cats->toArray()[0]['id'] ? 'selected' : ''  }}>{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}" {{ !empty($product->cats->toArray()) && $cat->id == $product->cats->toArray()[0]['id'] ? 'selected' : ''  }}>{{ $cat->name }}</option>
                             <?php endforeach; ?>
                         </select>
+                        @endif
+                    </div>
+                    </div>
 
-                    </div>
-                    </div>
-                    {!! Form::close() !!}
+
+                   
+
+                   
                     {{--main content end--}}
             </div>
 
+        </div>
+        <div class="tab-pane fade" id="images">
+            <div class="mar-t20">
+                @mediaMultiple('gallery',$product)
+            </div>
         </div>
         <div class="tab-pane fade" id="sku">
              @include('product::admin.products.partials.sku')
@@ -88,6 +96,12 @@
                   locale="{{locale()}}"></attr>
         </div>
     </div>
+
+     <div class="box-footer">
+                        <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
+                        <a class="btn btn-danger btn-flat" href="{{ route('admin.product.product.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+                    </div>
+    {!! Form::close() !!}
 @stop
 
 @section('footer')

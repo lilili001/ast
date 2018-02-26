@@ -61,7 +61,7 @@ class ProductController extends AdminBaseController
     public function store(CreateProductRequest $request)
     {
         $product = $this->product->create($request->all());
-        return redirect()->route('admin.product.product.edit',['product'=>$product]);
+        //return redirect()->route('admin.product.product.edit',['product'=>$product]);
         return redirect()->route('admin.product.product.index')
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('product::products.title.products')]));
     }
@@ -89,7 +89,7 @@ class ProductController extends AdminBaseController
     public function update(Product $product, UpdateProductRequest $request)
     {
         $this->product->update($product, $request->all());
-        return redirect()->back();
+        //return redirect()->back();
         return redirect()->route('admin.product.product.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('product::products.title.products')]));
     }

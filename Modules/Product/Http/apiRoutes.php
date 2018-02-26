@@ -10,15 +10,15 @@ $router->group(['middleware' => 'api.token','prefix'=>'product'], function (Rout
         'middleware' => 'token-can:product.products.edit'
     ]);
 
-    $router->post('getSaleAttrsByAttrSet', [
-        'uses' => 'AttrsetController@saleAttrs',
-        'as' => 'admin.product.attrset.saleAttrs',
+    $router->post('getAttrsByAttrsetId', [
+        'uses' => 'AttrsetController@attrs',
+        'as' => 'admin.product.attrset.attrs',
         'middleware' => 'token-can:product.products.edit'
     ]);
 
-    $router->post('{productid}/updateSaleAttrs', [
-        'uses' => 'ProductController@updateSaleAttrs',
-        'as' => 'admin.product.edit.updateSaleAttrs',
-        'middleware' => 'token-can:product.products.edit'
-    ]);
+    // $router->post('{productid}/updateSaleAttrs', [
+    //     'uses' => 'ProductController@updateSaleAttrs',
+    //     'as' => 'admin.product.edit.updateSaleAttrs',
+    //     'middleware' => 'token-can:product.products.edit'
+    // ]);
 });

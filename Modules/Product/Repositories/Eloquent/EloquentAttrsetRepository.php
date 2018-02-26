@@ -20,11 +20,7 @@ class EloquentAttrsetRepository extends EloquentBaseRepository implements Attrse
     {
         return $this->model->where([
             'id'=>$id
-        ])->with([
-            'attrs' => function($q){
-                $q->where('is_for_sku',false);
-            }
-        ],'translations')
+        ])->with('attrs','translations')
             ->get();
     }
 }

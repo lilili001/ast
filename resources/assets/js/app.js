@@ -11,6 +11,7 @@ import VueSimplemde from 'vue-simplemde';
 import PageRoutes from '../../../Modules/Page/Assets/js/PageRoutes';
 import MediaRoutes from '../../../Modules/Media/Assets/js/MediaRoutes';
 import UserRoutes from '../../../Modules/User/Assets/js/UserRoutes';
+import store from './vuex/store';
 
 Vue.use(ElementUI, { locale });
 Vue.use(VueI18n);
@@ -30,6 +31,7 @@ Vue.component('SingleMedia', require('../../../Modules/Media/Assets/js/component
 Vue.component('MediaManager', require('../../../Modules/Media/Assets/js/components/MediaManager.vue'));
 Vue.component('sku', require('../../../Modules/Product/Assets/js/components/sku.vue'));
 Vue.component('attr', require('../../../Modules/Product/Assets/js/components/attr.vue'));
+Vue.component('attrset', require('../../../Modules/Product/Assets/js/components/attrset.vue'));
 
 const currentLocale = window.AsgardCMS.currentLocale;
 const adminPrefix = window.AsgardCMS.adminPrefix;
@@ -63,6 +65,7 @@ const i18n = new VueI18n({
 const app = new Vue({
     el: '#app',
     router,
+    store,
     i18n,
 });
 

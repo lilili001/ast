@@ -1,132 +1,95 @@
 <template>
-    <div class="mar-t14">
-        <div v-for="(item,key ) in skuAttrs">
+    <div>
+        <h1>{{ trans('media.title.edit media') }}</h1>
+        <div v-for="(item,key ) in JSON.parse(skuAttrs)">
             <span>{{item.name}}:</span>
             <el-checkbox-group v-model="checkList[item['key']]" @change="labelChange">
-                <el-checkbox :label="key1" :key="key1" v-for="(option,key1) in item.options">{{option[locale]}}  
-                <el-button @click="fnUploadSwatch(key1)" v-show="item['key']=='color' &&  indexofArr(checkList[item['key']],key1) !== -1 " size="small">上传色卡</el-button> </el-checkbox> 
+                <el-checkbox :label="key1" :key="key1" v-for="(option,key1) in item.options">{{option[locale]}}</el-checkbox>
             </el-checkbox-group>
         </div>
- 
- 
         <div id="createTable" v-show="tableData6.length>0" class="el-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition"></div>
-        <el-row class="mar-t20 mar-b14"><div class="grid-content">price: <el-input v-model="price" class="w300" size="small" clearable></el-input></div></el-row>
+         <el-row class="mar-t20 mar-b14"><div class="grid-content">price: <el-input v-model="price" class="w300" size="small" clearable></el-input></div></el-row>
         <el-row><div class="grid-content">stock: <el-input class="w300" v-model="stock" size="small" clearable></el-input></div></el-row>
-
-        <el-dialog
-            title="提示"
-            :visible.sync="dialogVisible"
-            width="30%"
-             >
-             {!!diaMsg!!}
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
-            </el-dialog>
-
-        <input v-model="JSON.stringify(tableData6)" name="skuData[tableData6]" value="1" type="hidden"/>
-        <input v-model="JSON.stringify(checkList)" name="skuData[checkList]"  type="hidden"/>
-        <input v-model="price" name="skuData[price]"  type="hidden"/>
-        <input v-model="stock" name="skuData[stock]"  type="hidden"/>
-
+        <el-row>
+            <el-button @click="handleSubmit" v-show="tableData6.length>0" style="marginTop:20px;" type="primary">确认</el-button>
+        </el-row>
     </div>
 </template>
 <script type="text/javascript">
-    import { mapState, mapGetters, mapActions } from 'vuex';
-    
 export default {
-        props:['pdc','filled-attr','filled-sku','locale'],
+        props:['sku-attrs','pdc','filled-attr','filled-sku','locale'],
         name:'sku',
         data(){
+            const skuAttrs = JSON.parse(this.skuAttrs);
+            let checkList={},atrKeys=[];
+
+            _.each(skuAttrs,(item,index)=>{
+                if(item){
+                    checkList[item['key']] = [];
+                    atrKeys.push(item['key']);
+                }
+            });
+            atrKeys = [...atrKeys,'price','stock'];
+
             return {
-                dialogVisible: false,
-                diaMsg:'',
-                tableData6:[],
+                tableData6: [],
+                checkList:checkList,
                 result : [],
+                atrKeys: atrKeys,
                 price:'',
                 stock:''
             }
         },
-        computed: {
-             skuAttrs:function(){
-                 return this.$store.state.moduleProduct.skuAttrs;
-             },
-             checkList:function(){
-                 let checkList={};
-                 if(!this.pdc){
-                    _.each(this.skuAttrs,(item,index)=>{
-                        if(item){
-                            checkList[item['key']] = [];
-                        }
-                    });
-                 }else{
-                     this.fillDataAttr.map((item)=>{
-                        let val = item.value.replace(/^"+/,"").replace(/"+$/,"");
-                        checkList[item['attr_key']] =  JSON.parse(val) ;
-                    });
-                 }
-                 
-                return checkList;
-             },
-             atrKeys:function(){
-                 let atrKeys=[];
-                  _.each(this.skuAttrs,(item,index)=>{
-                    if(item){
-                        atrKeys.push({
-                            key:item.key,
-                            name:item.name
+        computed:{
+          pdcObj:function(){
+              return JSON.parse(this.pdc)
+          },
+          fillDataAttr:function () {
+            return JSON.parse(this.filledAttr)
+          },
+          fillDataSku:function () {
+            return JSON.parse(this.filledSku)
+          },
+        },
+        mounted(){
+            if(this.fillDataAttr.length==0 || this.fillDataSku.length==0 ) return;
+
+            //反填选中的sku
+            this.fillDataAttr.map((item)=>{
+                let val = item.value.replace(/^"+/,"").replace(/"+$/,"");
+                this.checkList[item['attr_key']] =  JSON.parse(val) ;
+            });
+            //反填sku table
+            this.tableData6 = this.fillDataSku.map((item)=>{
+                return item.settings;
+            });
+
+            //反填price and stock
+            this.price = this.pdcObj.price;
+            this.stock = this.pdcObj.stock;
+
+            this.handleResult();
+            this.createTableAndMerge();
+        },
+        methods:{
+            handleSubmit(){
+                axios.post(route('admin.product.product.edit.sku',{productid:this.pdcObj['id']}),{
+                    tableData6:this.tableData6,
+                    checkList:this.checkList,
+                    price: this.price,
+                    stock: this.stock
+                }).then((res)=>{
+                    if(res.data.code == 0){
+                        this.$message({
+                            message: '成功',
+                            type: 'success'
                         });
                     }
                 });
-                atrKeys = [...atrKeys,{key:'price',name:'价格'},{key:'stock',name:'库存'},];
-                return atrKeys;
-             },
-            pdcObj:function(){
-                return !!this.pdc  ? JSON.parse(this.pdc) : null;
-            },
-            fillDataAttr:function () {
-                return !!this.filledAttr ? JSON.parse(this.filledAttr) : null;
-            },
-            fillDataSku:function () {
-                return !!this.filledSku ? JSON.parse(this.filledSku) : null;
-            }
-        },
-        mounted(){
-           if(!this.pdc) return;
-           
-            //if(this.skuAttrs.length==0) return;
-            var timer = setTimeout(()=>{
-
-                this.tableData6 = this.fillDataSku.map((item)=>{
-                        return item.settings;
-                    });
-                //反填price and stock
-                this.price = this.pdcObj.price;
-                this.stock = this.pdcObj.stock;
-                this.handleResult();
-                this.createTableAndMerge();
-                clearInterval(timer);
-            },1000)
-        },
-        methods:{
-            fnUploadSwatch(color){
-                axios.get(route(' ')).then((res)=>{
-                    this.dialogVisible = true;
-                    this.diaMsg = res.data
-                })
-            },
-            indexofArr(arr,v){
-                console.log(v);
-                for(var i=0;i<arr.length;i++){
-                    if(arr[i]==v){
-                        return i  //存在
-                    }
-                }
-                return -1  //不存在
             },
             handleResult(){
                 var arr1 = _.values(this.checkList);
+
                 _.remove(arr1,(arr)=> arr.length==0 );
                 this.result = doExchange(arr1);
                 return arr1;
@@ -143,8 +106,8 @@ export default {
                     this.tableData6 = this.result.map(str=> {
                             const item = {};
                             const newArr = str.split(',');//m,l
-                            this.atrKeys.map( (itemk,i) =>{
-                                item[itemk.key] =    !!newArr[i] ?   newArr[i] : '';
+                            this.atrKeys.map( (key,i) =>{
+                                item[key] =    !!newArr[i] ?   newArr[i] : '';
                                 return item;
                             });
                             item['price'] = '';
@@ -162,21 +125,13 @@ export default {
             checkEveryAttrSelected(arr1){
                 return arr1.length == (_.values(this.checkList)).length;
             },
-            getAttrLabel(attrkey){
-                console.log(attrKey)
-                // let attr = _.filter(this.skuAttrs,(attr)=>{
-                //             return !!attr.options[newArr[j]]  ;
-                //         })
-                //         let tdVal = attr[0].options[newArr[j]][this.locale];
-                //         return tdVal;
-            },
             createTable(){
                 if( $('#createTable').children().length == 0 ){
                     $('<table id="process" width="100%" border="0" cellpadding="0" cellspacing="0"><thead><tr></tr></thead><tbody></tbody></table>').appendTo($('#createTable'));
                 }
                 var str = '';
-                this.atrKeys.map((item,i)=>{
-                    str+= `<th><div class="cell">${item.name}</div></th>`;
+                this.atrKeys.map((title,i)=>{
+                    str+= `<th><div class="cell">${title}</div></th>`;
                     return str;
                 });
 
@@ -187,11 +142,7 @@ export default {
                     var newArr = this.result[i].split(',');
                     var str2='';
                     for(var j=0;j<newArr.length;j++){
-                        let attr = _.filter(this.skuAttrs,(attr)=>{
-                            return !!attr.options[newArr[j]]  ;
-                        })
-                        let tdVal = attr[0].options[newArr[j]][this.locale]
-                        str2 +=`<td><div class="cell">${tdVal}</div></td>`;
+                        str2 +=`<td><div class="cell">${newArr[j]}</div></td>`;
                     }
                     str2 += `<td><div class="cell"><input class="ivu-input sku_input price"  name="sku_row_price[]" value="${this.tableData6[i].price}" /></div></td>
                         <td><div class="cell"><input class="ivu-input sku_input"  name="sku_row_qty[]" value="${this.tableData6[i].stock}" /></div></td>`;
@@ -201,6 +152,7 @@ export default {
                 var _this = this;
                 $('.sku_input').on('keyup', function(){
                     var index = $(this).parents('tr').index();
+                    console.log('change');
                     switch(this.name){
                         case 'sku_row_price[]':
                             _this.tableData6[index].price = this.value;

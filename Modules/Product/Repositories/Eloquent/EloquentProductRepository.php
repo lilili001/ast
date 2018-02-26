@@ -19,20 +19,35 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 {
     public function create($data)
     {
+        //info($data);return;
         return DB::transaction(function ()use($data){
             $product = $this->model->create($data);
             $product->cats()->sync([$data['category_id']]);
+
+            //处理sku相关数据
+            $this->handleSkuData($data['skuData'],$product);
+            
+            //处理销售属性相关数据
+            $this->handleSaleAttrData($data['saleAttrData'],$product);
+
             event(new ProductWasCreated($product, $data));
             return $product;
         });
     }
     public function update($product, $data)
     {
+        //info($data);return;
        return DB::transaction(function ()use($product,$data){
             $product->update($data);
             if (isset($data['category_id'])){
                 $product->cats()->sync([$data['category_id']]);
             }
+             //处理sku相关数据
+             $this->handleSkuData($data['skuData'],$product);
+            
+             //处理销售属性相关数据
+             $this->handleSaleAttrData($data['saleAttrData'],$product);
+
             event(new ProductWasUpdated($product, $data));
             return $product;
         });
@@ -58,32 +73,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     {
         return Attrset::all();
     }
-
-    public function updateSaleAttrs($product, $data)
-    {
-        info($product);
-        return DB::transaction(function()use($product, $data){
-            try{
-                $this->update($product,$data);
-
-                unset($data['attrset_id']);
-
-                //获取选中的sku 属性值列表
-                $dataAttrs = (new Util())->assignAttrIds($data,$product->id);
-
-                //skuattr table
-                $product->attr()->where('is_for_sku',false)->delete();
-
-                DB::table('product__attrs')->insert($dataAttrs);
-            }catch (Exception $e){
-                return AjaxResponse::fail('',[
-                    'errCode' => $e->getCode(),
-                    'errMsg'  => $e->getMessage()
-                ]);
-            }
-        });
-    }
-
+ 
     public function getAttrsByProductId($productId,$isForSku)
     {
         $product = Product::find($productId);
@@ -91,5 +81,40 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         return $attrs;
     }
 
+    protected function handleSkuData($data,$product){
+        $tableData6 = json_decode($data['tableData6']);
+        $skuCheckList = json_decode($data['checkList']) ;
+        //dd($skuCheckList);return;
+        //dd(($skuCheckList));
+        //更新product price和stock
+        $product->update([
+            'price' => $data['price'],
+            'stock' => $data['stock']
+        ]);
 
+        //获取sku options列表
+        $dataSkus = (new Util())->assignSkuIds($tableData6,$product->id);
+        //获取选中的sku 属性值列表
+        $dataAttrSkus = (new Util())->assignAttrIds($skuCheckList,$product->id,true);
+
+        //开始操作数据库
+        $product->sku()->delete();
+        //sku table
+        DB::table('product__skus')->insert( $dataSkus );
+
+        //skuattr table
+        $product->attr()->delete();
+        DB::table('product__attrs')->insert($dataAttrSkus);
+    }
+
+    protected function handleSaleAttrData($data,$product){
+        //获取选中的sku 属性值列表
+        $data = json_decode($data);
+        $dataAttrs = (new Util())->assignAttrIds($data,$product->id);
+
+        //skuattr table
+        $product->attr()->where('is_for_sku',false)->delete();
+
+        DB::table('product__attrs')->insert($dataAttrs);
+    }
 }

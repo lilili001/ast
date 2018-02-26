@@ -3,7 +3,7 @@
     $skuAttrs = $attrset->attrs()->where('is_for_sku',true)
         ->get()->toArray() ;
 ?>
-<sku sku-attrs="{{json_encode($skuAttrs)}}"
+<sku 
      pdc="{{json_encode($product)}}"
      locale="{{locale()}}"
      filled-attr="{{json_encode($product->attr()->where('is_for_sku',true)->get())}}"

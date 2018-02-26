@@ -23,10 +23,11 @@ class AttrsetController extends Controller
     {
         return $this->attrset->all();
     }
-
-    public function saleAttrs()
+    //根据属性集id获取属性列表
+    public function attrs()
     {
         $attrset_id = request('attrset_id');
-        return $this->attrset->getAttrsBysetId($attrset_id);
+
+        return $this->attrset->getAttrsBysetId($attrset_id );
     }
 }

@@ -40,6 +40,12 @@ ul.notifications-list li {
   border-radius: 3px;
   vertical-align: bottom;
   float:left;
+  cursor:move;
+  height:160px;
+}
+.jsThumbnailImageWrapper figure img{
+  width:100%;
+  height:100%;
 }
 .jsThumbnailImageWrapper i.removeIcon {
   position: absolute;
