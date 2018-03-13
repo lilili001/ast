@@ -12,7 +12,7 @@
 @stop
 
 @section('content')
-{!! Form::open(['route' => ['admin.product.product.update', $product->id], 'method' => 'put']) !!}
+{!! Form::open(['route' => ['admin.product.product.update', $product->id], 'method' => 'put','novalidate'=>"true"]) !!}
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#base" data-toggle="tab">
@@ -43,9 +43,6 @@
                                         </div>
                                     @endforeach
                                         {{--@mediaSingle('profile_image', $product)--}}
- 
-
-                                    
                                 </div>
                             </div> {{-- end nav-tabs-custom --}}
                         </div>
@@ -72,11 +69,6 @@
                         @endif
                     </div>
                     </div>
-
-
-                   
-
-                   
                     {{--main content end--}}
             </div>
 
@@ -115,7 +107,7 @@
 @stop
 
 @push('js-stack')
-
+<script src="{{mix('js/lib.js')}}"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $(document).keypressAction({
@@ -131,6 +123,27 @@
                 checkboxClass: 'icheckbox_flat-blue',
                 radioClass: 'iradio_flat-blue'
             });
+                $("form").validate({
+                    ignore: "",
+                    invalidHandler: function(e, validator) {
+                        var errors = validator.numberOfInvalids();
+                        if (errors) {
+                            var message = errors == 1
+                                ? 'You missed 1 field. It has been highlighted below'
+                                : 'You missed ' + errors + ' fields.  They have been highlighted below';
+                            alert('校验失败');
+                            $("div.error span").html(message);
+                            $("div.error").show();
+                        } else {
+                            $("div.error").hide();
+                        }
+                    },
+                    submitHandler:function(form){
+                        alert("验证成功!");
+                        form.submit();
+                    }
+                });
+
         });
     </script>
 @endpush

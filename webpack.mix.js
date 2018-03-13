@@ -21,4 +21,8 @@ mix.webpackConfig({
 
 
 mix.js('resources/assets/js/app.js', 'public/js')
+    .scripts([
+        'resources/assets/js/lib/jquery.validate.min.js',
+        'resources/assets/js/lib/messages_zh.js'
+    ],'public/js/lib.js')
     .sass('resources/assets/sass/app.scss', 'public/css');

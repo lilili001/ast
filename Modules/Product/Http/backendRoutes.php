@@ -40,12 +40,12 @@ $router->group(['prefix' =>'/product'], function (Router $router) {
     $router->bind('product', function ($id) {
         return app('Modules\Product\Repositories\ProductRepository')->find($id);
     });
-    $router->get('products', [
+    $router->get('/', [
         'as' => 'admin.product.product.index',
         'uses' => 'ProductController@index',
         'middleware' => 'can:product.products.index'
     ]);
-    $router->get('products/create', [
+    $router->get('/create', [
         'as' => 'admin.product.product.create',
         'uses' => 'ProductController@create',
         'middleware' => 'can:product.products.create'
@@ -55,18 +55,18 @@ $router->group(['prefix' =>'/product'], function (Router $router) {
         'uses' => 'ProductController@store',
         'middleware' => 'can:product.products.create'
     ]);
-    $router->get('products/{product}/edit', [
+    $router->get('/{product}/edit', [
         'as' => 'admin.product.product.edit',
         'uses' => 'ProductController@edit',
         'middleware' => 'can:product.products.edit'
     ]);
-    $router->put('products/{product}', [
+    $router->put('/{product}', [
         'as' => 'admin.product.product.update',
         'uses' => 'ProductController@update',
         'middleware' => 'can:product.products.edit'
     ]);
 
-    $router->delete('products/{product}', [
+    $router->delete('/{product}', [
         'as' => 'admin.product.product.destroy',
         'uses' => 'ProductController@destroy',
         'middleware' => 'can:product.products.destroy'

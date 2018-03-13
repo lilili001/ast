@@ -27,6 +27,9 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
             //处理sku相关数据
             $this->handleSkuData($data['skuData'],$product);
             
+            //处理色卡
+            $this->handleColorSwatch($data['swatchColor'],$product);
+
             //处理销售属性相关数据
             $this->handleSaleAttrData($data['saleAttrData'],$product);
 
@@ -45,6 +48,9 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
              //处理sku相关数据
              $this->handleSkuData($data['skuData'],$product);
             
+            //处理色卡
+            $this->handleColorSwatch($data['swatchColor'],$product);
+
              //处理销售属性相关数据
              $this->handleSaleAttrData($data['saleAttrData'],$product);
 
@@ -116,5 +122,11 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         $product->attr()->where('is_for_sku',false)->delete();
 
         DB::table('product__attrs')->insert($dataAttrs);
+    }
+    protected function handleColorSwatch($data,$product){
+        $bool = $product->update([
+            'swatch_colors' => $data
+        ]);
+        info($bool.'aaaaaa');
     }
 }

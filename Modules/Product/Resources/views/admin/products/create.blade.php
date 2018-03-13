@@ -95,7 +95,7 @@
 @stop
 
 @push('js-stack')
-
+<script src="{{mix('js/lib.js')}}"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $(document).keypressAction({
