@@ -4,7 +4,6 @@ namespace Modules\Product\Repositories\Eloquent;
 
 //use Modules\Product\Events\ProductIsCreating;
 //use Modules\Product\Events\ProductIsUpdating;
-use Elasticsearch\ClientBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
@@ -17,14 +16,8 @@ use Modules\Product\Repositories\ProductRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Product\Support\Util;
 use AjaxResponse;
-use Elasticsearch\Client as ElesticaClient;
 class EloquentProductRepository extends EloquentBaseRepository implements ProductRepository
 {
-    //Elasticsearch php Client
-    protected $elasticsearch;
-
-    //Elatica Client
-    protected $elasca;
 
     public function create($data)
     {
