@@ -37,4 +37,8 @@ class Product extends Model
         return $this->id;
     }
 
+    public function searchableAs()
+    {
+        return 'products_index';
+    }
 }

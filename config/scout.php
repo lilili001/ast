@@ -93,7 +93,7 @@ return [
 
         'config' => [
             'hosts' => [
-                env('ELASTICSEARCH_HOST', "192.168.99.100:9200")
+                env('ELASTICSEARCH_HOST', "127.0.0.1:9200")
             ],
         ],
     ],

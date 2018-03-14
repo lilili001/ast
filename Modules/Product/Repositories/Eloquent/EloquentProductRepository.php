@@ -16,8 +16,30 @@ use Modules\Product\Repositories\ProductRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Product\Support\Util;
 use AjaxResponse;
+use Elasticsearch\ClientBuilder;
+use Elasticsearch\Client as ElesticaClient;
 class EloquentProductRepository extends EloquentBaseRepository implements ProductRepository
 {
+    //Elasticsearch php Client
+    protected $elasticsearch;
+
+    //Elatica Client
+    protected $elasca;
+    /**
+     * EloquentProductRepository constructor.
+     */
+    public function __construct()
+    {
+        //set up our clients
+        $this->elasticsearch = ClientBuilder::create()->build();
+        $elasticConfig = [
+            'host' => '127.0.0.1',
+            'port' => 9200,
+            'index'=>'products'
+        ];
+        $this->elasca = new ElesticaClient($elasticConfig);
+    }
+
     public function create($data)
     {
         //info($data);return;
@@ -133,8 +155,18 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
     public function search(string $query = ""):Collection
     {
-        return $this->model->whereHas('translations', function($q)use($query){
-                  $q->where('title', 'like', "%{$query}%");
-        })->get();
+//        return $this->model->whereHas('translations', function($q)use($query){
+//                  $q->where('title', 'like', "%{$query}%");
+//        })->get();
+
+        dump($this->elasticsearch);
+        echo "\n\n Retrieve a document\n\n";
+        $params = [
+            'index' => 'products',
+            'type' => 'dog',
+            'id' => '1'
+        ];
+        $response = $this->elasticsearch->get($params);
+        dump($response);
     }
 }
