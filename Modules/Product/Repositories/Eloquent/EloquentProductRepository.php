@@ -4,6 +4,7 @@ namespace Modules\Product\Repositories\Eloquent;
 
 //use Modules\Product\Events\ProductIsCreating;
 //use Modules\Product\Events\ProductIsUpdating;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 use Modules\Product\Entities\Attrset;
@@ -128,5 +129,12 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
             'swatch_colors' => $data
         ]);
         info($bool.'aaaaaa');
+    }
+
+    public function search(string $query = ""):Collection
+    {
+        return $this->model->whereHas('translations', function($q)use($query){
+                  $q->where('title', 'like', "%{$query}%");
+        })->get();
     }
 }

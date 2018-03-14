@@ -31,7 +31,8 @@
         "idavoll/adminlte-theme": "~3.0",
         "asgardcms/blog-module": "^3.0",
         "laravel/scout": "^4.0",
-        "algolia/algoliasearch-client-php": "^1.25"
+        "algolia/algoliasearch-client-php": "^1.25",
+        "elasticsearch/elasticsearch": "^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

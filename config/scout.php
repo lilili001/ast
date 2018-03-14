@@ -88,4 +88,14 @@ return [
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
 
+    'elasticsearch' => [
+        'index' => env('ELASTICSEARCH_INDEX', 'Apache'),
+
+        'config' => [
+            'hosts' => [
+                env('ELASTICSEARCH_HOST', "192.168.99.100:9200")
+            ],
+        ],
+    ],
+
 ];

@@ -206,8 +206,10 @@ $router->group(['prefix' =>'/product'], function (Router $router) {
 // append
 
 
+    Route::get('/search', function (\Modules\Product\Repositories\ProductRepository $repository) {
+        $data = $repository->search((string) request('q'));
 
-
-
+        return $data;
+    });
 
 });
