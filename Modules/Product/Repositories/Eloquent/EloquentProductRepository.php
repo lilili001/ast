@@ -25,20 +25,6 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
     //Elatica Client
     protected $elasca;
-    /**
-     * EloquentProductRepository constructor.
-     */
-    public function __construct()
-    {
-        //set up our clients
-        $this->elasticsearch = ClientBuilder::create()->build();
-        $elasticConfig = [
-            'host' => '127.0.0.1',
-            'port' => 9200,
-            'index'=>'products'
-        ];
-        $this->elasca = new ElesticaClient($elasticConfig);
-    }
 
     public function create($data)
     {
@@ -159,14 +145,16 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 //                  $q->where('title', 'like', "%{$query}%");
 //        })->get();
 
-        dump($this->elasticsearch);
-        echo "\n\n Retrieve a document\n\n";
-        $params = [
-            'index' => 'products',
-            'type' => 'dog',
-            'id' => '1'
-        ];
-        $response = $this->elasticsearch->get($params);
-        dump($response);
+        return $this->model->search($query)->get();
+
+//        dump($this->elasticsearch);
+//        echo "\n\n Retrieve a document\n\n";
+//        $params = [
+//            'index' => 'products',
+//            'type' => 'dog',
+//            'id' => '1'
+//        ];
+//        $response = $this->elasticsearch->get($params);
+//        dump($response);
     }
 }
