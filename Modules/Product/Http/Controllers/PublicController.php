@@ -31,4 +31,9 @@ class PublicController extends BasePublicController
     {
         return view('product.index');
     }
+
+    public function test()
+    {
+        return 1;
+    }
 }

@@ -87,14 +87,13 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
-
+    'name'=>'alice',
     'elasticsearch' => [
-        'index' => env('ELASTICSEARCH_INDEX', 'laravel54'),
+        'index' => env('ELASTICSEARCH_INDEX', 'ast'),
         'config' => [
             'hosts' => [
-                env('ELASTICSEARCH_HOST', "127.0.0.1:9200")
+                env('ELASTICSEARCH_HOST', "http://localhost")
             ],
         ],
     ],
-
 ];

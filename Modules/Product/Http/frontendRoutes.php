@@ -10,7 +10,7 @@ $router->group(['prefix' => ''], function (Router $router) {
         'uses' => 'PublicController@index',
         //'middleware' => config('asgard.product.config.middleware'),
     ]);
-    $router->get('/{slug}', [
+    $router->get('/cat/{slug}', [
         'as' => $locale . '.cat.slug',
         'uses' => 'PublicController@cat',
         //'middleware' => config('asgard.product.config.middleware'),
@@ -20,4 +20,9 @@ $router->group(['prefix' => ''], function (Router $router) {
         'uses' => 'PublicController@productDetail',
         //'middleware' => config('asgard.product.config.middleware'),
     ]);
+});
+
+$router->group(['prefix'=>'elastic'],function(Router $router){
+    $router->get('test',['uses' => 'ClientController@elasticsearchTest']);
+    $router->get('query',['uses' => 'ClientController@elasticsearchQueries']);
 });

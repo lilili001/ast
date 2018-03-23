@@ -203,13 +203,10 @@ $router->group(['prefix' =>'/product'], function (Router $router) {
         'uses' => 'AttrController@destroy',
         'middleware' => 'can:product.attrs.destroy'
     ]);
-// append
-
+    // append
 
     Route::get('/search', function (\Modules\Product\Repositories\ProductRepository $repository) {
         $data = $repository->search((string) request('q'));
-
         return $data;
     });
-
 });

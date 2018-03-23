@@ -134,20 +134,6 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
     public function search(string $query = ""):Collection
     {
-//        return $this->model->whereHas('translations', function($q)use($query){
-//                  $q->where('title', 'like', "%{$query}%");
-//        })->get();
-
         return $this->model->search($query)->get();
-
-//        dump($this->elasticsearch);
-//        echo "\n\n Retrieve a document\n\n";
-//        $params = [
-//            'index' => 'products',
-//            'type' => 'dog',
-//            'id' => '1'
-//        ];
-//        $response = $this->elasticsearch->get($params);
-//        dump($response);
     }
 }
