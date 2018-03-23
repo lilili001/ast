@@ -44,6 +44,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         //info($data);return;
        return DB::transaction(function ()use($product,$data){
             $product->update($data);
+
             if (isset($data['category_id'])){
                 $product->cats()->sync([$data['category_id']]);
             }
@@ -129,11 +130,10 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         $bool = $product->update([
             'swatch_colors' => $data
         ]);
-        info($bool.'aaaaaa');
     }
-
-    public function search(string $query = ""):Collection
+    public function search(string $query = "")
     {
-        return $this->model->search($query)->get();
+        $data = $this->model->search($query)->paginate();
+        return $data;
     }
 }

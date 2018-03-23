@@ -204,9 +204,9 @@ $router->group(['prefix' =>'/product'], function (Router $router) {
         'middleware' => 'can:product.attrs.destroy'
     ]);
     // append
-
     Route::get('/search', function (\Modules\Product\Repositories\ProductRepository $repository) {
-        $data = $repository->search((string) request('q'));
+        $data = $repository->search(  (string) request('q')  );
+
         return $data;
     });
 });

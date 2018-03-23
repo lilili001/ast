@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Carbon;
 
+use App\Libraries\EsEngine;
+use Laravel\Scout\EngineManager;
+use Elasticsearch\ClientBuilder as ElasticBuilder;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -20,6 +24,15 @@ class AppServiceProvider extends ServiceProvider
         Carbon::serializeUsing(function ($carbon) {
             return $carbon->format('d/m/y H:i:s');
         });
+
+        resolve(EngineManager::class)->extend('es', function($app) {
+            return new EsEngine(ElasticBuilder::create()
+                ->setHosts(config('scout.elasticsearch.hosts'))
+                ->build(),
+                config('scout.elasticsearch.index')
+            );
+        });
+
     }
 
     /**

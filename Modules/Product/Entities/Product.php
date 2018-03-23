@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Entities;
 
+use App\Libraries\EsSearchable;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -9,14 +10,12 @@ use Modules\Media\Support\Traits\MediaRelation;
 
 class Product extends Model
 {
-    use Translatable,MediaRelation;
+    use Translatable,MediaRelation,Searchable,EsSearchable;
 
     protected $table = 'product__products';
     public $translatedAttributes = ['title','keywords','meta_description','description','slug'];
     protected $fillable = ['attrset_id','status','sort_order','price','stock','slug',
         'title','keywords','meta_description','description','swatch_colors'];
-
-    use Searchable;
 
     public function sku()
     {
@@ -36,4 +35,13 @@ class Product extends Model
     {
         return $this->id;
     }
+//    //定义有哪些字段需要搜索
+//    public function toSearchableArray()
+//    {
+//        return [
+//            'title'=>$this->title,
+//            'description'=>$this->description,
+//        ];
+//    }
+
 }

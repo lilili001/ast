@@ -10,5 +10,5 @@ interface ProductRepository extends BaseRepository
     public function getAllAttrsets();
     //public function updateSaleAttrs($product,$data);
     public function getAttrsByProductId($productId,$isForSku);
-    public function search(string $query = ""): Collection;
+    public function search(string $query = "");
 }

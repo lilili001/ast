@@ -36,7 +36,6 @@ class ProductController extends AdminBaseController
     public function index()
     {
         $products = $this->product->all();
-
         return view('product::admin.products.index', compact('products'));
     }
 
@@ -89,6 +88,7 @@ class ProductController extends AdminBaseController
     public function update(Product $product, UpdateProductRequest $request)
     {
         $this->product->update($product, $request->all());
+
         //return redirect()->back();
         return redirect()->route('admin.product.product.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('product::products.title.products')]));
