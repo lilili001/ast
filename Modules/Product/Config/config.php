@@ -1,5 +1,9 @@
 <?php
 
 return [
-    'name' => 'Product'
+    'name' => 'Product',
+    'sidebar-attrs' => [
+        'product.*',
+        'product::admin.widgets.sidebar-attrs',
+    ],
 ];

@@ -10,7 +10,7 @@ $router->group(['prefix' => ''], function (Router $router) {
         'uses' => 'PublicController@index',
         //'middleware' => config('asgard.product.config.middleware'),
     ]);
-    $router->get('/cat/{slug}', [
+    $router->get('/c/{slug}', [
         'as' => $locale . '.cat.slug',
         'uses' => 'PublicController@cat',
         //'middleware' => config('asgard.product.config.middleware'),
@@ -25,4 +25,9 @@ $router->group(['prefix' => ''], function (Router $router) {
 $router->group(['prefix'=>'elastic'],function(Router $router){
     $router->get('test',['uses' => 'ClientController@elasticsearchTest']);
     $router->get('query',['uses' => 'ClientController@elasticsearchQueries']);
+});
+
+$router->group(['prefix'=>'search'],function(Router $router){
+    $locale = LaravelLocalization::setLocale() ?: App::getLocale();
+    $router->get('/result',['as' => $locale . '.search.result', 'uses' => 'PublicController@search']);
 });

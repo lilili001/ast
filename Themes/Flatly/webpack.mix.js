@@ -14,7 +14,8 @@ mix.scripts([
   'node_modules/jquery/dist/jquery.js',
   'node_modules/bootstrap/dist/js/bootstrap.min.js',
   'node_modules/prismjs/prism.js',
-  'resources/js/bootswatch.js'
+  'resources/js/bootswatch.js',
+  'node_modules/underscore/underscore.js'
 ], 'assets/js/all.js');
 
 /**

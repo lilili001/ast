@@ -35,6 +35,12 @@ class Product extends Model
     {
         return $this->id;
     }
+
+    public function getFeaturedImagesAttribute()
+    {
+        return $this->filesByZone('gallery')->get();
+    }
+
 //    //定义有哪些字段需要搜索
 //    public function toSearchableArray()
 //    {

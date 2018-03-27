@@ -54,8 +54,8 @@ class ProductServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('product', 'permissions');
-
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->registerViewComposers();
     }
 
     /**
@@ -143,11 +143,12 @@ class ProductServiceProvider extends ServiceProvider
             }
         );
 // add bindings
-
-
-
-
-
-
+    }
+    private function registerViewComposers()
+    {
+        $this->app['view']->composer(
+            'category.side-attrs',
+            \Modules\Product\Composers\Frontend\SideAttrs::class
+        );
     }
 }

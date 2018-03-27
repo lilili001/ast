@@ -53,7 +53,11 @@
                     {!! Form::normalCheckbox('has_translatable_values', trans('attribute::attributes.has_translatable_values'), $errors, $attribute) !!}
                     {!! Form::normalCheckbox('is_for_sku', trans('attribute::attributes.is_for_sku'), $errors, $attribute) !!}
                     {!! Form::normalCheckbox('is_for_sale', trans('attribute::attributes.is_for_sale'), $errors, $attribute) !!}
+                    {!! Form::normalCheckbox('is_filterable', trans('attribute::attributes.is_filterable'), $errors,$attribute) !!}
+                    {!! Form::normalCheckbox('is_visible_on_front', trans('attribute::attributes.is_visible_on_front'), $errors,$attribute )!!}
                     {!! Form::normalInput('key', trans('attribute::attributes.key'), $errors, $attribute) !!}
+
+                    {!! Form::normalInput('position', trans('attribute::attributes.position'), $errors,$attribute) !!}
 
                     <div class="form-group">
                         {!! Form::label("attrset", 'attrset:') !!}

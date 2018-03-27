@@ -6,6 +6,7 @@ use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Attribute\Repositories\AttributesManager;
 use Modules\Product\Entities\Attrset;
+use Modules\Product\Entities\Product;
 
 class Attribute extends Model
 {
@@ -23,9 +24,14 @@ class Attribute extends Model
         'is_enabled',
         'has_translatable_values',
         'is_for_sku',
-        'is_for_sale'
+        'is_for_sale',
+        'is_visible_on_front',
+        'is_filterable',
+        'position'
     ];
+
     protected $hidden = ['created_at','updated_at'];
+
     public function values()
     {
         return $this->hasMany(Value::class);

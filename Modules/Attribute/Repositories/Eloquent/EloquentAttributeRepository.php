@@ -21,7 +21,7 @@ class EloquentAttributeRepository extends EloquentBaseRepository implements Attr
 
         return $attribute;
     }
-
+    
     public function update($attribute, $data)
     {
         $this->normalise($data);
@@ -51,6 +51,13 @@ class EloquentAttributeRepository extends EloquentBaseRepository implements Attr
             ->with('translations')->get();
     }
 
+    public function findByCondition( $key,$val )
+    {
+        return $this->model
+            ->where($key,$val)
+            ->with('translations')
+            ->get();
+    }
     /**
      * Find all enabled attributes by the given namespace that have translatable values
      * @param string $namespace

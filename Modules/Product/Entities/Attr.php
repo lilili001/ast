@@ -13,4 +13,16 @@ class Attr extends Model
     public $translatedAttributes = [];
     protected $guarded = [];
     protected $hidden = ['created_at','updated_at'];
+
+    // 多where
+    public function scopeMultiwhere($query, $arr)
+    {
+        if (!is_array($arr)) {
+            return $query;
+        }
+        foreach ($arr as $key => $value) {
+            $query = $query->where($key, 'like', '%'.$value.'%');
+        }
+        return $query;
+    }
 }

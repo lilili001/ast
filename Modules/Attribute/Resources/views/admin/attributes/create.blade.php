@@ -53,7 +53,11 @@
                     {!! Form::normalCheckbox('has_translatable_values', trans('attribute::attributes.has_translatable_values'), $errors) !!}
                     {!! Form::normalCheckbox('is_for_sku', trans('attribute::attributes.is_for_sku'), $errors) !!}
                     {!! Form::normalCheckbox('is_for_sale', trans('attribute::attributes.is_for_sale'), $errors) !!}
+                    {!! Form::normalCheckbox('is_filterable', trans('attribute::attributes.is_filterable'), $errors) !!}
+                    {!! Form::normalCheckbox('is_visible_on_front', trans('attribute::attributes.is_visible_on_front'), $errors) !!}
+
                     {!! Form::normalInput('key', trans('attribute::attributes.key'), $errors) !!}
+                    {!! Form::normalInput('position', trans('attribute::attributes.position'), $errors) !!}
 
                     {!! Form::label("attrset", 'attrset:') !!}
                     <select name="attrset_id" id="attrset_id" class="form-control">
@@ -68,6 +72,7 @@
                         {!! Form::select('namespace', $namespaces, old('namespace') , ['class' => 'selectize']) !!}
                         {!! $errors->first('namespace', '<span class="help-block">:message</span>') !!}
                     </div>
+
                 </div>
             </div>
         </div>

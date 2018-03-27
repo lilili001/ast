@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="{{ Theme::url('favicon.ico') }}">
 
     {!! Theme::style('css/main.css') !!}
+    {!! Theme::style('css/style.css') !!}
     @stack('css-stack')
 </head>
 <body>

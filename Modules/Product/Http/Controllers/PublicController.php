@@ -1,7 +1,13 @@
 <?php
+
 namespace Modules\Product\Http\Controllers;
+
 use Modules\Core\Http\Controllers\BasePublicController;
+use Modules\Product\Entities\Attr;
+use Modules\Product\Entities\Attrset;
+use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\CategoryRepository;
+use Modules\Product\Repositories\ProductRepository;
 
 class PublicController extends BasePublicController
 {
@@ -10,9 +16,12 @@ class PublicController extends BasePublicController
      * PublicController constructor.
      */
     protected $cat;
-    public function __construct(CategoryRepository $cat)
+    protected $product;
+
+    public function __construct(CategoryRepository $cat, ProductRepository $product)
     {
         $this->cat = $cat;
+        $this->product = $product;
     }
 
     public function index()
@@ -22,9 +31,10 @@ class PublicController extends BasePublicController
 
     public function cat($slug)
     {
+        $params = request()->all();
         $cat = $this->cat->findBySlug($slug);
-        $products = $cat->products;
-        return view('category.index',compact('products'));
+        $data = $this->product->handleSearch($params, $cat);
+        return view('category.index', $data);
     }
 
     public function productDetail($slug)
@@ -32,8 +42,10 @@ class PublicController extends BasePublicController
         return view('product.index');
     }
 
-    public function test()
+    public function search()
     {
-        return 1;
+        $query = request('q');
+        $products = Product::search($query)->paginate(24);
+        return view('category.search', compact('products'));
     }
 }
