@@ -29,13 +29,19 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
             $product->cats()->sync([$data['category_id']]);
 
             //处理sku相关数据
-            $this->handleSkuData($data['skuData'], $product);
+            if (!empty($data['skuData']) && $data['skuData'] !== "{}" ) {
+                $this->handleSkuData($data['skuData'], $product);
+            }
 
             //处理色卡
-            $this->handleColorSwatch($data['swatchColor'], $product);
+            if (!empty($data['swatchColor']) && $data['swatchColor'] !== "{}" ) {
+                $this->handleColorSwatch($data['swatchColor'], $product);
+            }
 
             //处理销售属性相关数据
-            $this->handleSaleAttrData($data['saleAttrData'], $product);
+            if (!empty($data['saleAttrData']) && $data['saleAttrData'] !== "{}"  ) {
+                $this->handleSaleAttrData($data['saleAttrData'], $product);
+            }
 
             event(new ProductWasCreated($product, $data));
             return $product;
@@ -51,14 +57,17 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
                 $product->cats()->sync([$data['category_id']]);
             }
             //处理sku相关数据
-            $this->handleSkuData($data['skuData'], $product);
-
+            if (!empty($data['skuData'])  && $data['skuData'] !== "{}" ) {
+                $this->handleSkuData($data['skuData'], $product);
+            }
             //处理色卡
-            $this->handleColorSwatch($data['swatchColor'], $product);
-
+            if (!empty($data['swatchColor']) && $data['swatchColor'] !== "{}" ) {
+                $this->handleColorSwatch($data['swatchColor'], $product);
+            }
             //处理销售属性相关数据
-            $this->handleSaleAttrData($data['saleAttrData'], $product);
-
+            if (!empty($data['saleAttrData']) && $data['saleAttrData'] !== "{}") {
+                $this->handleSaleAttrData($data['saleAttrData'], $product);
+            }
             event(new ProductWasUpdated($product, $data));
             return $product;
         });
@@ -95,6 +104,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
     protected function handleSkuData($data, $product)
     {
+        if( $data['tableData6'] == "[]" || $data['checkList'] == "{}" ) return;
         $tableData6 = json_decode($data['tableData6']);
         $skuCheckList = json_decode($data['checkList']);
         //dd($skuCheckList);return;
@@ -122,15 +132,16 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
     protected function handleSaleAttrData($data, $product)
     {
+        if($data == "{}") return;
         //获取选中的sku 属性值列表
         $data = json_decode($data);
         $dataAttrs = (new Util())->assignAttrIds($data, $product->id);
-
         //skuattr table
         $product->attr()->where('is_for_sku', false)->delete();
 
         DB::table('product__attrs')->insert($dataAttrs);
     }
+
 
     protected function handleColorSwatch($data, $product)
     {
@@ -139,75 +150,14 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         ]);
     }
 
-    public function search($query="")
+    public function search($query = "")
     {
-       $data = $this->model->search($query)->paginate(24);
-
+        $data = $this->model->search($query)->paginate(24);
         return $data;
     }
 
     public function handleSearch($params, $cat)
     {
-        //当前分类下的所有产品
-        $allproducts = $cat->products;
-        //当前分类下的所有产品id数组集合
-        $allproductIds = $allproducts->pluck('id')->toArray();//all product ids
-        //当前分类
-        $catId = $cat->id;
-        if (empty($params)) {
-            //没有筛选参数时 只显示当前分类下的所有产品
-            $products = $cat->products()->paginate(24);
-        } else {
-            //根据筛选条件 根据product__attr查询 筛选条件 得出产品集合 ids
-            $result = [];
-            $firstVal = reset($params);
-            while (!!list($v1, $v2) = each($params)) {
-
-                if (strstr($v2, '-')) {
-                    $words = explode('-', $v2);
-
-                    static $query;
-
-                    $i = 0;
-                    while ($i < count($words)) {
-                        if ($i == 0) {
-                            $query = Attr::where([
-                                'attr_key' => $v1,
-                                ['value', 'like', '%' . $words[0] . '%']
-                            ]);
-                        } else {
-                            $query = $query->orWhere([
-                                'attr_key' => $v1,
-                                ['value', 'like', '%' . $words[0] . '%']
-                            ]);
-                        }
-                        $i++;
-                    }
-
-                    $newPdcIds = $query->pluck('product_id')->toArray();
-                } else {
-                    $newPdcIds = Attr::where([
-                        'attr_key' => $v1,
-                        ['value', 'like', '%' . $v2 . '%']
-                    ])->pluck('product_id')->toArray();
-                }
-
-                $result = $v2 == $firstVal ? $newPdcIds : array_intersect($result, $newPdcIds);
-            }
-
-            //获得查询的产品结果
-            $products = $this->model->whereIn('id', $result)->whereHas(
-                'cats',function($q) use($catId) {
-                $q->where('category_id',$catId);
-            }
-            )->paginate(24);
-
-            //现在的所有产品是当前筛选结果的范围
-            $allproducts = $products;
-
-        }
-
-
-        return compact('allproductIds', 'products', 'allproducts', 'catId');
+        return (new Util())->checkIfHasProducts($params, $cat->id);
     }
 }

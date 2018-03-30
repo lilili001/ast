@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="{{ Theme::url('favicon.ico') }}">
 
     {!! Theme::style('css/main.css') !!}
-    {!! Theme::style('css/style.css') !!}
+
     @stack('css-stack')
 </head>
 <body>
@@ -29,6 +29,7 @@
 @include('partials.footer')
 
 {!! Theme::script('js/all.js') !!}
+
 @yield('scripts')
 
 <?php if (Setting::has('core::analytics-script')): ?>

@@ -39,7 +39,8 @@ class PublicController extends BasePublicController
 
     public function productDetail($slug)
     {
-        return view('product.index');
+        $product = $this->product->findBySlug($slug);
+        return view('product.index',compact('product'));
     }
 
     public function search()

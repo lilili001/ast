@@ -119851,6 +119851,7 @@ exports.default = {
         },
         atrKeys: function atrKeys() {
             var atrKeys = [];
+            this.orgAtrKeys = [];
             _.each(this.skuAttrs, function (item, index) {
                 if (item) {
                     atrKeys.push({
@@ -119890,7 +119891,9 @@ exports.default = {
             _this2.price = _this2.pdcObj.price;
             _this2.stock = _this2.pdcObj.stock;
             _this2.handleResult();
-            _this2.createTableAndMerge();
+            if (!!_this2.result && _this2.tableData6.length > 0) {
+                _this2.createTableAndMerge();
+            }
             clearInterval(timer);
         }, 1000);
     },
@@ -120001,13 +120004,24 @@ exports.default = {
                     var tdVal = attr[0].options[newArr[j]][this.locale];
                     str2 += '<td><div class="cell">' + tdVal + '</div></td>';
                 }
-                str2 += '<td><div class="cell"><input class="ivu-input sku_input price" required number="true" name="sku_row_price_' + i + '" name1="sku_row_price[]" value="' + this.tableData6[i].price + '" /></div></td>\n                        <td><div class="cell"><input class="ivu-input sku_input"  required number="true" name="sku_row_qty_' + i + '"  name1="sku_row_qty[]" value="' + this.tableData6[i].stock + '" /></div></td>';
+                str2 += '<td><div class="cell"><input data-resi="' + this.result[i] + '" class="ivu-input sku_input price" required number="true" name="sku_row_price_' + i + '" name1="sku_row_price[]" value="' + this.tableData6[i].price + '" /></div></td>\n                        <td><div class="cell"><input data-resi="' + this.result[i] + '" class="ivu-input sku_input"  required number="true" name="sku_row_qty_' + i + '"  name1="sku_row_qty[]" value="' + this.tableData6[i].stock + '" /></div></td>';
                 strBody += '<tr>' + str2 + '</tr>';
             }
             $('#createTable tbody').html(strBody);
             var _this = this;
+
+            var tmpAtrKeys = this.atrKeys.concat([]);
+            var readyKeys = _.pullAllWith(tmpAtrKeys, [{ key: 'price', name: '价格' }, { key: 'stock', name: '库存' }], _.isEqual);
+            readyKeys = _.map(readyKeys, 'key');
+
             $('.sku_input').on('keyup', function () {
-                var index = $(this).parents('tr').index();
+
+                var tData = $(this).data('resi').split(',');
+
+                var newObj = _.zipObject(readyKeys, tData);
+                var index = _.findIndex(_this.tableData6, newObj);
+                console.log(index);
+                //var index = $(this).parents('tr').index();
                 switch ($(this).attr('name1')) {
                     case 'sku_row_price[]':
                         _this.tableData6[index].price = this.value;

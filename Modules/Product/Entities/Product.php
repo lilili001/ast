@@ -41,13 +41,5 @@ class Product extends Model
         return $this->filesByZone('gallery')->get();
     }
 
-//    //定义有哪些字段需要搜索
-//    public function toSearchableArray()
-//    {
-//        return [
-//            'title'=>$this->title,
-//            'description'=>$this->description,
-//        ];
-//    }
 
 }

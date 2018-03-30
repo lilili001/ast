@@ -17,11 +17,19 @@
                     @foreach($products as $product)
                         <div class="col-md-4">
                             <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">
-                                <img src="@thumbnail( $product->featured_images->first()->path, 'mediumThumb')" alt="" />
+                                @if(count( $product->featured_images->toArray() )>0)
+                                    <img src="@thumbnail( $product->featured_images->first()->path, 'mediumThumb')"
+                                         alt=""/>
+                                @else
+                                    <img width="230" src="{{asset('/assets/images/comming.jpg')}}" alt="">
+                                @endif
                             </a>
                             <div>
-                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->title}}</a></div>
-                            <div><a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->price}}</a></div>
+                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->title}}</a>
+                            </div>
+                            <div>
+                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->price}}</a>
+                            </div>
                         </div>
                     @endforeach
                 @endif

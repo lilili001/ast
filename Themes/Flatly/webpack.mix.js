@@ -11,7 +11,7 @@ mix.less('resources/less/main.less', 'assets/css/main.css')
  * Concat scripts
  */
 mix.scripts([
-  'node_modules/jquery/dist/jquery.js',
+  'node_modules/jquery/jquery.min.js',
   'node_modules/bootstrap/dist/js/bootstrap.min.js',
   'node_modules/prismjs/prism.js',
   'resources/js/bootswatch.js',
