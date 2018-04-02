@@ -119653,7 +119653,7 @@ exports = module.exports = __webpack_require__(37)(false);
 
 
 // module
-exports.push([module.i, "\nul[data-v-d5c5fb98]{padding-left:0\n}\nul li[data-v-d5c5fb98]{float: left;\n    list-style: none;\n    width: 50px;\n    height: 40px;\n    overflow: hidden;\n    margin-right: 10px;\n    border: 1px solid #ddd;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n}\n.clearfix[data-v-d5c5fb98]{\n    clear:both;\n    text-align: center;\n}\n", ""]);
+exports.push([module.i, "\nul[data-v-d5c5fb98] {\n    padding-left: 0\n}\nul li[data-v-d5c5fb98] {\n    float: left;\n    list-style: none;\n    width: 50px;\n    height: 40px;\n    overflow: hidden;\n    margin-right: 10px;\n    border: 1px solid #ddd;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n}\n.clearfix[data-v-d5c5fb98] {\n    clear: both;\n    text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -119693,7 +119693,7 @@ exports = module.exports = __webpack_require__(37)(false);
 
 
 // module
-exports.push([module.i, "\n.el-pagination{margin-top:20px;text-align: center\n}\n.custom_button_nopadding{\n    padding:0;\n}\n", ""]);
+exports.push([module.i, "\n.el-pagination {\n    margin-top: 20px;\n    text-align: center\n}\n.custom_button_nopadding {\n    padding: 0;\n}\n", ""]);
 
 // exports
 
@@ -119712,6 +119712,23 @@ Object.defineProperty(exports, "__esModule", {
 var _vuex = __webpack_require__(144);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -119994,6 +120011,14 @@ exports.default = {
             $('#createTable thead tr').html(str);
             var strBody = '';
 
+            var tmpAtrKeys = this.atrKeys.concat([]);
+            var readyKeys = _.pullAllWith(tmpAtrKeys, [{ key: 'price', name: '价格' }, {
+                key: 'stock',
+                name: '库存'
+            }], _.isEqual);
+
+            readyKeys = _.map(readyKeys, 'key');
+
             for (var i = 0; i < this.result.length; i++) {
                 var newArr = this.result[i].split(',');
                 var str2 = '';
@@ -120004,15 +120029,15 @@ exports.default = {
                     var tdVal = attr[0].options[newArr[j]][this.locale];
                     str2 += '<td><div class="cell">' + tdVal + '</div></td>';
                 }
-                str2 += '<td><div class="cell"><input data-resi="' + this.result[i] + '" class="ivu-input sku_input price" required number="true" name="sku_row_price_' + i + '" name1="sku_row_price[]" value="' + this.tableData6[i].price + '" /></div></td>\n                        <td><div class="cell"><input data-resi="' + this.result[i] + '" class="ivu-input sku_input"  required number="true" name="sku_row_qty_' + i + '"  name1="sku_row_qty[]" value="' + this.tableData6[i].stock + '" /></div></td>';
+
+                var obj1 = _.zipObject(readyKeys, newArr);
+                var curRow = _.find(this.tableData6, obj1);
+
+                str2 += '<td><div class="cell"><input type="text" data-resi="' + this.result[i] + '" class="ivu-input sku_input price" required number="true" name="sku_row_price_' + i + '" name1="sku_row_price[]" value="' + curRow.price + '" /></div></td>\n                    <td><div class="cell"><input type="text" data-resi="' + this.result[i] + '" class="ivu-input sku_input" required number="true" name="sku_row_qty_' + i + '" name1="sku_row_qty[]" value="' + curRow.stock + '" /></div></td>';
                 strBody += '<tr>' + str2 + '</tr>';
             }
             $('#createTable tbody').html(strBody);
             var _this = this;
-
-            var tmpAtrKeys = this.atrKeys.concat([]);
-            var readyKeys = _.pullAllWith(tmpAtrKeys, [{ key: 'price', name: '价格' }, { key: 'stock', name: '库存' }], _.isEqual);
-            readyKeys = _.map(readyKeys, 'key');
 
             $('.sku_input').on('keyup', function () {
 
@@ -120020,7 +120045,7 @@ exports.default = {
 
                 var newObj = _.zipObject(readyKeys, tData);
                 var index = _.findIndex(_this.tableData6, newObj);
-                console.log(index);
+
                 //var index = $(this).parents('tr').index();
                 switch ($(this).attr('name1')) {
                     case 'sku_row_price[]':
@@ -120196,7 +120221,9 @@ var render = function() {
                   "el-checkbox",
                   { key: key1, attrs: { label: key1 } },
                   [
-                    _vm._v(_vm._s(option[_vm.locale]) + "\n\n            "),
+                    _vm._v(
+                      _vm._s(option[_vm.locale]) + "\n\n\n                "
+                    ),
                     !!_vm.checkList["color"] &&
                     _vm.checkList["color"].indexOf(key1) != -1 &&
                     !!_vm.swatchColor[key1]
@@ -120292,7 +120319,7 @@ var render = function() {
           "div",
           { staticClass: "grid-content" },
           [
-            _vm._v("price: "),
+            _vm._v("price:\n            "),
             _c("el-input", {
               staticClass: "w300",
               attrs: { size: "small", clearable: "" },
@@ -120340,7 +120367,7 @@ var render = function() {
           "div",
           { staticClass: "grid-content" },
           [
-            _vm._v("stock: "),
+            _vm._v("stock:\n            "),
             _c("el-input", {
               staticClass: "w300",
               attrs: { size: "small", clearable: "" },

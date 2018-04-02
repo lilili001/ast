@@ -57,15 +57,16 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
                 $product->cats()->sync([$data['category_id']]);
             }
             //处理sku相关数据
-            if (!empty($data['skuData'])  && $data['skuData'] !== "{}" ) {
+            if (!empty($data['skuData']) ) {
+                info( $data['skuData'] );
                 $this->handleSkuData($data['skuData'], $product);
             }
             //处理色卡
-            if (!empty($data['swatchColor']) && $data['swatchColor'] !== "{}" ) {
+            if (!empty($data['swatchColor']) ) {
                 $this->handleColorSwatch($data['swatchColor'], $product);
             }
             //处理销售属性相关数据
-            if (!empty($data['saleAttrData']) && $data['saleAttrData'] !== "{}") {
+            if (!empty($data['saleAttrData']) ) {
                 $this->handleSaleAttrData($data['saleAttrData'], $product);
             }
             event(new ProductWasUpdated($product, $data));
@@ -105,8 +106,8 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     protected function handleSkuData($data, $product)
     {
         if( $data['tableData6'] == "[]" || $data['checkList'] == "{}" ) return;
-        $tableData6 = json_decode($data['tableData6']);
-        $skuCheckList = json_decode($data['checkList']);
+        $tableData6 = json_decode($data['tableData6'],true);
+        $skuCheckList = json_decode($data['checkList'],true);
         //dd($skuCheckList);return;
         //dd(($skuCheckList));
         //更新product price和stock
@@ -117,14 +118,14 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
         //获取sku options列表
         $dataSkus = (new Util())->assignSkuIds($tableData6, $product->id);
-        //获取选中的sku 属性值列表
-        $dataAttrSkus = (new Util())->assignAttrIds($skuCheckList, $product->id, true);
-
         //开始操作数据库
         $product->sku()->delete();
         //sku table
         DB::table('product__skus')->insert($dataSkus);
 
+
+        //获取选中的sku 属性值列表
+        $dataAttrSkus = (new Util())->assignAttrIds($skuCheckList, $product->id, true);
         //skuattr table
         $product->attr()->delete();
         DB::table('product__attrs')->insert($dataAttrSkus);

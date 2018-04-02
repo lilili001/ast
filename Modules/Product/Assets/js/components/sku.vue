@@ -3,50 +3,58 @@
         <div v-for="(item,key ) in skuAttrs">
             <span>{{item.name}}:</span>
             <input type="hidden" :name="item['key']" v-model="checkList[item['key']]" required>
-            <el-checkbox-group v-model="checkList[item['key']]"  @change="labelChange">
+            <el-checkbox-group v-model="checkList[item['key']]" @change="labelChange">
                 <el-checkbox :label="key1" :key="key1" v-for="(option,key1) in item.options">{{option[locale] }}
 
-                <el-button
-                    class="custom_button_nopadding"
-                    size="mini" 
-                    plain
-                    @click.stop="fnUploadSwatch(key1)" 
-                    v-if="!!checkList['color'] && checkList['color'].indexOf(key1)!=-1 && !!swatchColor[key1]"  >
-                    <img
-                    width="30"
-                    height="30"
-                    :src="!!swatchColor[key1] &&!!swatchColor[key1]['filepath'] ? swatchColor[key1]['filepath'] : '' " 
-                    alt="" 
-                    class="swatch">
-                </el-button>
 
-                <el-button 
-                @click.stop="fnUploadSwatch(key1)" 
-                v-show="item['key']=='color' &&  indexofArr(checkList[item['key']],key1) !== -1 && !swatchColor[key1]"  
-                size="mini">上传<i class="el-icon-upload el-icon--right"></i></el-button> </el-checkbox>
+                    <el-button
+                            class="custom_button_nopadding"
+                            size="mini"
+                            plain
+                            @click.stop="fnUploadSwatch(key1)"
+                            v-if="!!checkList['color'] && checkList['color'].indexOf(key1)!=-1 && !!swatchColor[key1]">
+                        <img
+                                width="30"
+                                height="30"
+                                :src="!!swatchColor[key1] &&!!swatchColor[key1]['filepath'] ? swatchColor[key1]['filepath'] : '' "
+                                alt=""
+                                class="swatch">
+                    </el-button>
+
+                    <el-button
+                            @click.stop="fnUploadSwatch(key1)"
+                            v-show="item['key']=='color' &&  indexofArr(checkList[item['key']],key1) !== -1 && !swatchColor[key1]"
+                            size="mini">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+                </el-checkbox>
             </el-checkbox-group>
         </div>
 
-        <div id="createTable" v-show="tableData6.length>0" class="el-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition"></div>
+        <div id="createTable" v-show="tableData6.length>0"
+             class="el-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition"></div>
         <el-row class="mar-t20 mar-b14">
-            <div class="grid-content">price: <el-input v-model="price"  class="w300" size="small" clearable></el-input>
-            <input type="hidden" required number="true" name="price" v-model="price"/></div></el-row>
-        <el-row><div class="grid-content">stock: <el-input class="w300" v-model="stock" size="small" clearable></el-input>
-            <input type="hidden" required number="true" name="stock" v-model="stock"/>
-        </div></el-row>
+            <div class="grid-content">price:
+                <el-input v-model="price" class="w300" size="small" clearable></el-input>
+                <input type="hidden" required number="true" name="price" v-model="price"/></div>
+        </el-row>
+        <el-row>
+            <div class="grid-content">stock:
+                <el-input class="w300" v-model="stock" size="small" clearable></el-input>
+                <input type="hidden" required number="true" name="stock" v-model="stock"/>
+            </div>
+        </el-row>
 
         <el-dialog
-            title="选择图片"
-            :visible.sync="dialogVisible"
-            width="800"
-             >
-             <ul>
-                 <li v-for="item in pageData.collection">
-                     <div :fid="item.id" class="filediv" @click="fnSelectSwatch(item)">
-                         <img :src="item.small_thumb" alt="">
-                     </div>
-                 </li>
-             </ul>
+                title="选择图片"
+                :visible.sync="dialogVisible"
+                width="800"
+        >
+            <ul>
+                <li v-for="item in pageData.collection">
+                    <div :fid="item.id" class="filediv" @click="fnSelectSwatch(item)">
+                        <img :src="item.small_thumb" alt="">
+                    </div>
+                </li>
+            </ul>
             <div class="clearfix mar-t20"></div>
 
             <el-pagination
@@ -60,20 +68,24 @@
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
             </span>
-            </el-dialog>
+        </el-dialog>
 
-        <input v-model="JSON.stringify(swatchColor)" name="swatchColor" type="hidden"/>   
+        <input v-model="JSON.stringify(swatchColor)" name="swatchColor" type="hidden"/>
         <input v-model="JSON.stringify(tableData6)" name="skuData[tableData6]" type="hidden"/>
-        <input v-model="JSON.stringify(checkList)" name="skuData[checkList]"  type="hidden"/>
+        <input v-model="JSON.stringify(checkList)" name="skuData[checkList]" type="hidden"/>
 
-        <input v-model="price" name="skuData[price]"   type="hidden"/>
-        <input v-model="stock" name="skuData[stock]"   type="hidden"/>
+        <input v-model="price" name="skuData[price]" type="hidden"/>
+        <input v-model="stock" name="skuData[stock]" type="hidden"/>
 
     </div>
 </template>
 <style scoped>
-    ul{padding-left:0}
-    ul li{float: left;
+    ul {
+        padding-left: 0
+    }
+
+    ul li {
+        float: left;
         list-style: none;
         width: 50px;
         height: 40px;
@@ -82,110 +94,115 @@
         border: 1px solid #ddd;
         box-sizing: border-box;
     }
-    .clearfix{
-        clear:both;
+
+    .clearfix {
+        clear: both;
         text-align: center;
     }
 </style>
 <style>
-    .el-pagination{margin-top:20px;text-align: center}
-    .custom_button_nopadding{
-        padding:0;
+    .el-pagination {
+        margin-top: 20px;
+        text-align: center
+    }
+
+    .custom_button_nopadding {
+        padding: 0;
     }
 </style>
 <script type="text/javascript">
-    import { mapState, mapGetters, mapActions } from 'vuex';
-    
-export default {
-        props:['pdc','filled-attr','filled-sku','locale'],
-        name:'sku',
+    import {mapState, mapGetters, mapActions} from 'vuex';
+
+    export default {
+        props: ['pdc', 'filled-attr', 'filled-sku', 'locale'],
+        name: 'sku',
         data(){
             return {
                 dialogVisible: false,
-                diaMsg:'',
-                tableData6:[],
-                result : [],
-                price:'',
-                stock:'',
-                curKey:0,
-                pageData:{
-                    page:1,
-                    per_page:15,
-                    total:0,
-                    collection:[]
+                diaMsg: '',
+                tableData6: [],
+                result: [],
+                price: '',
+                stock: '',
+                curKey: 0,
+                pageData: {
+                    page: 1,
+                    per_page: 15,
+                    total: 0,
+                    collection: []
                 }
             }
         },
         computed: {
-             skuAttrs:function(){
-                 return this.$store.state.moduleProduct.skuAttrs;
-             },
-             checkList:function(){
-                 let checkList={};
-                 if(!this.pdc){
-                    _.each(this.skuAttrs,(item,index)=>{
-                        if(item){
+            skuAttrs: function () {
+                return this.$store.state.moduleProduct.skuAttrs;
+            },
+            checkList: function () {
+                let checkList = {};
+                if (!this.pdc) {
+                    _.each(this.skuAttrs, (item, index) => {
+                        if (item) {
                             checkList[item['key']] = [];
                         }
                     });
-                 }else{
-                     this.fillDataAttr.map((item)=>{
-                        let val = item.value.replace(/^"+/,"").replace(/"+$/,"");
-                        checkList[item['attr_key']] =  JSON.parse(val) ;
+                } else {
+                    this.fillDataAttr.map((item) => {
+                        let val = item.value.replace(/^"+/, "").replace(/"+$/, "");
+                        checkList[item['attr_key']] = JSON.parse(val);
                     });
-                 }
-                 
+                }
+
                 return checkList;
-             },
-             atrKeys:function(){
-                 let atrKeys=[];
-                 this.orgAtrKeys = [];
-                  _.each(this.skuAttrs,(item,index)=>{
-                    if(item){
+            },
+            atrKeys: function () {
+                let atrKeys = [];
+                this.orgAtrKeys = [];
+                _.each(this.skuAttrs, (item, index) => {
+                    if (item) {
                         atrKeys.push({
-                            key:item.key,
-                            name:item.name
+                            key: item.key,
+                            name: item.name
                         });
                     }
                 });
-                atrKeys = [...atrKeys,{key:'price',name:'价格'},{key:'stock',name:'库存'},];
+                atrKeys = [...atrKeys, {key: 'price', name: '价格'}, {key: 'stock', name: '库存'},];
                 return atrKeys;
-             },
-            pdcObj:function(){
-                return !!this.pdc  ? JSON.parse(this.pdc) : null;
             },
-            swatchColor:function(){
-               return !!this.pdc ? JSON.parse( this.pdcObj.swatch_colors ) : {}
+            pdcObj: function () {
+                return !!this.pdc ? JSON.parse(this.pdc) : null;
             },
-            fillDataAttr:function () {
+            swatchColor: function () {
+                return !!this.pdc ? JSON.parse(this.pdcObj.swatch_colors) : {}
+            },
+            fillDataAttr: function () {
                 return !!this.filledAttr ? JSON.parse(this.filledAttr) : null;
             },
-            fillDataSku:function () {
+            fillDataSku: function () {
                 return !!this.filledSku ? JSON.parse(this.filledSku) : null;
             }
         },
         mounted(){
             this.getAllImages();
-           if(!this.pdc) return;
-           
+            if (!this.pdc) return;
+
             //if(this.skuAttrs.length==0) return;
-            var timer = setTimeout(()=>{
-                this.tableData6 = this.fillDataSku.map((item)=>{
-                        return item.settings;
-                    });
+            var timer = setTimeout(() => {
+                this.tableData6 = this.fillDataSku.map((item) => {
+                    return item.settings;
+                });
                 //反填price and stock
                 this.price = this.pdcObj.price;
                 this.stock = this.pdcObj.stock;
                 this.handleResult();
-                if( !!this.result && this.tableData6.length>0 ){
+                if (!!this.result && this.tableData6.length > 0) {
                     this.createTableAndMerge();
                 }
                 clearInterval(timer);
-            },1000);
+            }, 1000);
         },
-        methods:{
+        methods: {
             getAllImages(){
-                axios.get(route('api.media.all-vue',{page:1,per_page:15,folder_id:0})).then((res)=>{
+                axios.get(route('api.media.all-vue', {page: 1, per_page: 15, folder_id: 0})).then((res) => {
                     this.pageData.collection = res.data.data;
                     this.pageData.total = res.data.meta.total;
                 });
@@ -195,16 +212,16 @@ export default {
                 this.curKey = color;
             },
             fnSelectSwatch(file){
-                this.swatchColor[this.curKey]={
-                    fileId:file.id,
-                    filepath:file.small_thumb
+                this.swatchColor[this.curKey] = {
+                    fileId: file.id,
+                    filepath: file.small_thumb
                 };
                 this.dialogVisible = false;
                 this.curKey = ''
             },
-            indexofArr(arr,v){
-                for(var i=0;i<arr.length;i++){
-                    if(arr[i]==v){
+            indexofArr(arr, v){
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i] == v) {
                         return i  //存在
                     }
                 }
@@ -212,24 +229,24 @@ export default {
             },
             handleResult(){
                 var arr1 = _.values(this.checkList);
-                _.remove(arr1,(arr)=> arr.length==0 );
+                _.remove(arr1, (arr) => arr.length == 0);
                 this.result = doExchange(arr1);
                 return arr1;
             },
             createTableAndMerge(){
                 this.createTable();
                 const table = $('table');
-                ( _.values(this.checkList) ).map((arr,i)=>this.mergeCell( table ,i) );
+                ( _.values(this.checkList) ).map((arr, i) => this.mergeCell(table, i));
             },
             labelChange(){
                 //this.tableData6 = [];
                 const arr1 = this.handleResult();
-                if(this.checkEveryAttrSelected(arr1)){
-                    this.tableData6 = this.result.map(str=> {
+                if (this.checkEveryAttrSelected(arr1)) {
+                    this.tableData6 = this.result.map(str => {
                             const item = {};
                             const newArr = str.split(',');//m,l
-                            this.atrKeys.map( (itemk,i) =>{
-                                item[itemk.key] =    !!newArr[i] ?   newArr[i] : '';
+                            this.atrKeys.map((itemk, i) => {
+                                item[itemk.key] = !!newArr[i] ? newArr[i] : '';
                                 return item;
                             });
                             item['price'] = '';
@@ -238,11 +255,11 @@ export default {
                         }
                     );
                     this.createTable();
-                }else{
+                } else {
                     this.tableData6 = [];
                 }
                 const table = $('table');
-                arr1.map((arr,i)=>this.mergeCell( table ,i) );
+                arr1.map((arr, i) => this.mergeCell(table, i));
             },
             checkEveryAttrSelected(arr1){
                 return arr1.length == (_.values(this.checkList)).length;
@@ -256,48 +273,54 @@ export default {
                 //         return tdVal;
             },
             createTable(){
-                if( $('#createTable').children().length == 0 ){
+                if ($('#createTable').children().length == 0) {
                     $('<table id="process" width="100%" border="0" cellpadding="0" cellspacing="0"><thead><tr></tr></thead><tbody></tbody></table>').appendTo($('#createTable'));
                 }
                 var str = '';
-                this.atrKeys.map((item,i)=>{
-                    str+= `<th><div class="cell">${item.name}</div></th>`;
+                this.atrKeys.map((item, i) => {
+                    str += `<th><div class="cell">${item.name}</div></th>`;
                     return str;
                 });
 
                 $('#createTable thead tr').html(str);
                 var strBody = '';
 
-                for(var i=0;i<this.result.length ; i++){
+                var tmpAtrKeys = this.atrKeys.concat([]);
+                var readyKeys = _.pullAllWith(tmpAtrKeys, [{key: 'price', name: '价格'}, {
+                    key: 'stock',
+                    name: '库存'
+                }], _.isEqual);
+
+                readyKeys = _.map(readyKeys, 'key');
+
+                for (var i = 0; i < this.result.length; i++) {
                     var newArr = this.result[i].split(',');
-                    var str2='';
-                    for(var j=0;j<newArr.length;j++){
-                        let attr = _.filter(this.skuAttrs,(attr)=>{
-                            return !!attr.options[newArr[j]]  ;
+                    var str2 = '';
+                    for (var j = 0; j < newArr.length; j++) {
+                        let attr = _.filter(this.skuAttrs, (attr) => {
+                            return !!attr.options[newArr[j]];
                         });
-                        let tdVal = attr[0].options[newArr[j]][this.locale]
-                        str2 +=`<td><div class="cell">${tdVal}</div></td>`;
+                        let tdVal = attr[0].options[newArr[j]][this.locale];
+                        str2 += `<td><div class="cell">${tdVal}</div></td>`;
                     }
-                    str2 += `<td><div class="cell"><input data-resi="${this.result[i]}" class="ivu-input sku_input price" required number="true" name="sku_row_price_${i}" name1="sku_row_price[]" value="${this.tableData6[i].price}" /></div></td>
-                        <td><div class="cell"><input data-resi="${this.result[i]}" class="ivu-input sku_input"  required number="true" name="sku_row_qty_${i}"  name1="sku_row_qty[]" value="${this.tableData6[i].stock}" /></div></td>`;
-                    strBody +='<tr>'+str2+'</tr>';
+
+                    var obj1 = _.zipObject(readyKeys, newArr);
+                    var curRow = _.find(this.tableData6,obj1);
+
+                    str2 += `<td><div class="cell"><input type="text" data-resi="${this.result[i]}" class="ivu-input sku_input price" required number="true" name="sku_row_price_${i}" name1="sku_row_price[]" value="${curRow.price}" /></div></td>
+                        <td><div class="cell"><input type="text" data-resi="${this.result[i]}" class="ivu-input sku_input" required number="true" name="sku_row_qty_${i}" name1="sku_row_qty[]" value="${curRow.stock}" /></div></td>`;
+                    strBody += '<tr>' + str2 + '</tr>';
                 }
                 $('#createTable tbody').html(strBody);
                 var _this = this;
 
-                var tmpAtrKeys = this.atrKeys.concat([]);
-                var readyKeys = _.pullAllWith( tmpAtrKeys , [{key:'price',name:'价格'},{key:'stock',name:'库存'}], _.isEqual);
-                readyKeys = _.map( readyKeys,'key' );
-
-                $('.sku_input').on('keyup', function(){
-
+                $('.sku_input').on('keyup', function () {
                     var tData = $(this).data('resi').split(',');
+                    var newObj = _.zipObject(readyKeys, tData);
+                    var index = _.findIndex(_this.tableData6, newObj);
 
-                    var newObj = _.zipObject( readyKeys , tData );
-                    var index = _.findIndex( _this.tableData6 , newObj );
-                    console.log(index);
                     //var index = $(this).parents('tr').index();
-                    switch($(this).attr('name1')){
+                    switch ($(this).attr('name1')) {
                         case 'sku_row_price[]':
                             _this.tableData6[index].price = this.value;
                             _this.getBasePrice();
@@ -311,20 +334,20 @@ export default {
                 //$('.sku_input').trigger('keyup');
             },
             getBasePrice(){
-                this.tableData6.sort(function(n1,n2){
+                this.tableData6.sort(function (n1, n2) {
                     return n1.price - n2.price;
                 });
                 this.price = this.tableData6[0].price
             },
             getTotalStock(){
-                let stock = 0 ;
-                this.tableData6.map( (item,index) =>{
+                let stock = 0;
+                this.tableData6.map((item, index) => {
                     stock += Number(item.stock)
                 });
-                this.stock=stock;
+                this.stock = stock;
                 return stock;
             },
-            mergeCell($table,colIndex){
+            mergeCell($table, colIndex){
                 $table.data('col-content', ''); // 存放单元格内容
                 $table.data('col-rowspan', 1); // 存放计算的rowspan值 默认为1
                 $table.data('col-td', $()); // 存放发现的第一个与前一行比较结果不同td(jQuery封装过的), 默认一个"空"的jquery对象
@@ -370,18 +393,18 @@ export default {
             }
         }//end method
     }
-     
+
     /**检查 某个元素v 在数组中是否存在,存在返回1  不存在返回-1**/
-    function indexofArr(arr,v){
-        for(var i=0;i<arr.length;i++){
-            if(arr[i]==v){
+    function indexofArr(arr, v) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] == v) {
                 return i  //存在
             }
         }
         return -1  //不存在
     }
 
-    function  doExchange (doubleArrays) {
+    function doExchange(doubleArrays) {
         var len = doubleArrays.length;
         if (len >= 2) {
             var arr1 = doubleArrays[0];

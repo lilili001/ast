@@ -8,7 +8,7 @@
     {!! Theme::style('css/easyzoom.css') !!}
     <div class="row page product-detail-page">
         <div class="col-md-12 product-view">
-            <div class="row top">
+            <div class="top">
                 <div class="picScroll-top">
                     @if( count($product->featured_images->toArray()) >=5 )
                         <div class="hd">
@@ -32,7 +32,6 @@
                                                 <img src="asset('/assets/images/comming.jpg')" alt=""/>
                                             </a>
                                         @endif
-
                                     </div>
                                 </li>
                             @endforeach
@@ -42,7 +41,6 @@
                 </div>
                 <div class="zoom-wrap">
                     <div class="easyzoom easyzoom--adjacent easyzoom--overlay easyzoom--with-thumbnails w470 ">
-
 
                         @if(count( $product->featured_images->toArray() )>0)
                             <a href="{{$product->featured_images->first()->path}}"
@@ -65,7 +63,7 @@
                 <div class="pull-left product_info">
                     <h1>{{$product->title}}</h1>
                     <div>Item Code:sdfff</div>
-                    <div>Stock:{{ $product->stock  }}</div>
+                    <div class="">Stock: <span class="stock">{{ $product->stock  }}</span> </div>
                     <div class="price">{{$product->price}}</div>
 
                     {{--sku attrs start--}}
@@ -99,15 +97,19 @@
                             <ul>
                                 @foreach($values as $keyv=>$val)
                                     @if( $attr['attr_key'] == 'color' &&  isset( $swatchColors[$val] ) )
-                                        <li class="option" title="{{$val}}"  data-attr_key="{{  $attr['attr_key']  }}" data-value="{{ $val  }}" ><a class="none-padding">
+                                        <li class="option" title="{{$val}}" data-attr_key="{{  $attr['attr_key']  }}"
+                                            data-value="{{ $val  }}"><a class="none-padding">
                                                 <img width="30"
                                                      src="{{  $swatchColors[$val]['filepath']  }}"
-                                                     alt=""> </a></li>
+                                                     alt=""> </a>
+                                            <b></b></li>
                                     @else
                                         <?php
                                         $attribute_options = $query->pluck('options')->first();
                                         ?>
-                                        <li class="option" data-attr_key="{{  $attr['attr_key']  }}" data-value="{{ $val  }}"><a>{{$attribute_options[$val][$locale]}}</a></li>
+                                        <li class="option" data-attr_key="{{  $attr['attr_key']  }}"
+                                            data-value="{{ $val  }}"><a>{{$attribute_options[$val][$locale]}}</a><b></b>
+                                        </li>
                                     @endif
                                 @endforeach
                             </ul>
@@ -117,16 +119,61 @@
                     <div class="option_box qty">
                         <label for="">数量</label>
                         <div class="pull-left qty_div">
-                                <span class="glyphicon glyphicon-minus qty-action"></span>
-                                <input type="number" placeholder="1" class="qty">
-                                <span class="glyphicon glyphicon-plus qty-action" aria-hidden="true"></span>
+                            <span data-action="decrease" class="glyphicon glyphicon-minus qty-action pointer"></span>
+                            <input type="number"  class="qty" value="1">
+                            <span data-action="increase"  class="glyphicon glyphicon-plus qty-action pointer"  aria-hidden="true"></span>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     {{--sku attrs end--}}
-                    <div><a href="javascript:;" class="btn  add_to_cart_btn"><span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a></div>
+                    <div><a href="javascript:;" class="btn  add_to_cart_btn"><span
+                                    class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a></div>
                 </div>
                 <div class="clearfix"></div>
+
+            </div>
+            <!--below content-->
+            <div class="bellow">
+
+                <div class="slideTxtBox">
+                    <div class="hd">
+                        <ul><li>详情</li><li>评论</li><li>运费说明</li> </ul>
+                    </div>
+                    <div class="bd">
+                         <div class="box">
+                             <div class="pic">
+                                 @foreach($product->featured_images as $featuredImage)
+                                     <div class="pic">
+                                         @if(count( $product->featured_images->toArray() )>0)
+
+                                             <img src="{{$featuredImage->path}}" alt=""/>
+                                         @endif
+                                     </div>
+                                 @endforeach
+                             </div>
+                         </div>
+                         <div class="box">review</div>
+                         <div class="box">
+                             Payment Methods:
+                             FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment methods:
+
+                             Global:
+
+                             1. PayPal
+
+                             1) Login To Your Account or use Credit Card Express.
+                             2) Enter your Card Details, the order will be shipped to your PayPal address. And click "Submit".
+                             3) Your Payment will be processed and a receipt will be sent to your email inbox.
+
+                             2. Credit Card
+
+                             1) Choose your shipping address OR create a new one.
+                             2) Enter your Card Details and click "Submit".
+                             3) Your Payment will be processed and a receipt will be sent to your email inbox.
+                         </div>
+
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -139,6 +186,8 @@
 
     <script>
         $(function () {
+
+            jQuery(".slideTxtBox").slide({trigger:"click",pnLoop:false});
 
             var $easyzoom = $('.easyzoom').easyZoom();
             // Setup thumbnails example
@@ -168,48 +217,70 @@
                 mouseOverStop: true
             });
 
+            var $attrSkus = <?php echo !empty($attrSkus) ? json_encode($attrSkus) : 'null';?>;
+            var $attrs = <?php echo !empty($attrs) ? json_encode($attrs) : 'null';?>;
 
-            var $attrSkus = <?php echo !empty($attrSkus) ?  json_encode( $attrSkus ) : 'null';?>;
-            var $attrs = <?php echo !empty($attrs) ? json_encode( $attrs ) : 'null' ;?>;
-
-            $attrs = _.map( $attrs,function(item,index){
-                item['value'] = JSON.parse( item['value'] );
+            $attrs = _.map($attrs, function (item, index) {
+                item['value'] = JSON.parse(item['value']);
                 return item;
             });
 
-            if( $attrSkus== 'null' ) return;
-            var exsist_skus = _.filter( $attrSkus,function(item){
+            if ($attrSkus == 'null') return;
+            var exsist_skus = _.filter($attrSkus, function (item) {
                 return item.stock != 0;
             });
 
-            console.log(exsist_skus);
-
             var selectedItem = {};
 
-            $('.option_box .option').click(function(){
-                $(this).siblings('li').removeClass('on');
-                $(this).addClass('on');
+            $('.option_box .option').click(function () {
+                if ($(this).hasClass('disabled')) return;
+
                 var key = $(this).data('attr_key');
                 var value = $(this).data('value');
-                selectedItem[key] = value;
-                //foreach others
-                var $otherOptionBox = $('.option_box').not('.'+key+'_option_box');
-                $otherOptionBox.find('.option').each(function(index,item){
-                    $(item).removeClass('disabled');
-                    var key1 = $(item).data('attr_key');
-                    var value1 = $(item).data('value');
-                    var temp = {};
-                    temp[key1] = value1;
-                    var target = _.extend( selectedItem,temp );
-                    console.log(target)
-                     var res = _.where( exsist_skus, target );
-                     if(res.length == 0){
-                         $(item).addClass('disabled');
-                     }
+                selectedItem = _.omit(selectedItem, key);
 
+                if ($(this).hasClass('on')) {
+                    $(this).removeClass('on');
+                } else {
+                    $(this).siblings('li').removeClass('on');
+                    $(this).addClass('on');
+                    selectedItem[key] = value;
+                }
+
+                var $otherOptionBox = $('.option_box').not($(this).parents('.option_box'));
+
+                var res = _.where(exsist_skus, selectedItem);
+
+                //除了当前选项 其他项 根据当前所选进行筛选 确定是否可选
+                $otherOptionBox.find('.option').each(function (index, item) {
+                    var curGoup = _.groupBy(res, $(item).data('attr_key'));
+                    var keys = _.keys(curGoup);
+
+                    if (keys.indexOf($(item).data('value')) == -1) {
+                        $(item).addClass('disabled')
+                    } else {
+                        $(item).removeClass('disabled');
+                    }
                 });
+                if (res.length == 1 && _.keys( selectedItem ).length == $attrs.length ) {
+                    $('.price').text(res[0].price);
+                    $('.stock').text(res[0].stock);
+                }
             });
+            
+            $('.qty-action[data-action="increase"]').click(function () {
+                var oldV = Number($(this).siblings('.qty').val());
+                oldV++;
+                $(this).siblings('.qty').val(  oldV )
+            })
+            $('.qty-action[data-action="decrease"]').click(function () {
+                var oldV = Number($(this).siblings('.qty').val());
+                oldV =  oldV > 1 ? oldV-- : oldV;
+                $(this).siblings('.qty').val(  oldV );
+            })
         })
+
+
     </script>
 @stop
 

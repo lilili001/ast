@@ -9366,6 +9366,7 @@ footer li.active a {
 /*product detail page*/
 .product-detail-page {
   /* 本例子css */
+  /* 本例子css */
 }
 .product-detail-page .w470 {
   width: 400px;
@@ -9413,6 +9414,7 @@ footer li.active a {
 .product-detail-page .option_box .option {
   display: inline-block;
   margin: 0 10px 8px 0;
+  position: relative;
 }
 .product-detail-page .option_box .option a {
   display: block;
@@ -9435,11 +9437,29 @@ footer li.active a {
 .product-detail-page .option_box .option a .none-padding {
   padding: 0;
 }
+.product-detail-page .option_box .option.disabled {
+  cursor: not-allowed;
+}
 .product-detail-page .option_box .option.disabled a {
+  color: #999;
   border: 1px dashed #ddd;
+  cursor: not-allowed;
+}
+.product-detail-page .option_box .option.disabled a:hover {
+  color: #999;
 }
 .product-detail-page .option_box .option.on a {
   border: 1px solid red;
+}
+.product-detail-page .option_box .option.on b {
+  background: rgba(0, 0, 0, 0) url("/themes/flatly/images/cur.png") no-repeat scroll 0 0;
+  bottom: 0;
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  width: 8px;
 }
 .product-detail-page .option_box.qty .qty_div {
   border: 1px solid #ddd;
@@ -9543,6 +9563,43 @@ footer li.active a {
 .product-detail-page .zoom-wrap {
   float: left;
 }
+.product-detail-page .slideTxtBox {
+  margin-top: 30px;
+  border: 1px solid #ddd;
+  text-align: left;
+  overflow-x: hidden;
+}
+.product-detail-page .slideTxtBox .hd {
+  height: 40px;
+  line-height: 40px;
+  background: #f4f4f4;
+  padding: 0 10px 0  0px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+.product-detail-page .slideTxtBox .hd ul {
+  float: left;
+  position: absolute;
+  top: -1px;
+  height: 32px;
+}
+.product-detail-page .slideTxtBox .hd ul li {
+  float: left;
+  padding: 0 15px;
+  cursor: pointer;
+}
+.product-detail-page .slideTxtBox .hd ul li.on {
+  height: 40px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-bottom: 2px solid #fff;
+}
+.product-detail-page .slideTxtBox .hd ul li.on:first-child {
+  border-left: 0;
+}
+.product-detail-page .slideTxtBox .bd {
+  padding: 20px;
+}
 /* Homepage */
 body {
   background: #fff;
@@ -9556,6 +9613,9 @@ a {
 }
 .rounded {
   border-radius: 100px;
+}
+.pointer {
+  cursor: pointer;
 }
 img.pull-top {
   margin-top: 40px;
