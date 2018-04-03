@@ -131,4 +131,17 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
         return $permissions->hasAccess($permission);
     }
+
+    public function isAdmin()
+    {
+        foreach ($this->roles()->get() as $role)
+        {
+            if ($role->name == 'Admin')
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

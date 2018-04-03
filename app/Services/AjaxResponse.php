@@ -25,4 +25,9 @@ class AjaxResponse {
     {
         return $this->ajaxResponse(-1, $message, $extra);
     }
+
+    public function res($code,$message="",$extra=[])
+    {
+        return $this->ajaxResponse($code, $message, $extra);
+    }
 }

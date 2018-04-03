@@ -161,4 +161,20 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     {
         return (new Util())->checkIfHasProducts($params, $cat->id);
     }
+
+    public function findSku($product,$options)
+    {
+        $res = [];
+        $settingsList = $product->sku->pluck('settings');
+        foreach($settingsList as $setting){
+            $heji = array_intersect( $setting , $options );
+            if(  !empty(  $heji ) ){
+                if(  count( $heji ) == count($options) ){
+                    $res = $setting;
+                    break;
+                }
+            }
+        }
+        return $res;
+    }
 }

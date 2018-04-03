@@ -8,6 +8,7 @@ use Modules\Product\Entities\Attrset;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\CategoryRepository;
 use Modules\Product\Repositories\ProductRepository;
+use ShoppingCart;
 
 class PublicController extends BasePublicController
 {
@@ -40,7 +41,7 @@ class PublicController extends BasePublicController
     public function productDetail($slug)
     {
         $product = $this->product->findBySlug($slug);
-        return view('product.index',compact('product'));
+        return view('product.index', compact('product'));
     }
 
     public function search()
@@ -49,4 +50,6 @@ class PublicController extends BasePublicController
         $products = Product::search($query)->paginate(24);
         return view('category.search', compact('products'));
     }
+
+
 }

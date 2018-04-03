@@ -3,7 +3,7 @@
 namespace Modules\User\Http\Middleware;
 
 use Modules\User\Contracts\Authentication;
-
+use AjaxResponse;
 /**
  * Class LoggedInMiddleware
  * @package Modules\User\Http\Middleware
@@ -30,6 +30,7 @@ class LoggedInMiddleware
     public function handle($request, \Closure $next)
     {
         if ($this->auth->check() === false) {
+
             return redirect()->guest(config('asgard.user.config.redirect_route_not_logged_in', 'auth/login'));
         }
 

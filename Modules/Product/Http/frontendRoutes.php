@@ -3,7 +3,7 @@
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
-$router->group(['prefix' => ''], function (Router $router) {
+$router->group([], function (Router $router) {
     $locale = LaravelLocalization::setLocale() ?: App::getLocale();
     $router->get('/all', [
         'as' => $locale . '.cat',
@@ -19,6 +19,27 @@ $router->group(['prefix' => ''], function (Router $router) {
         'as' => $locale . '.product.slug',
         'uses' => 'PublicController@productDetail',
         //'middleware' => config('asgard.product.config.middleware'),
+    ]);
+
+    $router->post('{product}/getPrice', [
+        'uses' => 'CartController@getPrice',
+        'as' => $locale . '.getPrice',
+    ]);
+
+    $router->post('{product}/addToCart', [
+        'uses' => 'CartController@addToCart',
+        'as' => $locale . '.addToCart',
+        'middleware' => 'logged.in'
+    ]);
+
+    $router->get('cart',[
+        'as' => $locale . '.product.cart',
+        'uses' => 'CartController@cart',
+        'middleware' => 'logged.in'
+    ]);
+    $router->get('checkout',[
+        'as' => $locale . '.product.checkout',
+        'uses' => 'CartController@checkout',
     ]);
 });
 

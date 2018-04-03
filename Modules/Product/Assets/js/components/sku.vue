@@ -5,8 +5,6 @@
             <input type="hidden" :name="item['key']" v-model="checkList[item['key']]" required>
             <el-checkbox-group v-model="checkList[item['key']]" @change="labelChange">
                 <el-checkbox :label="key1" :key="key1" v-for="(option,key1) in item.options">{{option[locale] }}
-
-
                     <el-button
                             class="custom_button_nopadding"
                             size="mini"

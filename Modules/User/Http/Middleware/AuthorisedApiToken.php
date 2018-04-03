@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\User\Contracts\Authentication;
 use Modules\User\Repositories\UserTokenRepository;
-
+use AjaxResponse;
 class AuthorisedApiToken
 {
     /**
@@ -27,11 +27,12 @@ class AuthorisedApiToken
     public function handle(Request $request, \Closure $next)
     {
         if ($request->header('Authorization') === null) {
-            return new Response('Forbidden', 403);
+            return AjaxResponse::res(403,'Forbidden');
         }
 
         if ($this->isValidToken($request->header('Authorization')) === false) {
-            return new Response('Forbidden', 403);
+            //return new Response('Forbidden', 403);
+            return AjaxResponse::res(403,'Forbidden');
         }
 
         return $next($request);
@@ -41,11 +42,11 @@ class AuthorisedApiToken
     {
         $found = $this->userToken->findByAttributes(['access_token' => $this->parseToken($token)]);
 
-        $this->auth->logUserIn($found->user);
-
         if ($found === null) {
             return false;
         }
+
+        $this->auth->logUserIn($found->user);
 
         return true;
     }

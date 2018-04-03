@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Redirect;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\User\Exceptions\InvalidOrExpiredResetCode;
 use Modules\User\Exceptions\UserNotFoundException;
@@ -24,6 +25,7 @@ class AuthController extends BasePublicController
 
     public function getLogin()
     {
+        session(['link' => url()->previous()]);
         return view('user::public.login');
     }
 
@@ -41,9 +43,10 @@ class AuthController extends BasePublicController
         if ($error) {
             return redirect()->back()->withInput()->withError($error);
         }
-
-        return redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
-                ->withSuccess(trans('user::messages.successfully logged in'));
+        return user()->isAdmin() ?
+         redirect()->intended(route(config('asgard.user.config.redirect_route_after_login')))
+                ->withSuccess(trans('user::messages.successfully logged in'))
+            : redirect(session('link'));
     }
 
     public function getRegister()

@@ -63,7 +63,7 @@
                 <div class="pull-left product_info">
                     <h1>{{$product->title}}</h1>
                     <div>Item Code:sdfff</div>
-                    <div class="">Stock: <span class="stock">{{ $product->stock  }}</span> </div>
+                    <div class="">Stock: <span class="stock">{{ $product->stock  }}</span></div>
                     <div class="price">{{$product->price}}</div>
 
                     {{--sku attrs start--}}
@@ -96,19 +96,26 @@
                             ?>
                             <ul>
                                 @foreach($values as $keyv=>$val)
+                                    <?php
+                                    $attribute_options = $query->pluck('options')->first();
+                                    ?>
+
                                     @if( $attr['attr_key'] == 'color' &&  isset( $swatchColors[$val] ) )
-                                        <li class="option" title="{{$val}}" data-attr_key="{{  $attr['attr_key']  }}"
+                                        <li class="option" title="{{$val}}"
+                                            data-attr_key="{{  $attr['attr_key']  }}"
+                                            data-locale_attr_key="{{$attr1->name}}"
+                                            data-locale_val="{{ $attribute_options[$val][$locale] }}"
                                             data-value="{{ $val  }}"><a class="none-padding">
                                                 <img width="30"
                                                      src="{{  $swatchColors[$val]['filepath']  }}"
                                                      alt=""> </a>
                                             <b></b></li>
                                     @else
-                                        <?php
-                                        $attribute_options = $query->pluck('options')->first();
-                                        ?>
                                         <li class="option" data-attr_key="{{  $attr['attr_key']  }}"
-                                            data-value="{{ $val  }}"><a>{{$attribute_options[$val][$locale]}}</a><b></b>
+                                            data-locale_attr_key="{{$attr1->name}}"
+                                            data-value="{{ $val  }}"
+                                            data-locale_val="{{$attribute_options[$val][$locale]}}">
+                                            <a>{{$attribute_options[$val][$locale]}}</a><b></b>
                                         </li>
                                     @endif
                                 @endforeach
@@ -116,17 +123,19 @@
                         </div>
                     @endforeach
 
-                    <div class="option_box qty">
+                    <div class="option_box">
                         <label for="">数量</label>
                         <div class="pull-left qty_div">
                             <span data-action="decrease" class="glyphicon glyphicon-minus qty-action pointer"></span>
-                            <input type="number"  class="qty" value="1">
-                            <span data-action="increase"  class="glyphicon glyphicon-plus qty-action pointer"  aria-hidden="true"></span>
+                            <input type="number" id="quantity" class="qty" value="1">
+                            <span data-action="increase" class="glyphicon glyphicon-plus qty-action pointer"
+                                  aria-hidden="true"></span>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     {{--sku attrs end--}}
-                    <div><a href="javascript:;" class="btn  add_to_cart_btn"><span
+                    <div class="error" style="display: none">请选择属性</div>
+                    <div class="action-btn"><a href="javascript:;" class="btn  add_to_cart_btn" id="addCartBtn"><span
                                     class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a></div>
                 </div>
                 <div class="clearfix"></div>
@@ -137,40 +146,46 @@
 
                 <div class="slideTxtBox">
                     <div class="hd">
-                        <ul><li>详情</li><li>评论</li><li>运费说明</li> </ul>
+                        <ul>
+                            <li>详情</li>
+                            <li>评论</li>
+                            <li>运费说明</li>
+                        </ul>
                     </div>
                     <div class="bd">
-                         <div class="box">
-                             <div class="pic">
-                                 @foreach($product->featured_images as $featuredImage)
-                                     <div class="pic">
-                                         @if(count( $product->featured_images->toArray() )>0)
+                        <div class="box">
+                            <div class="pic">
+                                @foreach($product->featured_images as $featuredImage)
+                                    <div class="pic">
+                                        @if(count( $product->featured_images->toArray() )>0)
 
-                                             <img src="{{$featuredImage->path}}" alt=""/>
-                                         @endif
-                                     </div>
-                                 @endforeach
-                             </div>
-                         </div>
-                         <div class="box">review</div>
-                         <div class="box">
-                             Payment Methods:
-                             FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment methods:
+                                            <img src="{{$featuredImage->path}}" alt=""/>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="box">review</div>
+                        <div class="box">
+                            Payment Methods:
+                            FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment
+                            methods:
 
-                             Global:
+                            Global:
 
-                             1. PayPal
+                            1. PayPal
 
-                             1) Login To Your Account or use Credit Card Express.
-                             2) Enter your Card Details, the order will be shipped to your PayPal address. And click "Submit".
-                             3) Your Payment will be processed and a receipt will be sent to your email inbox.
+                            1) Login To Your Account or use Credit Card Express.
+                            2) Enter your Card Details, the order will be shipped to your PayPal address. And click
+                            "Submit".
+                            3) Your Payment will be processed and a receipt will be sent to your email inbox.
 
-                             2. Credit Card
+                            2. Credit Card
 
-                             1) Choose your shipping address OR create a new one.
-                             2) Enter your Card Details and click "Submit".
-                             3) Your Payment will be processed and a receipt will be sent to your email inbox.
-                         </div>
+                            1) Choose your shipping address OR create a new one.
+                            2) Enter your Card Details and click "Submit".
+                            3) Your Payment will be processed and a receipt will be sent to your email inbox.
+                        </div>
 
                     </div>
                 </div>
@@ -187,7 +202,7 @@
     <script>
         $(function () {
 
-            jQuery(".slideTxtBox").slide({trigger:"click",pnLoop:false});
+            jQuery(".slideTxtBox").slide({trigger: "click", pnLoop: false});
 
             var $easyzoom = $('.easyzoom').easyZoom();
             // Setup thumbnails example
@@ -231,6 +246,7 @@
             });
 
             var selectedItem = {};
+            var selectedItemLocale = {};
 
             $('.option_box .option').click(function () {
                 if ($(this).hasClass('disabled')) return;
@@ -239,12 +255,17 @@
                 var value = $(this).data('value');
                 selectedItem = _.omit(selectedItem, key);
 
+                var keyLocale = $(this).data('locale_attr_key');
+                var valueLocale = $(this).data('locale_val');
+                selectedItemLocale = _.omit(selectedItemLocale, keyLocale);
+
                 if ($(this).hasClass('on')) {
                     $(this).removeClass('on');
                 } else {
                     $(this).siblings('li').removeClass('on');
                     $(this).addClass('on');
                     selectedItem[key] = value;
+                    selectedItemLocale[keyLocale] = valueLocale;
                 }
 
                 var $otherOptionBox = $('.option_box').not($(this).parents('.option_box'));
@@ -262,25 +283,57 @@
                         $(item).removeClass('disabled');
                     }
                 });
-                if (res.length == 1 && _.keys( selectedItem ).length == $attrs.length ) {
-                    $('.price').text(res[0].price);
-                    $('.stock').text(res[0].stock);
+                if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {
+                    $('.error').hide();
+                    var url = '/{{ locale() . '/'. $product->id . '/getPrice' }}';
+
+                    $.post(url, {
+                        _token: '{{ csrf_token()  }}',
+                        qty: $('#uantity').val(),
+                        options: selectedItem
+                    }).then(function (res) {
+                        $('.price').text(res.result.price);
+                        $('.stock').text(res.result.stock);
+                    });
                 }
             });
-            
+
             $('.qty-action[data-action="increase"]').click(function () {
                 var oldV = Number($(this).siblings('.qty').val());
                 oldV++;
-                $(this).siblings('.qty').val(  oldV )
+                $(this).siblings('.qty').val(oldV)
             })
             $('.qty-action[data-action="decrease"]').click(function () {
                 var oldV = Number($(this).siblings('.qty').val());
-                oldV =  oldV > 1 ? oldV-- : oldV;
-                $(this).siblings('.qty').val(  oldV );
-            })
+                oldV = oldV > 1 ? oldV-- : oldV;
+                $(this).siblings('.qty').val(oldV);
+            });
+
+            $('#addCartBtn').click(function () {
+                var isLogin = '{{Auth::check() ? true : false }}';
+                if (!isLogin) {
+                    location.href = "/auth/login";
+                    return;
+                }
+
+                if (_.keys(selectedItem).length !== 4) {
+                    $('.error').show();
+                    return;
+                }
+                var url = '/{{ locale().'/'.$product->id.'/addToCart'  }}';
+                console.log( selectedItemLocale );
+                $.post(url, {
+                    _token: '{{ csrf_token()  }}',
+                    selectedItemLocale:selectedItemLocale,
+                    qty: $('.qty').val(),
+                    options: selectedItem
+                }).then(function (res) {
+                    if (res.code == 0) {
+                        //location.href = "/cart";
+                    }
+                });
+            });
         })
-
-
     </script>
 @stop
 

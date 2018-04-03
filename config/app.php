@@ -190,7 +190,8 @@ return [
         Modules\Core\Providers\AsgardServiceProvider::class,
 
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\AjaxResponseServiceProvider::class
+        \App\Providers\AjaxResponseServiceProvider::class,
+        Overtrue\LaravelShoppingCart\ServiceProvider::class,
     ],
 
     /*
@@ -237,6 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
-        'AjaxResponse' => 'App\Facades\AjaxResponseFacade'
+        'AjaxResponse' => 'App\Facades\AjaxResponseFacade',
+        'ShoppingCart'      => Overtrue\LaravelShoppingCart\Facade::class,
     ],
 ];
