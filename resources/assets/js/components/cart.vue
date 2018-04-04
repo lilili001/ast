@@ -5,7 +5,8 @@
                 :data="tableData3"
                 tooltip-effect="dark"
                 style="width: 100%"
-                @selection-change="handleSelectionChange">
+                @select="handleSelect"
+                >
             <el-table-column
                     type="selection"
                     width="55">
@@ -41,13 +42,13 @@
                     :label="trans('cart.qty')"
                     show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <el-input-number v-model="scope.row.qty" :min="1" :max="scope.row.total" size="mini"></el-input-number>
+                    <el-input-number v-model="scope.row.qty" @change="handleCartItem( scope.row, scope.$index)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
                 </template>
             </el-table-column>
             <el-table-column
                     show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <i class="el-icon-delete pointer" @click="remove(scope.$index,scope.row.__raw_id)"></i>
+                    <i class="el-icon-delete pointer" @click="remove( scope.row, scope.$index)"></i>
                 </template>
             </el-table-column>
         </el-table>
@@ -76,20 +77,37 @@
             }
         },
         methods: {
-            toggleSelection(rows) {
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
+            handleSelect(selection,row){
+                if( selection.length !== this.tableData3.length ){
+                    row.selected = true;
+                }else{
+                    this.tableData3 = _.map( this.tableData3,(item)=>{
+                        item.selected = true;
+                        return item;
                     });
-                } else {
-                    this.$refs.multipleTable.clearSelection();
                 }
-            },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-            },
-            remove(index,rowId){
+                axios.post(route('updateStatus',{product:row.id}),{
+                    data:this.tableData3
+                }).then((res)=>{
 
+                })
+            },
+            handleCartItem(row,index){
+                axios.post( route('updateCart',{product:row.id}),{
+                    rawId:row.__raw_id,
+                    qty:row.qty
+                }).then((res)=>{
+                    if(res.data.code == -1){
+                        this.tableData3[index].qty = row.qty;
+                    }
+                });
+            },
+            remove(row,index){
+                axios.post( route('deleteCartItem',{product:row.id}),{
+                    rawId:row.__raw_id
+                }).then((res)=>{
+                    this.tableData3.splice(index,1);
+                });
             }
         },
         mounted(){

@@ -5,6 +5,10 @@
 @stop
 
 @section('content')
+    <?php
+        
+
+    ?>
     {!! Theme::style('css/easyzoom.css') !!}
     <div class="row page product-detail-page">
         <div class="col-md-12 product-view">
@@ -285,7 +289,7 @@
                 });
                 if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {
                     $('.error').hide();
-                    var url = '/{{ locale() . '/'. $product->id . '/getPrice' }}';
+                    var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';
 
                     $.post(url, {
                         _token: '{{ csrf_token()  }}',
@@ -321,7 +325,6 @@
                     return;
                 }
                 var url = '/{{ locale().'/'.$product->id.'/addToCart'  }}';
-                console.log( selectedItemLocale );
                 $.post(url, {
                     _token: '{{ csrf_token()  }}',
                     selectedItemLocale:selectedItemLocale,
@@ -329,9 +332,10 @@
                     options: selectedItem
                 }).then(function (res) {
                     if (res.code == 0) {
-                        //location.href = "/cart";
+                        location.href = "/cart";
                     }
                 });
+
             });
         })
     </script>

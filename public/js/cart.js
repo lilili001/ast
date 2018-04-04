@@ -90824,6 +90824,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
     props: ['cart-items'],
@@ -90839,21 +90840,41 @@ exports.default = {
     },
 
     methods: {
-        toggleSelection: function toggleSelection(rows) {
+        handleSelect: function handleSelect(selection, row) {
+            if (selection.length !== this.tableData3.length) {
+                row.selected = true;
+            } else {
+                this.tableData3 = _.map(this.tableData3, function (item) {
+                    item.selected = true;
+                    return item;
+                });
+                console.log(this.tableData3);
+            }
+            axios.post(route('updateStatus', { product: row.id }), {
+                data: this.tableData3
+            }).then(function (res) {});
+        },
+        handleCartItem: function handleCartItem(row, index) {
             var _this = this;
 
-            if (rows) {
-                rows.forEach(function (row) {
-                    _this.$refs.multipleTable.toggleRowSelection(row);
-                });
-            } else {
-                this.$refs.multipleTable.clearSelection();
-            }
+            axios.post(route('updateCart', { product: row.id }), {
+                rawId: row.__raw_id,
+                qty: row.qty
+            }).then(function (res) {
+                if (res.data.code == -1) {
+                    _this.tableData3[index].qty = row.qty;
+                }
+            });
         },
-        handleSelectionChange: function handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        remove: function remove(index, rowId) {}
+        remove: function remove(row, index) {
+            var _this2 = this;
+
+            axios.post(route('deleteCartItem', { product: row.id }), {
+                rawId: row.__raw_id
+            }).then(function (res) {
+                _this2.tableData3.splice(index, 1);
+            });
+        }
     },
     mounted: function mounted() {}
 };
@@ -90875,7 +90896,7 @@ var render = function() {
           ref: "multipleTable",
           staticStyle: { width: "100%" },
           attrs: { data: _vm.tableData3, "tooltip-effect": "dark" },
-          on: { "selection-change": _vm.handleSelectionChange }
+          on: { select: _vm.handleSelect }
         },
         [
           _c("el-table-column", { attrs: { type: "selection", width: "55" } }),
@@ -90910,7 +90931,7 @@ var render = function() {
                 fn: function(scope) {
                   return [
                     _c("div", [
-                      _c("a", { attrs: { href: "" } }, [
+                      _c("a", { attrs: { href: scope.row.slug } }, [
                         _vm._v(_vm._s(scope.row.name))
                       ])
                     ]),
@@ -90958,6 +90979,11 @@ var render = function() {
                   return [
                     _c("el-input-number", {
                       attrs: { min: 1, max: scope.row.total, size: "mini" },
+                      on: {
+                        change: function($event) {
+                          _vm.handleCartItem(scope.row, scope.$index)
+                        }
+                      },
                       model: {
                         value: scope.row.qty,
                         callback: function($$v) {
@@ -90983,7 +91009,7 @@ var render = function() {
                       staticClass: "el-icon-delete pointer",
                       on: {
                         click: function($event) {
-                          _vm.remove(scope.$index, scope.row.__raw_id)
+                          _vm.remove(scope.row, scope.$index)
                         }
                       }
                     })

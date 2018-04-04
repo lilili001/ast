@@ -21,14 +21,29 @@ $router->group([], function (Router $router) {
         //'middleware' => config('asgard.product.config.middleware'),
     ]);
 
-    $router->post('{product}/getPrice', [
-        'uses' => 'CartController@getPrice',
+    $router->post('{product}/getSku', [
+        'uses' => 'CartController@getSku',
         'as' => $locale . '.getPrice',
     ]);
 
     $router->post('{product}/addToCart', [
         'uses' => 'CartController@addToCart',
         'as' => $locale . '.addToCart',
+        'middleware' => 'logged.in'
+    ]);
+    $router->post('{product}/updateCart', [
+        'uses' => 'CartController@updateCart',
+        'as' =>  'updateCart',
+        'middleware' => 'logged.in'
+    ]);
+    $router->post('{product}/deleteCartItem', [
+        'uses' => 'CartController@deleteCartItem',
+        'as' =>   'deleteCartItem',
+        'middleware' => 'logged.in'
+    ]);
+    $router->post('{product}/updateStatus', [
+        'uses' => 'CartController@updateStatus',
+        'as' =>   'updateStatus',
         'middleware' => 'logged.in'
     ]);
 

@@ -34,10 +34,11 @@
     </script>
     {!! Theme::style('css/main.css') !!}
     @stack('css-stack')
+    @routes
 </head>
 <body>
 @auth
-@include('partials.admin-bar')
+    @include('partials.admin-bar')
 @endauth
 @include('partials.navigation')
 
