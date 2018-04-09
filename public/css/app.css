@@ -23,6 +23,27 @@
   padding-left: 10px;
 }
 
+.el-input__inner {
+  border-radius: 0 !important;
+}
+
+.el-form-item {
+  margin-bottom: 0 !important;
+}
+
+label {
+  font-weight: normal !important;
+}
+
+.el-radio__label,
+.el-form-item__label {
+  font-size: 12px !important;
+}
+
+.el-textarea__inner {
+  border-radius: 0 !important;
+}
+
 /**********************margins********************************/
 
 .mar-t0 {

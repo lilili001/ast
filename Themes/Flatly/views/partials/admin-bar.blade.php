@@ -41,6 +41,8 @@
                 @if(isset($page))
                     <li class=""><a href="{{ $page->getEditUrl() }}">{{ trans('page::pages.edit-page') }}</a></li>
                 @endif
+                    <li class=""><a href="/cart">购物车</a></li>
+                    <li class=""><a href="/usercenter">用户中心</a></li>
                 <li class=""><a href="{{ route('dashboard.index') }}">{{ trans('core::core.back to backend') }}</a></li>
             </ul>
         </div>

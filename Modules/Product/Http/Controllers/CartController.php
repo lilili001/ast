@@ -9,6 +9,7 @@ use Modules\Media\Image\Imagy;
 use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\ProductRepository;
 use AjaxResponse;
+use Cart;
 use ShoppingCart;
 
 class CartController extends Controller
@@ -26,18 +27,32 @@ class CartController extends Controller
         $this->product = $product;
     }
 
+    public function getCurrentUserCart($type = false)
+    {
+        $items = [];
+        foreach (Cart::contents() as $key => $item) {
+            $equalUserId = $item->options['userId'] == user()->id;
+            $condition = $type ? $equalUserId &&  $item->type == true : $equalUserId ;
+            if ($condition) {
+                $item->__raw_id = $key;
+                $items[] = $item->toArray();
+            }
+        }
+        return $items;
+    }
+
     public function cart()
     {
-        //ShoppingCart::clean();
-
-        $items = ShoppingCart::search(['userId'=>user()->id]);
-        $items = array_values($items->toArray());
+        //Cart::destroy();
+        $items = $this->getCurrentUserCart();
         return view('cart', compact('items'));
     }
 
     public function checkout()
     {
-
+        $user = user()->toArray();
+        $items = $this->getCurrentUserCart(true);
+        return view('checkout',compact('items','user'));
     }
 
     public function getSku(Product $product, Request $request)
@@ -49,7 +64,6 @@ class CartController extends Controller
 
     public function addToCart(Product $product, Request $request)
     {
-        ShoppingCart::associate('Modules\Product\Entities\Product');
         $options = request('options');
         $sku = $this->product->findSku($product, $options);
 
@@ -59,19 +73,22 @@ class CartController extends Controller
             $swatchColors = json_decode($product->swatch_colors, true);
             $imagePath = !empty($swatchColors) ? $swatchColors[$options['color']]['filepath'] : [];
 
-            $data = ShoppingCart::add(
-                $product->id,
-                $product->title,
-                request('qty'),
-                $sku['price'],
-                [
+            $item = [
+                'id' => $product->id,
+                'name' => $product->title,
+                'price' => $sku['price'],
+                'quantity' => request('qty'),
+                'tax' => 0,
+                'options' => [
                     'sku_options' => $options,
                     'selectedItemLocale' => request('selectedItemLocale'),
                     'selected' => false,
                     'image' => !empty($imagePath) ? $imagePath : $this->imagy->getThumbnail($product->featured_images->first()->path, 'smallThumb'),
-                    'slug' => '/product/'.$product->slug,
+                    'slug' => '/product/' . $product->slug,
                     'userId' => user()->id
-                ]);
+                ]
+            ];
+            Cart::insert($item);
 
             return AjaxResponse::success('添加成功', ShoppingCart::all());
         }
@@ -80,33 +97,33 @@ class CartController extends Controller
     public function updateCart(Product $product)
     {
         $rawId = request('rawId');
-        $qty = request('qty');
+        $qty = request('quantity');
 
-        $item = ShoppingCart::get($rawId);
-        $sku = $this->product->findSku($product, $item['sku_options']);
+        $item = Cart::item($rawId);
+        $sku = $this->product->findSku($product, $item->options['sku_options']);
 
-        if ($sku['stock'] < $qty ) {
+        if ($sku['stock'] < $qty) {
             return AjaxResponse::fail('库存不足', $sku['stock']);
-        } else  {
-            ShoppingCart::update($rawId, $qty);
+        } else {
+            Cart::update($rawId, 'quantity', $qty);
             return AjaxResponse::success('修改成功');
         }
     }
 
     public function updateStatus()
     {
-        $data = request('data');
-        $items = ShoppingCart::all();
-        foreach( $data as $item ){
-            ShoppingCart::update(  $item['rawId'],  ['selected' => $item['selected']]);
-        }
+        $rawId = request('rawId');
+        $type = request('type');
+
+        Cart::update($rawId,'type',$type);
+
         return AjaxResponse::success('修改成功');
     }
-    
+
     public function deleteCartItem(Product $product)
     {
         $rawId = request('rawId');
-        $bool = ShoppingCart::remove( $rawId);
+        $bool = Cart::remove($rawId);
         return $bool ? AjaxResponse::success('修改成功') : AjaxResponse::fail('失败');
     }
 }

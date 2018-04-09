@@ -52,10 +52,16 @@ $router->group([], function (Router $router) {
         'uses' => 'CartController@cart',
         'middleware' => 'logged.in'
     ]);
+    $router->get('selectcart',[
+        'as' => $locale . '.product.selectcart',
+        'uses' => 'CartController@selectcart',
+        'middleware' => 'logged.in'
+    ]);
     $router->get('checkout',[
         'as' => $locale . '.product.checkout',
         'uses' => 'CartController@checkout',
     ]);
+
 });
 
 $router->group(['prefix'=>'elastic'],function(Router $router){

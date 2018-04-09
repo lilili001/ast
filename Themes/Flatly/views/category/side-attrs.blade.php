@@ -64,9 +64,11 @@
                         //根据筛选条件 根据product__attr查询 筛选条件 得出产品集合 ids
                         $result = [];
                         $firstVal = reset($newParams);
-                        while (!!list($v1, $v2) = each($newParams)) {
 
-                            if (strstr($v2, '-')) {
+                         
+
+                            foreach( $newParams as $v1=>$v2 ){
+                                if (strstr($v2, '-')) {
                                 $words = explode('-', $v2);
                                 static $query;
                                 $i = 0;
@@ -93,6 +95,9 @@
                                 ])->pluck('product_id')->toArray();
                             }
                             $result = $v2 == $firstVal ? $newPdcIds : array_intersect($result, $newPdcIds);
+                            } 
+
+                            
                         }
 
                         //获得查询的产品结果
@@ -101,7 +106,7 @@
                             $q->where('category_id',$catId);
                         }
                         )->paginate(24);
-                    }
+                    
 
                     ?>
                 <a  data-key="{{ $key }}" data-value="{{$value}}"

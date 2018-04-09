@@ -21,6 +21,7 @@ mix.webpackConfig({
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/cart.js', 'public/js')
+    .js('resources/assets/js/checkout.js', 'public/js')
     .scripts([
         'resources/assets/js/lib/jquery.validate.min.js',
         'resources/assets/js/lib/messages_zh.js'

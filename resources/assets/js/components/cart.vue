@@ -17,7 +17,7 @@
                     :label="trans('cart.product_image')"
                     width="120">
                 <template slot-scope="scope">
-                    <img :src="scope.row.image" alt="">
+                    <img :src="scope.row.options.image" alt="">
                 </template>
             </el-table-column>
 
@@ -28,7 +28,7 @@
                 <template slot-scope="scope">
                     <div><a :href="scope.row.slug">{{scope.row.name}}</a></div>
                     <div><ul class="fon12">
-                        <li v-for="(value,key) in scope.row.selectedItemLocale" :key="key"> {{key}}:{{value}} </li>
+                        <li v-for="(value,key) in (scope.row.options.selectedItemLocale)" :key="key"> {{key}}:{{value}} </li>
                     </ul></div>
                 </template>
             </el-table-column>
@@ -38,11 +38,11 @@
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
-                    prop="qty"
+                prop="quantity"
                     :label="trans('cart.qty')"
                     show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <el-input-number v-model="scope.row.qty" @change="handleCartItem( scope.row, scope.$index)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
+                    <el-input-number  v-model="scope.row.quantity" @change="handleChange(scope.row,$event)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
                 </template>
             </el-table-column>
             <el-table-column
@@ -55,7 +55,7 @@
 
         <div style="margin-top:20px;" class="pull-right">
             <span class="inline-block" style="padding-right:10px;">合计：<h5 class="inline-block">USD $2345.00</h5></span>
-            <el-button type="warning"  plain>结算</el-button>
+            <el-button type="warning" @click="checkout" plain>结算</el-button>
         </div>
     </div>
 </template>
@@ -68,7 +68,7 @@
         props:['cart-items'],
         computed:{
             tableData3:function(){
-                return this.cartItems ? JSON.parse( this.cartItems ) : [];
+                return this.cartItems ?  JSON.parse( this.cartItems ) : [];
             }
         },
         data() {
@@ -78,27 +78,24 @@
         },
         methods: {
             handleSelect(selection,row){
-                if( selection.length !== this.tableData3.length ){
-                    row.selected = true;
-                }else{
-                    this.tableData3 = _.map( this.tableData3,(item)=>{
-                        item.selected = true;
-                        return item;
-                    });
-                }
+                this.multipleSelection = selection;
+                var $isRowSelected = _.where(selection,{'__raw_id':row.__raw_id}).length > 0 ;
+
                 axios.post(route('updateStatus',{product:row.id}),{
-                    data:this.tableData3
+                    rawId:row.__raw_id,
+                    type:$isRowSelected
                 }).then((res)=>{
 
                 })
             },
-            handleCartItem(row,index){
+            handleChange(row,val){
+                let rawId = row.__raw_id;
                 axios.post( route('updateCart',{product:row.id}),{
-                    rawId:row.__raw_id,
-                    qty:row.qty
+                    rawId:rawId,
+                    quantity:val
                 }).then((res)=>{
                     if(res.data.code == -1){
-                        this.tableData3[index].qty = row.qty;
+                        this.tableData3[index].quantity = row.quantity;
                     }
                 });
             },
@@ -108,10 +105,26 @@
                 }).then((res)=>{
                     this.tableData3.splice(index,1);
                 });
+            },
+            checkout(){
+                if(this.multipleSelection.length == 0){
+                    this.$message({
+                        message: '请选择购物车',
+                        type: 'warning'
+                    });
+                    return;
+                }else{
+                      location.href="/checkout";
+                }
             }
         },
         mounted(){
-
+            this.tableData3.forEach(row => {
+                if(row.type){
+                    this.$refs.multipleTable.toggleRowSelection(row,true);
+                    this.multipleSelection.push(row);
+                }
+            });
         }
     }
 </script>

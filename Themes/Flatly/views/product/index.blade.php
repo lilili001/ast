@@ -5,10 +5,6 @@
 @stop
 
 @section('content')
-    <?php
-        
-
-    ?>
     {!! Theme::style('css/easyzoom.css') !!}
     <div class="row page product-detail-page">
         <div class="col-md-12 product-view">
@@ -277,16 +273,19 @@
                 var res = _.where(exsist_skus, selectedItem);
 
                 //除了当前选项 其他项 根据当前所选进行筛选 确定是否可选
-                $otherOptionBox.find('.option').each(function (index, item) {
-                    var curGoup = _.groupBy(res, $(item).data('attr_key'));
-                    var keys = _.keys(curGoup);
+                if(_.keys(selectedItem).length !== $attrs.length){
+                    $otherOptionBox.find('.option').each(function (index, item) {
+                        var curGoup = _.groupBy(res, $(item).data('attr_key'));
+                        var keys = _.keys(curGoup);
 
-                    if (keys.indexOf($(item).data('value')) == -1) {
-                        $(item).addClass('disabled')
-                    } else {
-                        $(item).removeClass('disabled');
-                    }
-                });
+                        if (keys.indexOf($(item).data('value')) == -1) {
+                            $(item).addClass('disabled')
+                        } else {
+                            $(item).removeClass('disabled');
+                        }
+                    });
+                }
+
                 if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {
                     $('.error').hide();
                     var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';

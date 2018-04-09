@@ -21,4 +21,16 @@ $router->group(['prefix' => 'auth'], function (Router $router) {
     $router->post('reset/{id}/{code}', ['as' => 'reset.complete.post', 'uses' => 'AuthController@postResetComplete']);
     # Logout
     $router->get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
+
+
+
+});
+
+$router->group(['middleware' => 'logged.in'],function(Router $router){
+    $router->get('/usercenter', ['as' => 'usercenter', 'uses' => 'PublicController@usercenter']);
+    $router->get('/account', ['as' => 'account', 'uses' => 'PublicController@account']);
+    $router->resource('/address','AddressController');
+    $router->get('/order', ['as' => 'orders', 'uses' => 'PublicController@order']);
+    $router->get('/reviews', ['as' => 'reviews', 'uses' => 'PublicController@reviews']);
+    $router->get('/favorites', ['as' => 'favorites', 'uses' => 'PublicController@favorites']);
 });

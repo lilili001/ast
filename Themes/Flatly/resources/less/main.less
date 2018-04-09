@@ -1,12 +1,17 @@
 
-@import "../../node_modules/bootstrap/less/bootstrap.less";
+//@import "./libraries/bootstrap-3.3.7/less/bootstrap.less";
+@import "https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css";
 @import "../../node_modules/font-awesome/less/font-awesome.less";
 @import (inline) "../../node_modules/prismjs/themes/prism.css";
 @import "variables.less";
 @import "bootswatch";
 @import "./product.less";
-@import "";
 
+.navbar{margin-bottom: 0!important;}
+h1, .h1, h2, .h2, h3, .h3{margin-top:0!important}
+h1{font-size:18px!important}
+h2{font-size:16px!important}
+h3{font-size:15px!important}
 /* Homepage */
 body {
   background:#fff;
@@ -117,6 +122,8 @@ p.small {
 input:focus{outline:none}
 .search-form input{width:300px;padding-left:10px;}
 
+.form-control, input{border-width:1px}
+
 .list-group-item{padding: 0 15px;}
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
   background:#e8e8e8;
@@ -126,3 +133,18 @@ input:focus{outline:none}
 }
 .navbar-default .navbar-nav > li > a{color:#676363}
 .none-padding{padding:0}
+.none-margin{margin:0}
+
+.addressbook thead tr {
+  background: #f7f7f7 none repeat scroll 0 0;
+}
+.addressbook th {
+  border-bottom: 1px solid #4c6b99;
+  font: 13px Bitter,Myriad Pro,Verdana,serif;
+  height: 37px;
+  padding: 0 10px;
+  vertical-align: middle;
+  font-size:12px;
+}
+table > tbody > tr > td, .table > tbody > tr > td{border-bottom:1px solid #ddd}
+.modal-body{padding:15px 30px}
