@@ -19,12 +19,12 @@
             <div class="box-header">
                 <h3 class="box-title">{{ trans('setting::settings.title.module settings') }}</h3>
             </div>
-            <style>
-                a.active {
-                    text-decoration: none;
-                    background-color: #eee;
-                }
-            </style>
+            {{--<style>--}}
+                {{--a.active {--}}
+                    {{--text-decoration: none;--}}
+                    {{--background-color: #eee;--}}
+                {{--}--}}
+            {{--</style>--}}
     		<ul class="nav nav-list">
     		  <?php foreach ($modulesWithSettings as $module => $settings): ?>
                   <li>

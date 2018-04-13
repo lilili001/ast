@@ -16,10 +16,9 @@ class AddressRequest extends FormRequest
         return [
             'email' => 'required|email',
             'telephone' => 'required|numeric',
-            'street' => 'required|min:10',
+            'street' => 'required|unique:customer_address|min:10',
             'country' => 'required',
             'state' => 'required',
-            'city' => 'required',
             'is_default' => 'required',
         ];
     }

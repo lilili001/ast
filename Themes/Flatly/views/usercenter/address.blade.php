@@ -27,9 +27,6 @@
                                         <th width="76" valign="middle" align="center" height="31">First Name</th>
                                         <th width="72" valign="middle" align="center" height="31">Last Name</th>
                                         <th width="100" valign="middle" align="center">Email Address</th>
-                                        <th width="67" valign="middle" align="center">Country</th>
-                                        <th width="79" valign="middle" align="center">State</th>
-                                        <th width="79" valign="middle" align="center">City</th>
                                         <th width="79" valign="middle" align="center">Street</th>
                                         <th width="81" valign="middle" align="center"> Zip Code</th>
                                         <th width="101" valign="middle" align="center">Telephone</th>
@@ -42,9 +39,6 @@
                                             <td>{{$item['first_name']}}</td>
                                             <td>{{$item['last_name']}}</td>
                                             <td>{{$item['email']}}</td>
-                                            <td>{{$item['country']}}</td>
-                                            <td>{{$item['state']}}</td>
-                                            <td>{{$item['city']}}</td>
                                             <td>{{$item['street']}}</td>
                                             <td>{{$item['zip']}}</td>
                                             <td>{{$item['telephone']}}</td>

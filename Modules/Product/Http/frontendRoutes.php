@@ -60,6 +60,7 @@ $router->group([], function (Router $router) {
     $router->get('checkout',[
         'as' => $locale . '.product.checkout',
         'uses' => 'CartController@checkout',
+        'middleware' => 'logged.in'
     ]);
 
 });

@@ -10,6 +10,7 @@ use Modules\Product\Entities\Product;
 use Modules\Product\Repositories\ProductRepository;
 use AjaxResponse;
 use Cart;
+use Modules\User\Entities\Address;
 use ShoppingCart;
 
 class CartController extends Controller
@@ -43,8 +44,8 @@ class CartController extends Controller
 
     public function cart()
     {
-        //Cart::destroy();
         $items = $this->getCurrentUserCart();
+
         return view('cart', compact('items'));
     }
 
@@ -52,7 +53,12 @@ class CartController extends Controller
     {
         $user = user()->toArray();
         $items = $this->getCurrentUserCart(true);
-        return view('checkout',compact('items','user'));
+
+        $addresses = Address::where([
+            'user_id' => user()->id
+        ])->get();
+
+        return view('checkout',compact('items','user','addresses'));
     }
 
     public function getSku(Product $product, Request $request)

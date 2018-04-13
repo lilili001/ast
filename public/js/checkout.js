@@ -90897,37 +90897,136 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     name: 'checkout',
-    props: ['items', 'user'],
+    props: ['items', 'user', 'addresses'],
     computed: {
         orderItems: function orderItems() {
             return JSON.parse(this.items);
         },
         userObj: function userObj() {
             return JSON.parse(this.user);
+        },
+        addrObj: function addrObj() {
+            return JSON.parse(this.addresses);
         }
     },
     data: function data() {
         return {
+            dialogFormVisible: false,
             formData: {
                 address: {
                     email: "",
-                    firstname: "",
-                    lastname: "",
-                    address: '',
+                    first_name: "",
+                    last_name: "",
+                    street: '',
                     country: '',
                     city: '',
                     state: '',
-                    phone: '',
-                    shippingRemark: ''
+                    country_label: '',
+                    city_label: '',
+                    state_label: '',
+                    telephone: '',
+                    zip: '',
+                    is_default: false
                 },
-                shipping: 1,
+                addrSelected: '',
+                shippingfreight: 1,
+                shippingRemark: '',
                 paymentMethod: 1
             },
-            tableData: []
+            tableData: [],
+            countries: [],
+            provinces: [],
+            cities: []
         };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get(route('getAllCountries')).then(function (res) {
+            _this.countries = res.data.result;
+        });
+    },
+    mounted: function mounted() {
+        var obj = this.addrObj.find(function (item) {
+            return item.is_default == 1;
+        });
+        this.formData.addrSelected = obj.address_id;
+    },
+
+    methods: {
+        changeCountry: function changeCountry(val) {
+            var _this2 = this;
+
+            if (!val) return;
+            this.provinces = this.cities = [];
+            this.formData.address.state = this.formData.address.city = '';
+
+            var obj = {};
+            obj = this.countries.find(function (item) {
+                return item.id === val;
+            });
+            this.formData.address.country_label = obj.name_en;
+
+            axios.get(route('getAllProvinces', { 'countryId': val })).then(function (res) {
+                _this2.provinces = res.data.result;
+            });
+        },
+        changeProvince: function changeProvince(val) {
+            var _this3 = this;
+
+            if (!val) return;
+            this.cities = [];
+            this.formData.address.city = '';
+
+            var obj = {};
+            obj = this.provinces.find(function (item) {
+                return item.id === val;
+            });
+            this.formData.address.state_label = obj.name_en;
+
+            axios.get(route('getAllCities', { 'provinceId': val })).then(function (res) {
+                _this3.cities = res.data.result;
+            });
+        },
+        changeCity: function changeCity(val) {
+            if (!val) return;
+            var obj = {};
+            obj = this.cities.find(function (item) {
+                return item.id === val;
+            });
+            this.formData.address.city_label = obj.name_en;
+        },
+        saveAddress: function saveAddress() {
+            var _this4 = this;
+
+            axios.post(route('address.store'), this.formData.address).then(function (res) {
+                if (res.data.code == 0) {
+                    _this4.dialogFormVisible = false;
+                    location.reload();
+                }
+            });
+        }
     }
 };
 
@@ -90948,233 +91047,223 @@ var render = function() {
         [
           _c(
             "el-row",
-            { attrs: { gutter: 20 } },
             [
               _c(
-                "el-col",
-                { attrs: { span: 8 } },
+                "el-card",
+                [
+                  _c("h4", [_vm._v("shipping Adress")]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c(
+                    "el-button",
+                    {
+                      attrs: { type: "text" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialogFormVisible = true
+                        }
+                      }
+                    },
+                    [_vm._v("新增收货地址")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clearfix" }),
+                  _vm._v(" "),
+                  _c(
+                    "el-radio-group",
+                    {
+                      model: {
+                        value: _vm.formData.addrSelected,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formData, "addrSelected", $$v)
+                        },
+                        expression: "formData.addrSelected"
+                      }
+                    },
+                    _vm._l(_vm.addrObj, function(addr, key) {
+                      return _c(
+                        "el-radio",
+                        { key: key, attrs: { label: addr.address_id } },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(
+                                addr.country_label +
+                                  " " +
+                                  addr.state_label +
+                                  " " +
+                                  addr.city_label +
+                                  "   " +
+                                  addr.street +
+                                  (addr.is_default == 1 ? "(默认地址)" : "")
+                              ) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-card",
+                { staticClass: "mar-t20", attrs: { shadow: "hover" } },
                 [
                   _c(
-                    "el-card",
-                    { attrs: { shadow: "hover" } },
+                    "section",
                     [
-                      _c("h4", [_vm._v("shipping Adress")]),
+                      _c("h4", [_vm._v("Payment Method")]),
                       _vm._v(" "),
                       _c(
-                        "el-form-item",
-                        { attrs: { label: "邮箱地址" } },
-                        [
-                          _c("el-input", {
-                            attrs: { size: "small" },
-                            model: {
-                              value: _vm.formData.address.name,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formData.address, "name", $$v)
-                              },
-                              expression: "formData.address.name"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "姓名" } },
-                        [
-                          _c(
-                            "el-col",
-                            {
-                              staticStyle: { "padding-left": "0" },
-                              attrs: { span: 11 }
+                        "el-radio-group",
+                        {
+                          model: {
+                            value: _vm.formData.paymentMethod,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formData, "paymentMethod", $$v)
                             },
-                            [
-                              _c("el-input", {
-                                attrs: { size: "small" },
-                                model: {
-                                  value: _vm.formData.address.firstname,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.formData.address,
-                                      "firstname",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "formData.address.firstname"
-                                }
-                              })
-                            ],
-                            1
-                          ),
+                            expression: "formData.paymentMethod"
+                          }
+                        },
+                        [
+                          _c("el-radio", { attrs: { label: 1 } }, [
+                            _vm._v("Check / Money Order")
+                          ]),
                           _vm._v(" "),
-                          _c(
-                            "el-col",
-                            { staticClass: "line", attrs: { span: 2 } },
-                            [_vm._v("-")]
-                          ),
+                          _c("el-radio", { attrs: { label: 2 } }, [
+                            _vm._v("PayPal Express Payments")
+                          ]),
                           _vm._v(" "),
-                          _c(
-                            "el-col",
-                            { attrs: { span: 11 } },
-                            [
-                              _c("el-input", {
-                                attrs: { size: "small" },
-                                model: {
-                                  value: _vm.formData.address.lastname,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.formData.address,
-                                      "lastname",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "formData.address.lastname"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "街道地址" } },
-                        [
-                          _c("el-input", {
-                            attrs: { size: "small" },
-                            model: {
-                              value: _vm.formData.address.address,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formData.address, "address", $$v)
-                              },
-                              expression: "formData.address.address"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "国家" } },
-                        [
-                          _c(
-                            "el-select",
-                            {
-                              attrs: { size: "small", placeholder: "活动区域" },
-                              model: {
-                                value: _vm.formData.address.country,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formData.address, "country", $$v)
-                                },
-                                expression: "formData.address.country"
-                              }
-                            },
-                            [
-                              _c("el-option", {
-                                attrs: { label: "区域一", value: "shanghai" }
-                              }),
-                              _vm._v(" "),
-                              _c("el-option", {
-                                attrs: { label: "区域二", value: "beijing" }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "城市" } },
-                        [
-                          _c(
-                            "el-select",
-                            {
-                              attrs: { size: "small", placeholder: "活动区域" },
-                              model: {
-                                value: _vm.formData.address.city,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formData.address, "city", $$v)
-                                },
-                                expression: "formData.address.city"
-                              }
-                            },
-                            [
-                              _c("el-option", {
-                                attrs: { label: "区域一", value: "shanghai" }
-                              }),
-                              _vm._v(" "),
-                              _c("el-option", {
-                                attrs: { label: "区域二", value: "beijing" }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "州县" } },
-                        [
-                          _c("el-input", {
-                            attrs: { size: "small" },
-                            model: {
-                              value: _vm.formData.address.state,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formData.address, "state", $$v)
-                              },
-                              expression: "formData.address.state"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "手机号码" } },
-                        [
-                          _c("el-input", {
-                            attrs: { size: "small" },
-                            model: {
-                              value: _vm.formData.address.phone,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formData.address, "phone", $$v)
-                              },
-                              expression: "formData.address.phone"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "发货备注" } },
-                        [
-                          _c("el-input", {
-                            attrs: { size: "small", type: "textarea" },
-                            model: {
-                              value: _vm.formData.address.shippingRemark,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.formData.address,
-                                  "shippingRemark",
-                                  $$v
-                                )
-                              },
-                              expression: "formData.address.shippingRemark"
-                            }
-                          })
+                          _c("el-radio", { attrs: { label: 3 } }, [
+                            _vm._v("支付宝支付")
+                          ]),
+                          _vm._v(" "),
+                          _c("el-radio", { attrs: { label: 4 } }, [
+                            _vm._v("微信支付")
+                          ])
                         ],
                         1
                       )
+                    ],
+                    1
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "el-card",
+                { staticClass: "mar-t20", attrs: { shadow: "hover" } },
+                [
+                  _c("h4", [_vm._v("Order Summary")]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("section", [
+                    _c(
+                      "dl",
+                      [
+                        _c("dt", { staticClass: "mar-b20" }, [
+                          _vm._v("Items in cart")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.orderItems, function(item, key) {
+                          return _c(
+                            "dd",
+                            { key: key },
+                            [
+                              _c(
+                                "el-row",
+                                { attrs: { gutter: 10 } },
+                                [
+                                  _c("el-col", { attrs: { span: 4 } }, [
+                                    _c("img", {
+                                      attrs: {
+                                        width: "40",
+                                        src: item.options.image,
+                                        alt: ""
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("el-col", { attrs: { span: 14 } }, [
+                                    _c("div", [_vm._v(_vm._s(item.name))]),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _vm._v("qty:" + _vm._s(item.quantity))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      _vm._l(
+                                        item.options.selectedItemLocale,
+                                        function(option, opkey, index) {
+                                          return _c("span", [
+                                            _vm._v(
+                                              "\n                                            " +
+                                                _vm._s(opkey) +
+                                                ":" +
+                                                _vm._s(option) +
+                                                "\n                                            "
+                                            )
+                                          ])
+                                        }
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "el-col",
+                                    {
+                                      staticClass: "pull-right",
+                                      attrs: { span: 6 }
+                                    },
+                                    [_vm._v("$54.00")]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              key !== _vm.orderItems.length - 1
+                                ? _c("hr", {
+                                    staticStyle: { margin: "10px auto" }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "el-card",
+                { staticClass: "mar-t20" },
+                [
+                  _c(
+                    "el-form-item",
+                    { staticClass: "mar-t20", attrs: { label: "备注" } },
+                    [
+                      _c("el-input", {
+                        attrs: { size: "small", type: "textarea" },
+                        model: {
+                          value: _vm.formData.address.shippingRemark,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.formData.address,
+                              "shippingRemark",
+                              $$v
+                            )
+                          },
+                          expression: "formData.address.shippingRemark"
+                        }
+                      })
                     ],
                     1
                   )
@@ -91182,232 +91271,336 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("el-col", { attrs: { span: 8 } }, [
-                _c(
-                  "div",
-                  { staticClass: "grid-content bg-purple" },
-                  [
-                    _c("el-card", { attrs: { shadow: "hover" } }, [
-                      _c(
-                        "section",
-                        [
-                          _c("h4", [_vm._v("address method")]),
-                          _vm._v(" "),
-                          _c(
-                            "el-radio-group",
-                            {
-                              model: {
-                                value: _vm.formData.shipping,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formData, "shipping", $$v)
-                                },
-                                expression: "formData.shipping"
-                              }
-                            },
-                            [
-                              _c("el-radio", { attrs: { label: 1 } }, [
-                                _c("span", [_vm._v("$0.00")]),
-                                _c("span", [_vm._v("Free")]),
-                                _c("span", [_vm._v("Free Shipping")])
-                              ]),
-                              _vm._v(" "),
-                              _c("el-radio", { attrs: { label: 2 } }, [
-                                _c("span", [_vm._v("$10.00")]),
-                                _c("span", [_vm._v("Table Rate")]),
-                                _c("span", [_vm._v("Best Way")])
-                              ]),
-                              _vm._v(" "),
-                              _c("el-radio", { attrs: { label: 3 } }, [
-                                _c("span", [_vm._v("$20.00")]),
-                                _c("span", [_vm._v("Fixed")]),
-                                _c("span", [_vm._v("Flat Rate")])
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "el-card",
-                      { staticClass: "mar-t20", attrs: { shadow: "hover" } },
-                      [
-                        _c(
-                          "section",
-                          [
-                            _c("h4", [_vm._v("Payment Method")]),
-                            _vm._v(" "),
-                            _c(
-                              "el-radio-group",
-                              {
-                                model: {
-                                  value: _vm.formData.paymentMethod,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.formData, "paymentMethod", $$v)
-                                  },
-                                  expression: "formData.paymentMethod"
-                                }
-                              },
-                              [
-                                _c("el-radio", { attrs: { label: 1 } }, [
-                                  _vm._v("Check / Money Order")
-                                ]),
-                                _vm._v(" "),
-                                _c("el-radio", { attrs: { label: 2 } }, [
-                                  _vm._v("PayPal Express Payments")
-                                ]),
-                                _vm._v(" "),
-                                _c("el-radio", { attrs: { label: 3 } }, [
-                                  _vm._v("支付宝支付")
-                                ]),
-                                _vm._v(" "),
-                                _c("el-radio", { attrs: { label: 4 } }, [
-                                  _vm._v("微信支付")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
               _c(
-                "el-col",
-                { attrs: { span: 8 } },
+                "section",
+                { staticClass: "pull-right mar-t20" },
                 [
                   _c(
-                    "el-card",
-                    { attrs: { shadow: "hover" } },
+                    "el-row",
+                    { attrs: { gutter: 10 } },
                     [
-                      _c("h4", [_vm._v("Order Summary")]),
-                      _vm._v(" "),
-                      _c("hr"),
-                      _vm._v(" "),
-                      _c("section", [
-                        _c(
-                          "dl",
-                          [
-                            _c("dt", { staticClass: "mar-b20" }, [
-                              _vm._v("Items in cart")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.orderItems, function(item, key) {
-                              return _c(
-                                "dd",
-                                { key: key },
-                                [
-                                  _c(
-                                    "el-row",
-                                    { attrs: { gutter: 10 } },
-                                    [
-                                      _c("el-col", { attrs: { span: 4 } }, [
-                                        _c("img", {
-                                          attrs: {
-                                            width: "40",
-                                            src: item.options.image,
-                                            alt: ""
-                                          }
-                                        })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("el-col", { attrs: { span: 14 } }, [
-                                        _c("div", [_vm._v(_vm._s(item.name))]),
-                                        _vm._v(" "),
-                                        _c("div", [
-                                          _vm._v("qty:" + _vm._s(item.quantity))
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          _vm._l(
-                                            item.options.selectedItemLocale,
-                                            function(option, opkey, index) {
-                                              return _c("span", [
-                                                _vm._v(
-                                                  "\n                                            " +
-                                                    _vm._s(opkey) +
-                                                    ":" +
-                                                    _vm._s(option) +
-                                                    "\n                                            "
-                                                )
-                                              ])
-                                            }
-                                          )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "el-col",
-                                        {
-                                          staticClass: "pull-right",
-                                          attrs: { span: 6 }
-                                        },
-                                        [_vm._v("$54.00")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("hr", {
-                                    staticStyle: { margin: "10px auto" }
-                                  })
-                                ],
-                                1
-                              )
-                            })
-                          ],
-                          2
-                        )
+                      _c("el-col", { attrs: { span: 18 } }, [
+                        _vm._v("Cart Total:")
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "section",
-                        [
-                          _c(
-                            "el-row",
-                            { attrs: { gutter: 10 } },
-                            [
-                              _c("el-col", { attrs: { span: 18 } }, [
-                                _vm._v("Cart Total:")
-                              ]),
-                              _vm._v(" "),
-                              _c("el-col", { attrs: { span: 6 } }, [
-                                _vm._v("$54.00")
-                              ])
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("div", [_vm._v("Free Shipping")])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("hr"),
-                      _vm._v(" "),
-                      _c("h4", [_vm._v("Order Total:$54.00")]),
-                      _vm._v(" "),
-                      _c(
-                        "el-button",
-                        { attrs: { round: false, type: "primary" } },
-                        [_vm._v("Place Oder")]
-                      )
+                      _c("el-col", { attrs: { span: 6 } }, [_vm._v("$54.00")])
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c("div", [_vm._v("Free Shipping")]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v("Order Total:$54.00")]),
+                  _vm._v(" "),
+                  _c(
+                    "el-button",
+                    { attrs: { round: false, type: "primary" } },
+                    [_vm._v("Place Oder")]
                   )
                 ],
                 1
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-dialog",
+            {
+              attrs: { title: "收货地址", visible: _vm.dialogFormVisible },
+              on: {
+                "update:visible": function($event) {
+                  _vm.dialogFormVisible = $event
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                [
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "邮箱地址" } },
+                    [
+                      _c("el-input", {
+                        attrs: { size: "small" },
+                        model: {
+                          value: _vm.formData.address.email,
+                          callback: function($$v) {
+                            _vm.$set(_vm.formData.address, "email", $$v)
+                          },
+                          expression: "formData.address.email"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "姓名" } },
+                    [
+                      _c(
+                        "el-col",
+                        {
+                          staticStyle: { "padding-left": "0" },
+                          attrs: { span: 11 }
+                        },
+                        [
+                          _c("el-input", {
+                            attrs: { size: "small" },
+                            model: {
+                              value: _vm.formData.address.first_name,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.formData.address,
+                                  "first_name",
+                                  $$v
+                                )
+                              },
+                              expression: "formData.address.first_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-col",
+                        {
+                          staticClass: "line",
+                          staticStyle: { "text-align": "center" },
+                          attrs: { span: 2 }
+                        },
+                        [_vm._v("-")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-col",
+                        { attrs: { span: 11 } },
+                        [
+                          _c("el-input", {
+                            attrs: { size: "small" },
+                            model: {
+                              value: _vm.formData.address.last_name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formData.address, "last_name", $$v)
+                              },
+                              expression: "formData.address.last_name"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "街道地址" } },
+                    [
+                      _c("el-input", {
+                        attrs: { size: "small" },
+                        model: {
+                          value: _vm.formData.address.street,
+                          callback: function($$v) {
+                            _vm.$set(_vm.formData.address, "street", $$v)
+                          },
+                          expression: "formData.address.street"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "国家" } },
+                    [
+                      _c(
+                        "el-select",
+                        {
+                          attrs: {
+                            "auto-complete": "",
+                            filterable: "",
+                            clearable: "",
+                            size: "small",
+                            placeholder: "请选择国家"
+                          },
+                          on: { change: _vm.changeCountry },
+                          model: {
+                            value: _vm.formData.address.country,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formData.address, "country", $$v)
+                            },
+                            expression: "formData.address.country"
+                          }
+                        },
+                        _vm._l(_vm.countries, function(country, key) {
+                          return _c("el-option", {
+                            key: key,
+                            attrs: { label: country.name_en, value: country.id }
+                          })
+                        })
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "州县" } },
+                    [
+                      _c(
+                        "el-select",
+                        {
+                          attrs: {
+                            filterable: "",
+                            clearable: "",
+                            size: "small",
+                            placeholder: "请选择省份"
+                          },
+                          on: { change: _vm.changeProvince },
+                          model: {
+                            value: _vm.formData.address.state,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formData.address, "state", $$v)
+                            },
+                            expression: "formData.address.state"
+                          }
+                        },
+                        _vm._l(_vm.provinces, function(item, key) {
+                          return _c("el-option", {
+                            key: key,
+                            attrs: { label: item.name_en, value: item.id }
+                          })
+                        })
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "城市" } },
+                    [
+                      _c(
+                        "el-select",
+                        {
+                          attrs: {
+                            filterable: "",
+                            clearable: "",
+                            size: "small",
+                            placeholder: "请选择城市"
+                          },
+                          on: { change: _vm.changeCity },
+                          model: {
+                            value: _vm.formData.address.city,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formData.address, "city", $$v)
+                            },
+                            expression: "formData.address.city"
+                          }
+                        },
+                        _vm._l(_vm.cities, function(item, key) {
+                          return _c("el-option", {
+                            key: key,
+                            attrs: { label: item.name_en, value: item.id }
+                          })
+                        })
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "zip" } },
+                    [
+                      _c("el-input", {
+                        attrs: { size: "small" },
+                        model: {
+                          value: _vm.formData.address.zip,
+                          callback: function($$v) {
+                            _vm.$set(_vm.formData.address, "zip", $$v)
+                          },
+                          expression: "formData.address.zip"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: "手机号码" } },
+                    [
+                      _c("el-input", {
+                        attrs: { size: "small" },
+                        model: {
+                          value: _vm.formData.address.telephone,
+                          callback: function($$v) {
+                            _vm.$set(_vm.formData.address, "telephone", $$v)
+                          },
+                          expression: "formData.address.telephone"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-checkbox",
+                    {
+                      model: {
+                        value: _vm.formData.address.is_default,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formData.address, "is_default", $$v)
+                        },
+                        expression: "formData.address.is_default"
+                      }
+                    },
+                    [_vm._v("Is Default")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "dialog-footer",
+                  attrs: { slot: "footer" },
+                  slot: "footer"
+                },
+                [
+                  _c(
+                    "el-button",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.dialogFormVisible = false
+                        }
+                      }
+                    },
+                    [_vm._v("取 消")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-button",
+                    {
+                      attrs: { type: "primary" },
+                      on: { click: _vm.saveAddress }
+                    },
+                    [_vm._v("确 定")]
+                  )
+                ],
+                1
+              )
+            ]
           )
         ],
         1
