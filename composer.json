@@ -1,9 +1,9 @@
 {
-    "name": "asgardcms/platform",
-    "description": "The AsgardCms application.",
+    "name": "ast/cms",
+    "description": "The ast application.",
     "keywords": [
         "cms",
-        "asgardcms",
+        "ast",
         "multilingual",
         "laravel",
         "laravel5"
@@ -28,7 +28,6 @@
         "idavoll/translation-module": "~3.0", 
         "idavoll/tag-module": "~3.0",
         "laravel/scout": "^3.0",
-        "idavoll/adminlte-theme": "~3.0",
         "elasticsearch/elasticsearch": "5.0.x-dev",
         "overtrue/laravel-shopping-cart": "^2.0",
         "moltin/laravel-cart": "^5.0",

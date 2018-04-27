@@ -2,7 +2,7 @@
   "_args": [
     [
       "font-awesome@4.7.0",
-      "/Users/nicolaswidart/Sites/Asguard/Platform/Themes/Adminlte"
+      "F:\\laragon\\www\\ast\\Themes\\Adminlte"
     ]
   ],
   "_from": "font-awesome@4.7.0",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/font-awesome/-/font-awesome-4.7.0.tgz",
   "_spec": "4.7.0",
-  "_where": "/Users/nicolaswidart/Sites/Asguard/Platform/Themes/Adminlte",
+  "_where": "F:\\laragon\\www\\ast\\Themes\\Adminlte",
   "author": {
     "name": "Dave Gandy",
     "email": "dave@fontawesome.io",
