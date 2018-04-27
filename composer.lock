@@ -48,20 +48,20 @@
         },
         {
             "name": "ast/blog-module",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/blog.git",
-                "reference": "ad2fbb13ad52539a10a58903ddc32ae8b5168a89"
+                "reference": "876f4ee600107e959ebe55ea0d801c182a0c061c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/blog/zipball/ad2fbb13ad52539a10a58903ddc32ae8b5168a89",
-                "reference": "ad2fbb13ad52539a10a58903ddc32ae8b5168a89",
+                "url": "https://api.github.com/repos/lilili001/blog/zipball/876f4ee600107e959ebe55ea0d801c182a0c061c",
+                "reference": "876f4ee600107e959ebe55ea0d801c182a0c061c",
                 "shasum": ""
             },
             "require": {
-                "ast/media-module": "~1.0",
+                "ast/media-module": "~1.2",
                 "composer/installers": "~1.0",
                 "doctrine/dbal": "^2.5",
                 "idavoll/core-module": "~3.0",
@@ -97,7 +97,7 @@
                 "blog",
                 "journal"
             ],
-            "time": "2018-04-27T05:45:25+00:00"
+            "time": "2018-04-27T08:02:32+00:00"
         },
         {
             "name": "ast/media-module",

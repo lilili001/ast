@@ -24,7 +24,7 @@
                                     <div class="pic">
                                         @if(count( $product->featured_images->toArray() )>0)
                                             <a href="{{$featuredImage->path}}"
-                                               data-standard="@thumbnail($featuredImage->path, 'productThumb')">
+                                               data-standard="@thumbnail($featuredImage->path, 'largeThumb')">
                                                 <img src="@thumbnail($featuredImage->path, 'mediumThumb')" alt=""/>
                                             </a>
                                         @else
@@ -44,10 +44,10 @@
 
                         @if(count( $product->featured_images->toArray() )>0)
                             <a href="{{$product->featured_images->first()->path}}"
-                               data-standard="@thumbnail($featuredImage->path, 'productThumb')">
+                               data-standard="@thumbnail($featuredImage->path, 'largeThumb')">
                                 @if( !empty($product->featured_images) )
                                     <img class="main-img"
-                                         src="@thumbnail($product->featured_images->first()->path, 'productThumb')"
+                                         src="@thumbnail($product->featured_images->first()->path, 'largeThumb')"
                                          alt="" width="640"
                                          height="360"/>
                                 @endif
@@ -67,6 +67,7 @@
                     <div class="price">{{$product->price}}</div>
 
                     {{--sku attrs start--}}
+                    <div class="product_options">
                     <?php
                     $productId = $product->id;
                     $attrs = \Modules\Product\Entities\Attr::where([
@@ -92,10 +93,9 @@
                             $locale = locale();
 
                             $attrSkus = $product->sku->pluck('settings')->toArray();
-
                             ?>
-                            <ul>
-                                @foreach($values as $keyv=>$val)
+                            <ul attr="{{ $attr['attr_key']  }}">
+                                @foreach($values as $key=>$val)
                                     <?php
                                     $attribute_options = $query->pluck('options')->first();
                                     ?>
@@ -115,14 +115,14 @@
                                             data-locale_attr_key="{{$attr1->name}}"
                                             data-value="{{ $val  }}"
                                             data-locale_val="{{$attribute_options[$val][$locale]}}">
-                                            <a>{{$attribute_options[$val][$locale]}}</a><b></b>
+                                            <a  attr="{{$attr['attr_key']}}" value="{{ $val}}" >{{$attribute_options[$val][$locale]}}</a><b></b>
                                         </li>
                                     @endif
                                 @endforeach
                             </ul>
                         </div>
                     @endforeach
-
+                    </div>
                     <div class="option_box">
                         <label for="">数量</label>
                         <div class="pull-left qty_div">
@@ -248,59 +248,72 @@
             var selectedItem = {};
             var selectedItemLocale = {};
 
-            $('.option_box .option').click(function () {
-                if ($(this).hasClass('disabled')) return;
+            var selectedObj = {};
+            //1. 选择一个属性 color
+            $('.product_options li').click(function(){
+                if( $(this).children('a').hasClass('no_active') ) return;
 
-                var key = $(this).data('attr_key');
-                var value = $(this).data('value');
-                selectedItem = _.omit(selectedItem, key);
+                $(this).siblings().removeClass('on');
+               // $(this).siblings('li').children('a').removeClass('current');
 
-                var keyLocale = $(this).data('locale_attr_key');
-                var valueLocale = $(this).data('locale_val');
-                selectedItemLocale = _.omit(selectedItemLocale, keyLocale);
+                //获取选中的属性
+                var attr = $(this).children('a').attr('attr');
+                var value = $(this).children('a').attr('value');
 
-                if ($(this).hasClass('on')) {
+                if( $(this).hasClass('on') ){
                     $(this).removeClass('on');
-                } else {
-                    $(this).siblings('li').removeClass('on');
+                    //$(this).children('a').removeClass('current');
+                    //删除以选中元素
+                    selectedObj = _.omit(selectedObj, attr);
+                }else{
                     $(this).addClass('on');
-                    selectedItem[key] = value;
-                    selectedItemLocale[keyLocale] = valueLocale;
+                    //$(this).children('a').addClass('current');
+                    selectedObj[attr] = value;
                 }
+                //console.log( selectedObj );
 
-                var $otherOptionBox = $('.option_box').not($(this).parents('.option_box'));
+                //2.获取所有该color的数据
+                $('ul').each(function(index,item){
+                    var curRowAttr = $(item).attr('attr');
 
-                var res = _.where(exsist_skus, selectedItem);
+                    var selectedObjNew = Object.assign( {} , selectedObj );
 
-                //除了当前选项 其他项 根据当前所选进行筛选 确定是否可选
-                if(_.keys(selectedItem).length !== $attrs.length){
-                    $otherOptionBox.find('.option').each(function (index, item) {
-                        var curGoup = _.groupBy(res, $(item).data('attr_key'));
-                        var keys = _.keys(curGoup);
+                    selectedObjNew = _.omit( selectedObjNew , curRowAttr );
 
-                        if (keys.indexOf($(item).data('value')) == -1) {
-                            $(item).addClass('disabled')
-                        } else {
-                            $(item).removeClass('disabled');
+                    console.log(  'selectedObj' ,  selectedObj   );
+                    console.log(  'selectedObjNew' ,  selectedObjNew   );
+
+                    var lis = $(this).children('li');
+                    lis.children('a').removeClass('no_active');
+                    lis.each(function(index,item){
+                        var a = $(item).children('a');
+                        var attr = a.attr('attr');
+                        var value = a.attr('value');
+                        selectedObjNew[attr] = value;
+                        var res = _.where( exsist_skus , selectedObjNew );
+                        if(res.length == 0){
+                            $(item).children('a').addClass('no_active')
                         }
                     });
-                }
-
-                if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {
-                    $('.error').hide();
-                    var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';
-
-                    $.post(url, {
-                        _token: '{{ csrf_token()  }}',
-                        qty: $('#uantity').val(),
-                        options: selectedItem
-                    }).then(function (res) {
-                        $('.price').text(res.result.price);
-                        $('.stock').text(res.result.stock);
-                    });
-                }
+                })
             });
 
+                {{--if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {--}}
+                    {{--$('.error').hide();--}}
+                    {{--var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';--}}
+
+                    {{--$.post(url, {--}}
+                        {{--_token: '{{ csrf_token()  }}',--}}
+                        {{--qty: $('#uantity').val(),--}}
+                        {{--options: selectedItem--}}
+                    {{--}).then(function (res) {--}}
+                        {{--$('.price').text(res.result.price);--}}
+                        {{--$('.stock').text(res.result.stock);--}}
+                    {{--});--}}
+                {{--}--}}
+
+
+            //数量增减
             $('.qty-action[data-action="increase"]').click(function () {
                 var oldV = Number($(this).siblings('.qty').val());
                 oldV++;

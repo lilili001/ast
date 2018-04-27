@@ -5,3 +5,5 @@ build/
 .idea/
 public/themes/
 Themes/Adminlte/assets/
+Modules/
+public/js

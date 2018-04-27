@@ -2770,16 +2770,10 @@ footer li.active a {
 .product-detail-page .option_box .option a .none-padding {
   padding: 0;
 }
-.product-detail-page .option_box .option.disabled {
-  cursor: not-allowed;
-}
-.product-detail-page .option_box .option.disabled a {
+.product-detail-page .option_box .option a.no_active {
   color: #999;
   border: 1px dashed #ddd;
   cursor: not-allowed;
-}
-.product-detail-page .option_box .option.disabled a:hover {
-  color: #999;
 }
 .product-detail-page .option_box .option.on a {
   border: 1px solid red;
