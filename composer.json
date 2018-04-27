@@ -18,18 +18,8 @@
         "nwidart/laravel-modules": "~2.0",
         "cartalyst/sentinel": "~2.0",
         "idavoll/core-module": "~3.0",
-        "idavoll/dashboard-module": "~3.0",
-
-        "idavoll/setting-module": "~3.0",
-
-        "idavoll/page-module": "~3.0",
-        "idavoll/menu-module": "~3.0",
         "idavoll/workshop-module": "~3.0",
-        "idavoll/translation-module": "~3.0",
-        "idavoll/tag-module": "~3.0",
-
-        "idavoll/adminlte-theme": "~3.0",
-        "asgardcms/blog-module": "^3.0",
+        "idavoll/translation-module": "~3.0", 
         "laravel/scout": "^3.0",
         "tamayo/laravel-scout-elastic": "3.0.8",
         "elasticsearch/elasticsearch": "5.0.x-dev",
