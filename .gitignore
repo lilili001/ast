@@ -1,0 +1,7 @@
+.php_cs.cache
+vendor/
+node_modules/
+build/
+.idea/
+public/themes/
+Themes/Adminlte/assets/
