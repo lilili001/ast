@@ -192,16 +192,16 @@
         },
         {
             "name": "ast/tt-module",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/tt.git",
-                "reference": "ed23f540b2f16ad77f622193219da6c357d78da9"
+                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/tt/zipball/ed23f540b2f16ad77f622193219da6c357d78da9",
-                "reference": "ed23f540b2f16ad77f622193219da6c357d78da9",
+                "url": "https://api.github.com/repos/lilili001/tt/zipball/0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
+                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
                 "shasum": ""
             },
             "require": {
@@ -220,6 +220,9 @@
                         "Modules\\Tt\\Providers\\TtServiceProvider"
                     ],
                     "aliases": []
+                },
+                "extra": {
+                    "module-dir": "Custom"
                 }
             },
             "autoload": {
@@ -237,7 +240,7 @@
                     "email": "n.widart@gmail.com"
                 }
             ],
-            "time": "2018-04-27T02:57:28+00:00"
+            "time": "2018-04-27T06:22:31+00:00"
         },
         {
             "name": "ast/user-module",
