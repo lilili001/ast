@@ -33,10 +33,10 @@
         "moltin/laravel-cart": "^5.0",
         "ast/attribute-module": "^1.0",
         "joshbrw/laravel-module-installer": "^0.1.4",
-        "ast/media-module": "^1.09",
         "ast/tt-module": "^1.0",
         "ast/product-module": "^1.0",
-        "ast/blog-module": "^1.0"
+        "ast/blog-module": "^1.0",
+        "ast/media-module": "^1.2" 
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

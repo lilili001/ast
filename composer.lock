@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "869a679d25b2630498f45a5a0baa7f07",
+    "content-hash": "04c81af231c6bc3c01ec8b5808c59438",
     "packages": [
         {
             "name": "ast/attribute-module",
@@ -48,7 +48,7 @@
         },
         {
             "name": "ast/blog-module",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/blog.git",
@@ -1662,47 +1662,6 @@
                 "stream"
             ],
             "time": "2014-10-12T19:18:40+00:00"
-        },
-        {
-            "name": "idavoll/adminlte-theme",
-            "version": "3.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Idavoll/AdminLTE.git",
-                "reference": "0c1e91ecfb8e13769f9f6f50382061f8908485c5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Idavoll/AdminLTE/zipball/0c1e91ecfb8e13769f9f6f50382061f8908485c5",
-                "reference": "0c1e91ecfb8e13769f9f6f50382061f8908485c5",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0",
-                "php": ">=5.4"
-            },
-            "type": "asgard-theme",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Widart",
-                    "email": "info@asgardcms.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "An AsgardCMS administration theme",
-            "keywords": [
-                "asgard-cms"
-            ],
-            "time": "2018-01-13T20:25:37+00:00"
         },
         {
             "name": "idavoll/core-module",
