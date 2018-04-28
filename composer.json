@@ -36,7 +36,8 @@
         "ast/tt-module": "^1.0",
         "ast/product-module": "^1.0",
         "ast/blog-module": "^1.0",
-        "ast/media-module": "^1.2" 
+        "ast/media-module": "^1.2",
+        "ast/mpay-module" : "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

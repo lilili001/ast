@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "04c81af231c6bc3c01ec8b5808c59438",
+    "content-hash": "1d4759a6e258b4ab5b5395b5c9d2c8e1",
     "packages": [
         {
             "name": "ast/attribute-module",
@@ -101,16 +101,16 @@
         },
         {
             "name": "ast/media-module",
-            "version": "1.09",
+            "version": "1.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/media.git",
-                "reference": "511446ebdeb1053bd247f1ff9ae2c65f520322fa"
+                "reference": "bb55071380fc2bd131551520d3bd9c4b30567d77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/media/zipball/511446ebdeb1053bd247f1ff9ae2c65f520322fa",
-                "reference": "511446ebdeb1053bd247f1ff9ae2c65f520322fa",
+                "url": "https://api.github.com/repos/lilili001/media/zipball/bb55071380fc2bd131551520d3bd9c4b30567d77",
+                "reference": "bb55071380fc2bd131551520d3bd9c4b30567d77",
                 "shasum": ""
             },
             "require": {
@@ -139,20 +139,70 @@
                     "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-04-26T09:37:53+00:00"
+            "time": "2018-04-27T08:21:18+00:00"
         },
         {
-            "name": "ast/product-module",
-            "version": "1.0.7",
+            "name": "ast/mpay-module",
+            "version": "1.0.01",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lilili001/product.git",
-                "reference": "1fe39321c53d2b1df24dbb86359c2913f263c220"
+                "url": "https://github.com/lilili001/mpay.git",
+                "reference": "5104c52d039564b0fe0c49a974039d5a8fe09ed8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/product/zipball/1fe39321c53d2b1df24dbb86359c2913f263c220",
-                "reference": "1fe39321c53d2b1df24dbb86359c2913f263c220",
+                "url": "https://api.github.com/repos/lilili001/mpay/zipball/5104c52d039564b0fe0c49a974039d5a8fe09ed8",
+                "reference": "5104c52d039564b0fe0c49a974039d5a8fe09ed8",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "ignited/laravel-omnipay": "^2.3",
+                "lokielse/omnipay-alipay": "^2.3",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "laravel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Mpay\\Providers\\MpayServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Mpay\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Miya Yeh",
+                    "email": "miyaye3344@gmail.com"
+                }
+            ],
+            "time": "2018-04-28T09:05:42+00:00"
+        },
+        {
+            "name": "ast/product-module",
+            "version": "1.0.71",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lilili001/product.git",
+                "reference": "48d5eb8adbf6b2eebd79d637dc1d4a1035ce00e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lilili001/product/zipball/48d5eb8adbf6b2eebd79d637dc1d4a1035ce00e6",
+                "reference": "48d5eb8adbf6b2eebd79d637dc1d4a1035ce00e6",
                 "shasum": ""
             },
             "require": {
@@ -188,7 +238,7 @@
                     "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-04-27T03:24:08+00:00"
+            "time": "2018-04-28T06:46:08+00:00"
         },
         {
             "name": "ast/tt-module",
@@ -244,16 +294,16 @@
         },
         {
             "name": "ast/user-module",
-            "version": "1.0.1",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/user.git",
-                "reference": "2c6c1bdd85097cd95a372cfa9cc41620a02fd19a"
+                "reference": "a981f784849191c6c07d68abf994110992498ea7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/user/zipball/2c6c1bdd85097cd95a372cfa9cc41620a02fd19a",
-                "reference": "2c6c1bdd85097cd95a372cfa9cc41620a02fd19a",
+                "url": "https://api.github.com/repos/lilili001/user/zipball/a981f784849191c6c07d68abf994110992498ea7",
+                "reference": "a981f784849191c6c07d68abf994110992498ea7",
                 "shasum": ""
             },
             "require": {
@@ -286,14 +336,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "User module for AsgardCMS. Handles the authentication and authorisation as well as the user management.",
+            "description": "User module for cms. Handles the authentication and authorisation as well as the user management.",
             "keywords": [
                 "Authentication",
                 "asgardcms",
                 "authorisation",
                 "user"
             ],
-            "time": "2018-04-27T03:33:20+00:00"
+            "time": "2018-04-28T06:39:39+00:00"
         },
         {
             "name": "cartalyst/sentinel",
@@ -1382,6 +1432,102 @@
             "time": "2017-03-12T23:24:15+00:00"
         },
         {
+            "name": "guzzle/guzzle",
+            "version": "v3.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "abandoned": "guzzlehttp/guzzle",
+            "time": "2015-03-18T18:23:50+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.3.3",
             "source": {
@@ -2063,6 +2209,52 @@
                 "workshop"
             ],
             "time": "2018-02-26T20:37:57+00:00"
+        },
+        {
+            "name": "ignited/laravel-omnipay",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ignited/laravel-omnipay.git",
+                "reference": "3983e274613074adfaf6948cf3495703100f19a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/3983e274613074adfaf6948cf3495703100f19a5",
+                "reference": "3983e274613074adfaf6948cf3495703100f19a5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5",
+                "omnipay/common": "2.5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Ignited\\LaravelOmnipay": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alex Whiteside",
+                    "email": "alexwhiteside@ignitedlabs.com.au"
+                }
+            ],
+            "description": "Integerates Omnipay with Laravel and provides an easy configuration.",
+            "keywords": [
+                "laravel",
+                "laravel5",
+                "omnipay",
+                "payments"
+            ],
+            "time": "2017-02-08T19:23:44+00:00"
         },
         {
             "name": "intervention/image",
@@ -2777,6 +2969,59 @@
             "time": "2018-04-06T09:58:14+00:00"
         },
         {
+            "name": "lokielse/omnipay-alipay",
+            "version": "v2.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lokielse/omnipay-alipay.git",
+                "reference": "bff18827298add9f383846f471e7727da7e280f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lokielse/omnipay-alipay/zipball/bff18827298add9f383846f471e7727da7e280f7",
+                "reference": "bff18827298add9f383846f471e7727da7e280f7",
+                "shasum": ""
+            },
+            "require": {
+                "omnipay/common": "~2.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Omnipay\\Alipay\\": "src/",
+                    "Omnipay\\Alipay\\Tests\\": "tests/"
+                },
+                "files": [
+                    "src/Common/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loki Else",
+                    "email": "lokielse@gmail.com"
+                }
+            ],
+            "description": "Alipay gateway for Omnipay payment processing library",
+            "homepage": "https://github.com/lokielse/omnipay-alipay",
+            "keywords": [
+                "alipay",
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment",
+                "purchase"
+            ],
+            "time": "2017-12-24T04:53:14+00:00"
+        },
+        {
             "name": "maatwebsite/laravel-sidebar",
             "version": "2.1.5",
             "source": {
@@ -3413,6 +3658,104 @@
                 "rad"
             ],
             "time": "2018-01-13T20:11:46+00:00"
+        },
+        {
+            "name": "omnipay/common",
+            "version": "2.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/omnipay-common.git",
+                "reference": "54910f2ece6b1be64f5e53e2111dd1254d50ee49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-common/zipball/54910f2ece6b1be64f5e53e2111dd1254d50ee49",
+                "reference": "54910f2ece6b1be64f5e53e2111dd1254d50ee49",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": "~3.9",
+                "php": ">=5.3.2",
+                "symfony/http-foundation": "~2.1|~3.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5.x-dev"
+                },
+                "gateways": [
+                    "AuthorizeNet_AIM",
+                    "AuthorizeNet_SIM",
+                    "Buckaroo_CreditCard",
+                    "Buckaroo_Ideal",
+                    "Buckaroo_PayPal",
+                    "CardSave",
+                    "Coinbase",
+                    "Dummy",
+                    "Eway_Rapid",
+                    "FirstData_Connect",
+                    "GoCardless",
+                    "Manual",
+                    "Migs_ThreeParty",
+                    "Migs_TwoParty",
+                    "Mollie",
+                    "MultiSafepay",
+                    "Netaxept",
+                    "NetBanx",
+                    "PayFast",
+                    "Payflow_Pro",
+                    "PaymentExpress_PxPay",
+                    "PaymentExpress_PxPost",
+                    "PayPal_Express",
+                    "PayPal_Pro",
+                    "Pin",
+                    "SagePay_Direct",
+                    "SagePay_Server",
+                    "SecurePay_DirectPost",
+                    "Stripe",
+                    "TargetPay_Directebanking",
+                    "TargetPay_Ideal",
+                    "TargetPay_Mrcash",
+                    "WorldPay"
+                ]
+            },
+            "autoload": {
+                "psr-0": {
+                    "Omnipay\\Common\\": "src/"
+                },
+                "classmap": [
+                    "src/Omnipay/Omnipay.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Macneil",
+                    "email": "adrian@adrianmacneil.com"
+                },
+                {
+                    "name": "Omnipay Contributors",
+                    "homepage": "https://github.com/thephpleague/omnipay-common/contributors"
+                }
+            ],
+            "description": "Common components for Omnipay payment processing library",
+            "homepage": "https://github.com/thephpleague/omnipay-common",
+            "keywords": [
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment",
+                "purchase"
+            ],
+            "time": "2016-11-07T06:10:23+00:00"
         },
         {
             "name": "overtrue/laravel-shopping-cart",
@@ -4145,30 +4488,27 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.0.8",
+            "version": "v2.8.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "63353a71073faf08f62caab4e6889b06a787f07b"
+                "reference": "9b69aad7d4c086dc94ebade2d5eb9145da5dac8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/63353a71073faf08f62caab4e6889b06a787f07b",
-                "reference": "63353a71073faf08f62caab4e6889b06a787f07b",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/9b69aad7d4c086dc94ebade2d5eb9145da5dac8c",
+                "reference": "9b69aad7d4c086dc94ebade2d5eb9145da5dac8c",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.4"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~3.4|~4.0",
-                "symfony/dependency-injection": "~3.4|~4.0",
-                "symfony/expression-language": "~3.4|~4.0",
-                "symfony/stopwatch": "~3.4|~4.0"
+                "symfony/config": "^2.0.5|~3.0.0",
+                "symfony/dependency-injection": "~2.6|~3.0.0",
+                "symfony/expression-language": "~2.6|~3.0.0",
+                "symfony/stopwatch": "~2.3|~3.0.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -4177,7 +4517,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -4204,7 +4544,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2018-04-06T07:35:43+00:00"
+            "time": "2018-04-06T07:35:03+00:00"
         },
         {
             "name": "symfony/finder",

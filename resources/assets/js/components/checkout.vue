@@ -197,7 +197,7 @@
         },
         mounted(){
             let obj =  this.addrObj.find(item=> item.is_default ==1 );
-            this.formData.addrSelected = obj.address_id;
+            if( !!obj ) this.formData.addrSelected = obj.address_id;
         },
         methods: {
             changeCountry(val){
