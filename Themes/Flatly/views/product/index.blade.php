@@ -245,9 +245,7 @@
                 return item.stock != 0;
             });
 
-            var selectedItem = {};
             var selectedItemLocale = {};
-
             var selectedObj = {};
             //1. 选择一个属性 color
             $('.product_options li').click(function(){
@@ -260,24 +258,27 @@
                 var attr = $(this).children('a').attr('attr');
                 var value = $(this).children('a').attr('value');
 
+                var keyLocale = $(this).data('locale_attr_key');
+                var valueLocale = $(this).data('locale_val');
+
                 if( $(this).hasClass('on') ){
                     $(this).removeClass('on');
                     //$(this).children('a').removeClass('current');
                     //删除以选中元素
                     selectedObj = _.omit(selectedObj, attr);
+                    selectedItemLocale = _.omit(selectedItemLocale, keyLocale);
                 }else{
                     $(this).addClass('on');
                     //$(this).children('a').addClass('current');
                     selectedObj[attr] = value;
+                    selectedItemLocale[keyLocale] = valueLocale;
                 }
                 //console.log( selectedObj );
 
                 //2.获取所有该color的数据
                 $('ul').each(function(index,item){
                     var curRowAttr = $(item).attr('attr');
-
                     var selectedObjNew = Object.assign( {} , selectedObj );
-
                     selectedObjNew = _.omit( selectedObjNew , curRowAttr );
 
                     console.log(  'selectedObj' ,  selectedObj   );
@@ -295,23 +296,22 @@
                             $(item).children('a').addClass('no_active')
                         }
                     });
-                })
+                });
+
+                if ( _.keys(selectedObj).length == $attrs.length) {
+                    $('.error').hide();
+                    var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';
+
+                    $.post(url, {
+                        _token: '{{ csrf_token()  }}',
+                        qty: $('#uantity').val(),
+                        options: selectedObj
+                    }).then(function (res) {
+                        $('.price').text(res.result.price);
+                        $('.stock').text(res.result.stock);
+                    });
+                }
             });
-
-                {{--if (res.length == 1 && _.keys(selectedItem).length == $attrs.length) {--}}
-                    {{--$('.error').hide();--}}
-                    {{--var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';--}}
-
-                    {{--$.post(url, {--}}
-                        {{--_token: '{{ csrf_token()  }}',--}}
-                        {{--qty: $('#uantity').val(),--}}
-                        {{--options: selectedItem--}}
-                    {{--}).then(function (res) {--}}
-                        {{--$('.price').text(res.result.price);--}}
-                        {{--$('.stock').text(res.result.stock);--}}
-                    {{--});--}}
-                {{--}--}}
-
 
             //数量增减
             $('.qty-action[data-action="increase"]').click(function () {
@@ -332,16 +332,16 @@
                     return;
                 }
 
-                if (_.keys(selectedItem).length !== 4) {
+                if (_.keys(selectedObj).length !== 4) {
                     $('.error').show();
                     return;
                 }
                 var url = '/{{ locale().'/'.$product->id.'/addToCart'  }}';
                 $.post(url, {
                     _token: '{{ csrf_token()  }}',
-                    selectedItemLocale:selectedItemLocale,
+                    selectedObjLocale:selectedItemLocale,
                     qty: $('.qty').val(),
-                    options: selectedItem
+                    options: selectedObj
                 }).then(function (res) {
                     if (res.code == 0) {
                         location.href = "/cart";
