@@ -3,22 +3,22 @@
 return [
 
 	// The default gateway to use
-	'default' => 'alipay',
+	'default' => 'paypal',
 
 	// Add in each gateway here
 	'gateways' => [
 		'paypal' => [
 			'driver'  => 'PayPal_Express',
 			'options' => [
-				'solutionType'   => '',
-				'landingPage'    => '',
-				'headerImageUrl' => ''
+                'username' => 'xxxxxxxxxxxxxxxxx',
+                'password' => 'xxxxxxxxxxxxxxxxx',
+                'signature' => 'xxxxxxxxxxxxxxxxx',
+                'sandbox' => true
 			]
 		],
         'alipay' => [
             'driver' => 'Alipay_AopPage',
             'options' => [
-
             ]
         ]
 	]
