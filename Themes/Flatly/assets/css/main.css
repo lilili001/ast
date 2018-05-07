@@ -2696,6 +2696,18 @@ footer .bottom-list li {
 footer li.active a {
   color: #2C3E50;
 }
+/*product list page*/
+.product-list .row > div a {
+  display: block;
+}
+.product-list .row > div a img {
+  width: 100%;
+}
+.list-group-item-m.active {
+  border-bottom: 1px solid #ddd;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
 /*product detail page*/
 .product-detail-page {
   /* 本例子css */

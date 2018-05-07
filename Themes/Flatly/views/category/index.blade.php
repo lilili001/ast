@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    <div class="main">
+    <div class="main product-list">
         <div class="row">
             <div class="col-md-3">
                 筛选条件

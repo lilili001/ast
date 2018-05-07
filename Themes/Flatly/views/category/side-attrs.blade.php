@@ -17,7 +17,7 @@
     ?>
     @if( !empty( $jiaoji ) )
     <div class="list-group" id="layerd-filters">
-        <a class="list-group-item active" data-key="{{ $key  }}">
+        <a class="list-group-item-m active" data-key="{{ $key  }}">
            {{ $attr->name  }}
         </a>
         @foreach($attr->options as  $value=>$option)
@@ -110,7 +110,7 @@
 
                     ?>
                 <a  data-key="{{ $key }}" data-value="{{$value}}"
-                    _href="{{    $products->total() > 0  ?  $url : 'javascript:;'}} " class="list-group-item {{ $products->total() == 0  ? 'disabled' : ''  }}">
+                    _href="{{    $products->total() > 0  ?  $url : 'javascript:;'}} " class="list-group-item-m {{ $products->total() == 0  ? 'disabled' : ''  }}">
 
                     <input {{  $products->total()  == 0 ? 'disabled' : ''  }} type="checkbox" class="selecter" <?php
                             if( isset( $query_strings[$key] )  ){
@@ -164,12 +164,12 @@
                         location.href = location.pathname + '?' + str;
                     }
                }else{
-                    location.href = $(this).parents('a.list-group-item').attr('_href')
+                    location.href = $(this).parents('a.list-group-item-m').attr('_href')
                 }
             })
         });
 
-        $('#layerd-filters a.list-group-item span').click(function () {
+        $('#layerd-filters a.list-group-item-m span').click(function () {
             $(this).siblings('input').trigger('click');
         });
 
