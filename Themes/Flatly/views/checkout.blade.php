@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="main">
-         <checkout addresses="{{json_encode($addresses)}}" items="{{json_encode($items)}}" user="{{json_encode($user)}}"></checkout>
+         <checkout addresses="{{json_encode($addresses)}}" cart-total="{{$total}}" items="{{json_encode($items)}}" user="{{json_encode($user)}}"></checkout>
     </div>
 @stop
 

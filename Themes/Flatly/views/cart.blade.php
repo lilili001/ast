@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="main">
-        <cart cart-items = "{{ json_encode( $items ) }}"></cart>
+        <cart cart-items = "{{ json_encode( $items ) }}" cart-total="{{$total}}"></cart>
     </div>
 @stop
 

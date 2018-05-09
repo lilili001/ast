@@ -6,6 +6,7 @@
                 tooltip-effect="dark"
                 style="width: 100%"
                 @select="handleSelect"
+                @select-all="handleSelectAll"
                 >
             <el-table-column
                     type="selection"
@@ -42,7 +43,7 @@
                     :label="trans('cart.qty')"
                     show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <el-input-number  v-model="scope.row.quantity" @change="handleChange(scope.row,$event)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
+                    <el-input-number  v-model="scope.row.qty" @change="handleChange(scope.row,$event)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
                 </template>
             </el-table-column>
             <el-table-column
@@ -54,7 +55,7 @@
         </el-table>
 
         <div style="margin-top:20px;" class="pull-right">
-            <span class="inline-block" style="padding-right:10px;">合计：<h5 class="inline-block">USD $2345.00</h5></span>
+            <span class="inline-block" style="padding-right:10px;">合计：<h5 class="inline-block">{{selectedCartTotal}}</h5></span>
             <el-button type="warning" @click="checkout" plain>结算</el-button>
         </div>
     </div>
@@ -65,7 +66,7 @@
 </style>
 <script>
     export default {
-        props:['cart-items'],
+        props:['cart-items','cart-total'],
         computed:{
             tableData3:function(){
                 return this.cartItems ?  JSON.parse( this.cartItems ) : [];
@@ -73,35 +74,44 @@
         },
         data() {
             return {
-                multipleSelection: []
+                multipleSelection: [],
+                selectedCartTotal : this.cartTotal
             }
         },
         methods: {
             handleSelect(selection,row){
                 this.multipleSelection = selection;
-                var $isRowSelected = _.where(selection,{'__raw_id':row.__raw_id}).length > 0 ;
+                var $isRowSelected = _.where(selection,{'rowId':row.rowId}).length > 0 ;
 
-                axios.post(route('updateStatus',{product:row.id}),{
-                    rawId:row.__raw_id,
+                axios.post(route('updateStatus',{product:row.id},{params:{timeout:6000,async:true}}),{
+                    rowId:row.rowId,
                     type:$isRowSelected
                 }).then((res)=>{
-
+                    window.location.href = '/cart';
                 })
             },
             handleChange(row,val){
-                let rawId = row.__raw_id;
+                let rawId = row.rowId;
                 axios.post( route('updateCart',{product:row.id}),{
                     rawId:rawId,
-                    quantity:val
+                    qty:val
                 }).then((res)=>{
+                    this.selectedCartTotal = res.data.result;
                     if(res.data.code == -1){
-                        this.tableData3[index].quantity = row.quantity;
+                        this.tableData3[index].qty = row.qty;
                     }
                 });
             },
+            handleSelectAll(selection){
+                 axios.post(route('bulkUpdateStatus'),{
+                     data:section.length
+                 }).then((res)=>{
+
+                 })
+            },
             remove(row,index){
                 axios.post( route('deleteCartItem',{product:row.id}),{
-                    rawId:row.__raw_id
+                    rawId:row.rowId
                 }).then((res)=>{
                     this.tableData3.splice(index,1);
                 });
@@ -120,7 +130,7 @@
         },
         mounted(){
             this.tableData3.forEach(row => {
-                if(row.type){
+                if(row.options.selected){
                     this.$refs.multipleTable.toggleRowSelection(row,true);
                     this.multipleSelection.push(row);
                 }

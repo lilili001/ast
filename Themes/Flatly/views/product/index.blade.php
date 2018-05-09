@@ -273,16 +273,12 @@
                     selectedObj[attr] = value;
                     selectedItemLocale[keyLocale] = valueLocale;
                 }
-                //console.log( selectedObj );
 
                 //2.获取所有该color的数据
                 $('ul').each(function(index,item){
                     var curRowAttr = $(item).attr('attr');
                     var selectedObjNew = Object.assign( {} , selectedObj );
                     selectedObjNew = _.omit( selectedObjNew , curRowAttr );
-
-                    console.log(  'selectedObj' ,  selectedObj   );
-                    console.log(  'selectedObjNew' ,  selectedObjNew   );
 
                     var lis = $(this).children('li');
                     lis.children('a').removeClass('no_active');
@@ -344,7 +340,7 @@
                     options: selectedObj
                 }).then(function (res) {
                     if (res.code == 0) {
-                        location.href = "/cart";
+                        //location.href = "/cart";
                     }
                 });
 
