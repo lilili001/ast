@@ -7,11 +7,11 @@
 @section('content')
     <div class="main product-list">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 筛选条件
                 @include('category.side-attrs')
             </div>
-            <div class="col-md-9">
+            <div class="col-md-10">
                 {{--alix start--}}
                 @if( isset($products) )
                     @foreach($products as $product)

@@ -38,7 +38,9 @@
         "ast/mpay-module" : "^1.0",
         "gloudemans/shoppingcart": "^2.5",
         "paypal/rest-api-sdk-php": "^1.13",
-        "omnipay/paypal": "^2.6"
+        "omnipay/paypal": "^2.6",
+        "sudiptpa/paypal-ipn": "^2.0",
+        "maatwebsite/excel": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
