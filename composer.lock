@@ -193,7 +193,7 @@
         },
         {
             "name": "ast/product-module",
-            "version": "1.0.71",
+            "version": "1.0.73",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/product.git",

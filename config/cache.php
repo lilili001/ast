@@ -1,8 +1,5 @@
 <?php
 
-if (!class_exists('Memcached')) {
-    include ("memcached.php");
-};
 return [
 
     /*
