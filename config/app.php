@@ -193,8 +193,7 @@ return [
         \App\Providers\AjaxResponseServiceProvider::class,
 
         //Moltin\Cart\CartServiceProvider::class,
-        \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
+        \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class
     ],
 
     /*
@@ -242,7 +241,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'AjaxResponse' => 'App\Facades\AjaxResponseFacade',
-        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Omnipay' => \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class
     ],
 ];

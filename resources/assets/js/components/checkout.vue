@@ -1,7 +1,6 @@
 <template>
     <div>
         <el-form ref="form" :model="formData" label-width="80px">
-
             <el-row>
                 <el-card>
                     <h4>shipping Adress</h4>
@@ -129,11 +128,8 @@
                     <el-form-item label="手机号码">
                         <el-input size="small" v-model="formData.address.telephone"></el-input>
                     </el-form-item>
-
                     <el-checkbox v-model="formData.address.is_default">Is Default</el-checkbox>
-
                 </div>
-
 
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
