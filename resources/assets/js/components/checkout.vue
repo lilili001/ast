@@ -20,10 +20,10 @@
                     <section>
                         <h4>Payment Method</h4>
                         <el-radio-group v-model="formData.paymentMethod">
-                            <el-radio :label="1">Check / Money Order</el-radio>
-                            <el-radio :label="2">PayPal Express Payments</el-radio>
-                            <el-radio :label="3">支付宝支付</el-radio>
-                            <el-radio :label="4">微信支付</el-radio>
+                            <el-radio label="money_order">Check / Money Order</el-radio>
+                            <el-radio label="paypal">PayPal Express Payments</el-radio>
+                            <el-radio label="alipay">支付宝支付</el-radio>
+                            <el-radio label="wechat">微信支付</el-radio>
                         </el-radio-group>
                     </section>
                 </el-card>
@@ -72,7 +72,7 @@
 
                     <hr>
                     <h4>Order Total:{{cartTotal}}</h4>
-                    <el-button :round=false type="primary"><a href="/order/save">Place Oder</a></el-button>
+                    <el-button :round=false type="primary"><a :href="checkoutUrl">Place Oder</a></el-button>
 
                 </section>
             </el-row>
@@ -154,7 +154,10 @@
             },
             addrObj(){
                 return JSON.parse(this.addresses);
-            }
+            },
+            checkoutUrl(){
+                return  `/order/save/${this.formData.paymentMethod}`;
+             }
         },
         data(){
             return {
@@ -178,7 +181,7 @@
                     addrSelected: '',
                     shippingfreight: 1,
                     shippingRemark: '',
-                    paymentMethod: 1
+                    paymentMethod: ''
                 },
                 tableData: [],
                 countries: [],
