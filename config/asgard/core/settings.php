@@ -29,5 +29,5 @@ return [
         'description' => 'core::settings.locales',
         'view' => 'core::fields.select-locales',
         'translatable' => false,
-    ],
+    ]
 ];
