@@ -13,7 +13,7 @@
         }
     }
 </style>
-{{ dd( $allowdCurrencies )  }}
+
 <nav class="admin-nav-bar navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
