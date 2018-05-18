@@ -13,6 +13,7 @@
         }
     }
 </style>
+{{ dd( $allowdCurrencies )  }}
 <nav class="admin-nav-bar navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
@@ -38,6 +39,12 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
+                    <li class="dropwdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button">currency <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""></a></li>
+                        </ul>
+                    </li>
                 @if(isset($page))
                     <li class=""><a href="{{ $page->getEditUrl() }}">{{ trans('page::pages.edit-page') }}</a></li>
                 @endif

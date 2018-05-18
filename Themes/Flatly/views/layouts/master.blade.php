@@ -30,7 +30,6 @@
         }
         echo json_encode($trans);
         ?>;
-
     </script>
     {!! Theme::style('css/main.css') !!}
     @stack('css-stack')
@@ -41,7 +40,6 @@
     @include('partials.admin-bar')
 @endauth
 @include('partials.navigation')
-
 
 <div class="container" id="app">
     @yield('content')
