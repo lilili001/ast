@@ -64,7 +64,10 @@
                     <h1>{{$product->title}}</h1>
                     <div>Item Code:sdfff</div>
                     <div class="">Stock: <span class="stock">{{ $product->stock  }}</span></div>
-                    <div class="price">{{$product->price}}</div>
+                    <div class="price">
+                        <span class="multiSign"> {{ json_decode( setting('currency::current-currency') )[0] . $allowdCurrencies[getCurrentCurrency()]['symbol'] }} </span>
+                        <span class="multiPrice" data-price="{{ $product->price  }}">{{$product->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
+                    </div>
 
                     {{--sku attrs start--}}
                     <div class="product_options">
@@ -155,14 +158,14 @@
                     <div class="bd">
                         <div class="box">
                             <div class="pic">
-                                @foreach($product->featured_images as $featuredImage)
-                                    <div class="pic">
-                                        @if(count( $product->featured_images->toArray() )>0)
+                                {{--@foreach($product->featured_images as $featuredImage)--}}
+                                    {{--<div class="pic">--}}
+                                        {{--@if(count( $product->featured_images->toArray() )>0)--}}
 
-                                            <img src="{{$featuredImage->path}}" alt=""/>
-                                        @endif
-                                    </div>
-                                @endforeach
+                                            {{--<img src="{{$featuredImage->path}}" alt=""/>--}}
+                                        {{--@endif--}}
+                                    {{--</div>--}}
+                                {{--@endforeach--}}
                             </div>
                         </div>
                         <div class="box">review</div>
@@ -303,7 +306,8 @@
                         qty: $('#uantity').val(),
                         options: selectedObj
                     }).then(function (res) {
-                        $('.price').text(res.result.price);
+                        $('.multiPrice').data('price',res.result.price  );
+                        $('.multiPrice').text(res.result.price * window.currencyRates[ $.cookie('currency') ]['rate'] );
                         $('.stock').text(res.result.stock);
                     });
                 }
@@ -340,7 +344,7 @@
                     options: selectedObj
                 }).then(function (res) {
                     if (res.code == 0) {
-                        //location.href = "/cart";
+                        location.href = "/cart";
                     }
                 });
 

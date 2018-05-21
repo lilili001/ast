@@ -3111,3 +3111,7 @@ table > tbody > tr > td,
 .modal-body {
   padding: 15px 30px;
 }
+.price-red {
+  color: #cc0000;
+  font-weight: bold;
+}

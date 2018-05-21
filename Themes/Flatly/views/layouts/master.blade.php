@@ -34,11 +34,12 @@
     {!! Theme::style('css/main.css') !!}
     @stack('css-stack')
     @routes
+
 </head>
 <body>
-@auth
-    @include('partials.admin-bar')
-@endauth
+
+@include('partials.admin-bar')
+
 @include('partials.navigation')
 
 <div class="container" id="app">
@@ -55,10 +56,34 @@
 <?php endif; ?>
 
 <script>
+    window.currencyRates = {!! json_encode($allowdCurrencies) !!}
     $.ajaxSetup({
         headers: { 'Authorization':   '{{ Auth::check() ? "Bearer ". $currentUser->getFirstApiKey() : null }}' }
     });
     var AuthorizationHeaderValue = '{{ Auth::check() ? "Bearer ". $currentUser->getFirstApiKey() : null}}';
+
+    //获取默认货币设置cookie
+    var current_currency = $('#current-currency').text();
+    $.cookie('currency', current_currency);
+
+    //货币切换
+    $('.currency-wrap li').click(function(){
+        var current_currency = $(this).data('value');
+        $('#current-currency').text(current_currency);
+        //发送请求 后台设置当前货币
+        $.ajax({
+            url: '/api/currency/switch/'+current_currency ,
+            type:'get',
+            success:function(){
+                $.cookie('currency', current_currency);
+                //当前页含有price的地方都修改成对应的货币金额
+                $('.price .multiSign').html(current_currency +  window.currencyRates[current_currency].symbol);
+                $('.price .multiPrice').each(function(i,item){
+                    $(item).text( currency( $(this).data('price') * window.currencyRates[current_currency].rate )   )
+                })
+            }
+        })
+    })
 </script>
 
 @stack('js-stack')

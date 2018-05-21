@@ -28,7 +28,10 @@
                                 <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->title}}</a>
                             </div>
                             <div>
-                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">{{$product->price}}</a>
+                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}" class="price" >
+                                    <span class="multiSign">{{ json_decode( setting('currency::current-currency') )[0] . $allowdCurrencies[getCurrentCurrency()]['symbol'] }}</span>
+                                    <span class="multiPrice" data-price="{{$product->price}}">{{$product->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
+                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -37,7 +40,6 @@
                 <div class="clearfix" style="clear:both">
                     {{ $products->render()  }}
                 </div>
-
             </div>
         </div>
     </div>

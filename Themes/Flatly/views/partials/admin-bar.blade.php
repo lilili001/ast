@@ -13,6 +13,16 @@
         }
     }
 </style>
+<?php
+$locale = LaravelLocalization::setLocale() ?: App::getLocale();
+$name = Route::currentRouteName();
+$arr = [
+    'homepage',$locale.'.cat.slug' , $locale.'.product.slug'
+];
+$isCmsPage = in_array( $name , $arr );
+
+?>
+
 
 <nav class="admin-nav-bar navbar navbar-default">
     <div class="container">
@@ -34,23 +44,35 @@
                         </ul>
                     </li>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-default">Login</a>
+                    <li>
+                        <a href="{{ route('login') }}"  >Login</a>
+                    </li>
                 @endif
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                    <li class="dropwdown">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button">currency <span class="caret"></span></a>
+                @if($isCmsPage)
+                    <li class="dropwdown currency-wrap">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button"> <span id="current-currency">{{  json_decode(setting('currency::current-currency'))[0]  }}</span>  <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href=""></a></li>
+                            @foreach($allowdCurrencies as $currency_code=>$item)
+                            <li data-value="{{ $currency_code  }}"><a href="javascript:;">{{$currency_code}}</a></li>
+                            @endforeach
                         </ul>
                     </li>
+                @endif
                 @if(isset($page))
                     <li class=""><a href="{{ $page->getEditUrl() }}">{{ trans('page::pages.edit-page') }}</a></li>
                 @endif
                     <li class=""><a href="/cart">购物车</a></li>
+                    @auth
                     <li class=""><a href="/usercenter">用户中心</a></li>
+                    @endauth
+                @auth
+                    @if( user()->isAdmin() )
                 <li class=""><a href="{{ route('dashboard.index') }}">{{ trans('core::core.back to backend') }}</a></li>
+                        @endif
+                @endauth
             </ul>
         </div>
     </div>

@@ -47,7 +47,7 @@
                                                 </span>
                                         </div>
                                     </el-col>
-                                    <el-col :span="6" class="pull-right">{{cartTotal}}</el-col>
+                                    <el-col :span="6" class="pull-right"> {{ currencySymbol }} {{cartTotal}}</el-col>
                                 </el-row>
 
                                 <hr v-if="key!== orderItems.length-1 " style="margin:10px auto">
@@ -65,13 +65,13 @@
 
                 <section class="pull-right mar-t20">
                     <el-row :gutter="10">
-                        <el-col :span="18">Cart Total:</el-col>
-                        <el-col :span="6">{{cartTotal}}</el-col>
+                        <el-col :span="14">Cart Total:</el-col>
+                        <el-col :span="10"> {{currencySymbol}} {{cartTotal}}</el-col>
                     </el-row>
                     <div>Free Shipping</div>
 
                     <hr>
-                    <h4>Order Total:{{cartTotal}}</h4>
+                    <h4>Order Total: <span class="price-red">{{ currencySymbol }} {{cartTotal}}</span> </h4>
                     <el-button :round=false type="primary"><a :href="checkoutUrl">Place Oder</a></el-button>
 
                 </section>
@@ -144,7 +144,7 @@
 <script>
     export default{
         name: 'checkout',
-        props: ['items', 'user', 'addresses','cartTotal'],
+        props: ['items', 'user', 'addresses','cartTotal','currencySymbol'],
         computed: {
             orderItems(){
                 return JSON.parse(this.items);

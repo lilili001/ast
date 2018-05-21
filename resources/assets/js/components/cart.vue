@@ -37,6 +37,12 @@
                     prop="price"
                     :label="trans('cart.unit_price')"
                     show-overflow-tooltip>
+                <template slot-scope="scope">
+                    <div class="price">
+                        <span class="multiSign">{{ currencyObj['currency_to'] + currencyObj['symbol'] }} </span>
+                        <span class="multiPrice" :data-price="scope.row.price" >{{(scope.row.price) * currencyObj['rate'] }}</span>
+                    </div>
+                </template>
             </el-table-column>
             <el-table-column
                 prop="quantity"
@@ -55,7 +61,7 @@
         </el-table>
 
         <div style="margin-top:20px;" class="pull-right">
-            <span class="inline-block" style="padding-right:10px;">合计：<h5 class="inline-block">{{selectedCartTotal}}</h5></span>
+            <span class="inline-block" style="padding-right:10px;">合计：<h5 class="inline-block price-red"> {{currencyObj['currency_to'] + currencyObj['symbol']}} {{  selectedCartTotal }}</h5></span>
             <el-button type="warning" @click="checkout" plain>结算</el-button>
         </div>
     </div>
@@ -66,16 +72,19 @@
 </style>
 <script>
     export default {
-        props:['cart-items','cart-total'],
+        props:['cart-items','cart-total','currency'],
         computed:{
             tableData3:function(){
                 return this.cartItems ?  JSON.parse( this.cartItems ) : [];
+            },
+            currencyObj(){
+                return JSON.parse(this.currency);
             }
         },
         data() {
             return {
                 multipleSelection: [],
-                selectedCartTotal : this.cartTotal
+                selectedCartTotal : this.cartTotal,
             }
         },
         methods: {
