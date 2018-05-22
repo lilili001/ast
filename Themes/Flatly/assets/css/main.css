@@ -3115,3 +3115,10 @@ table > tbody > tr > td,
   color: #cc0000;
   font-weight: bold;
 }
+.has-error .form-control,
+.has-error .form-control:focus {
+  border: 1px solid #E74C3C!important;
+}
+.help-block {
+  margin-bottom: 0!important;
+}

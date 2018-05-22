@@ -44,6 +44,14 @@ label {
   border-radius: 0 !important;
 }
 
+.el-dialog__body {
+  padding: 0 20px !important;
+}
+
+.el-form-item__error {
+  position: relative !important;
+}
+
 /**********************margins********************************/
 
 .mar-t0 {

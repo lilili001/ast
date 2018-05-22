@@ -70,3 +70,4 @@ window.axios.interceptors.response.use(null, (error) => {
     }
     return Promise.reject(error);
 });
+window._ = require('underscore')

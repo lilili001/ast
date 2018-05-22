@@ -1,32 +1,37 @@
 <template>
     <div>
-        <el-form ref="form" :model="formData" label-width="80px">
+        <el-form ref="formData" :model="formData" :rules="ruleFormData"  label-width="80px" >
             <el-row>
-                <el-card>
-                    <h4>shipping Adress</h4>
-                    <hr>
-                    <el-button type="text" @click="dialogFormVisible = true">新增收货地址</el-button>
-                    <div class="clearfix"></div>
-                    <el-radio-group v-model="formData.addrSelected">
-                        <el-radio v-for="(addr,key) in addrObj" :key="key" :label="addr.address_id">
-                            {{addr.country_label + ' ' + addr.state_label + ' ' + addr.city_label + '   ' + addr.street +
-                            (addr.is_default==1 ? '(默认地址)' : '')
-                            }}
-                        </el-radio>
-                    </el-radio-group>
-                </el-card>
+                    <el-card>
+                        <el-form-item prop="addrSelected">
+                            <h4>shipping Adress</h4>
+                            <hr>
+                            <el-button type="text" @click="dialogFormVisible = true">新增收货地址</el-button>
+                            <div class="clearfix"></div>
+                            <el-radio-group v-model="formData.addrSelected">
+                                <el-radio v-for="(addr,key) in addrObj" :key="key" :label="addr.id">
+                                    [ {{ addr.first_name + ' ' + addr.last_name }} ]
+                                    {{  addr.street +  + ' ' + addr.city_label   + ' ' + addr.state_label  +  ' ' +  addr.country_label  +  ' | phone:'+ addr.telephone +
+                                    (addr.is_default==1 ? '(默认地址)' : '')
+                                    }}
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-card>
 
-                <el-card class="mar-t20" shadow="hover">
-                    <section>
-                        <h4>Payment Method</h4>
-                        <el-radio-group v-model="formData.paymentMethod">
-                            <el-radio label="money_order">Check / Money Order</el-radio>
-                            <el-radio label="paypal">PayPal Express Payments</el-radio>
-                            <el-radio label="alipay">支付宝支付</el-radio>
-                            <el-radio label="wechat">微信支付</el-radio>
-                        </el-radio-group>
-                    </section>
-                </el-card>
+                    <el-card class="mar-t20" shadow="hover">
+                        <el-form-item prop="paymentMethod">
+                            <section>
+                                <h4>Payment Method</h4>
+                                <el-radio-group v-model="formData.paymentMethod">
+                                    <el-radio label="money_order">Check / Money Order</el-radio>
+                                    <el-radio label="paypal">PayPal Express Payments</el-radio>
+                                    <el-radio label="alipay">支付宝支付</el-radio>
+                                    <el-radio label="wechat">微信支付</el-radio>
+                                </el-radio-group>
+                            </section>
+                        </el-form-item>
+                    </el-card>
 
                 <el-card shadow="hover" class="mar-t20">
                     <h4>Order Summary</h4>
@@ -49,7 +54,6 @@
                                     </el-col>
                                     <el-col :span="6" class="pull-right"> {{ currencySymbol }} {{cartTotal}}</el-col>
                                 </el-row>
-
                                 <hr v-if="key!== orderItems.length-1 " style="margin:10px auto">
                             </dd>
                         </dl>
@@ -58,10 +62,9 @@
 
                 <el-card class="mar-t20">
                     <el-form-item label="备注" class="mar-t20">
-                        <el-input size="small" type="textarea" v-model="formData.address.shippingRemark"></el-input>
+                        <el-input size="small" type="textarea" v-model="formData.shippingRemark"></el-input>
                     </el-form-item>
                 </el-card>
-
 
                 <section class="pull-right mar-t20">
                     <el-row :gutter="10">
@@ -69,76 +72,72 @@
                         <el-col :span="10"> {{currencySymbol}} {{cartTotal}}</el-col>
                     </el-row>
                     <div>Free Shipping</div>
-
                     <hr>
                     <h4>Order Total: <span class="price-red">{{ currencySymbol }} {{cartTotal}}</span> </h4>
-                    <el-button :round=false type="primary"><a :href="checkoutUrl">Place Oder</a></el-button>
-
+                    <el-button :round=false type="primary"><a @click="submitOrder('formData')" >Place Oder</a></el-button>
                 </section>
             </el-row>
-
-            <!--收货地址modal-->
-            <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-                <div>
-                    <el-form-item label="邮箱地址">
-                        <el-input size="small" v-model="formData.address.email"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="姓名">
-                        <el-col :span="11" style="padding-left:0">
-                            <el-input size="small" v-model="formData.address.first_name"></el-input>
-                        </el-col>
-                        <el-col class="line" :span="2" style="text-align:center">-</el-col>
-                        <el-col :span="11">
-                            <el-input size="small" v-model="formData.address.last_name"></el-input>
-                        </el-col>
-                    </el-form-item>
-
-                    <el-form-item label="街道地址">
-                        <el-input size="small" v-model="formData.address.street"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="国家">
-                        <el-select auto-complete filterable clearable size="small" v-model="formData.address.country"
-                                   placeholder="请选择国家" @change="changeCountry">
-                            <el-option v-for="(country,key) in countries" :key="key" :label="country.name_en"
-                                       :value="country.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item label="州县">
-                        <el-select filterable clearable size="small" v-model="formData.address.state"
-                                   placeholder="请选择省份" @change="changeProvince">
-                            <el-option v-for="(item,key) in provinces" :key="key" :label="item.name_en"
-                                       :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item label="城市">
-                        <el-select filterable clearable size="small" v-model="formData.address.city" placeholder="请选择城市"
-                                   @change="changeCity">
-                            <el-option v-for="(item,key) in cities" :key="key" :label="item.name_en"
-                                       :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item label="zip">
-                        <el-input size="small" v-model="formData.address.zip"></el-input>
-                    </el-form-item>
-                    <el-form-item label="手机号码">
-                        <el-input size="small" v-model="formData.address.telephone"></el-input>
-                    </el-form-item>
-                    <el-checkbox v-model="formData.address.is_default">Is Default</el-checkbox>
-                </div>
-
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveAddress">确 定</el-button>
-                </div>
-            </el-dialog>
-
         </el-form>
 
+        <!--**********************************************************************************************************************************************-->
+
+
+            <!--收货地址modal-->
+        <el-form :model="address" ref="ruleAddressForm" :rules="addressRuleForm"   label-width="80px">
+
+                <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+
+                        <el-form-item label="邮箱地址" prop="email">
+                            <el-input size="small" v-model="address.email"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="First Name" prop="first_name">
+                                <el-input size="small" v-model="address.first_name"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Last Name" prop="first_name">
+                                <el-input size="small" v-model="address.last_name"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="街道地址" prop="street">
+                            <el-input size="small" v-model="address.street"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="国家" prop="country_label">
+                            <el-select auto-complete filterable clearable size="small" v-model="address.country"
+                                       placeholder="请选择国家" @change="changeCountry">
+                                <el-option v-for="(country,key) in countries" :key="key" :label="country.name_en"
+                                           :value="country.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="州县" prop="state_label">
+                            <el-input size="small" v-model="address.state_label"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="城市"  prop="city_label">
+                            <el-input size="small" v-model="address.city_label"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="zip" prop="zip">
+                            <el-input size="small" v-model="address.zip"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="手机号码" prop="telephone">
+                            <el-input size="small" v-model="address.telephone"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="">
+                            <el-checkbox v-model="address.is_default">Is Default</el-checkbox>
+                        </el-form-item>
+
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="saveAddress">确 定</el-button>
+                    </div>
+                </el-dialog>
+
+        </el-form>
     </div>
 </template>
 <script>
@@ -152,36 +151,51 @@
             userObj(){
                 return JSON.parse(this.user);
             },
-            addrObj(){
-                return JSON.parse(this.addresses);
-            },
             checkoutUrl(){
                 return  `/order/save/${this.formData.paymentMethod}`;
              }
         },
         data(){
             return {
+                addressRuleForm:{
+                    email:[
+                            { required: true, message: '邮箱不得为空', trigger: 'change' },
+                            { type: 'email', message: '邮箱格式不正确', trigger: 'change' },
+                        ],
+                    first_name:[ { required: true, message: '名字不得为空', trigger: 'change' }],
+                    street:[ { required: true, message: '街道不得为空', trigger: 'change' }],
+                    country_label:[ { required: true, message: '国家不得为空', trigger: 'change' }],
+                    city_label:[ { required: true, message: '城市不得为空', trigger: 'change' }],
+                    state_label:[ { required: true, message: '省份不得为空', trigger: 'change' }],
+                    zip:[ { required: true, message: '邮编不得为空', trigger: 'change' }],
+                    telephone:[ { required: true, message: '手机不得为空', trigger: 'change' }],
+                },
+                ruleFormData:{
+                    addrSelected:[{ required: true, message: '请选择收货地址', trigger: 'change' }],
+                    paymentMethod:[{ required: true, message: '请选择付款方式', trigger: 'change' }],
+                },
                 dialogFormVisible: false,
+                addrObj:JSON.parse(this.addresses),
+                address: { //表单里的地址项
+                    email: "",
+                    first_name: "",
+                    last_name: "",
+                    street: '',
+                    country: '',
+                    city: '',
+                    state: '',
+                    country_label: '',
+                    city_label: '',
+                    state_label: '',
+                    telephone: '',
+                    zip: '',
+                    is_default: false
+                },
                 formData: {
-                    address: {
-                        email: "",
-                        first_name: "",
-                        last_name: "",
-                        street: '',
-                        country: '',
-                        city: '',
-                        state: '',
-                        country_label: '',
-                        city_label: '',
-                        state_label: '',
-                        telephone: '',
-                        zip: '',
-                        is_default: false
-                    },
                     addrSelected: '',
                     shippingfreight: 1,
                     shippingRemark: '',
-                    paymentMethod: ''
+                    paymentMethod: 'paypal'
                 },
                 tableData: [],
                 countries: [],
@@ -196,55 +210,55 @@
         },
         mounted(){
             let obj =  this.addrObj.find(item=> item.is_default ==1 );
-            if( !!obj ) this.formData.addrSelected = obj.address_id;
+            if( !!obj ) this.formData.addrSelected = obj.id;
         },
         methods: {
             changeCountry(val){
                 if (!val) return;
                 this.provinces = this.cities = [];
-                this.formData.address.state = this.formData.address.city = '';
+                this.address.state = this.address.city = '';
 
                 let obj = {};
                 obj = this.countries.find((item) => {
                     return item.id === val;
                 });
-                this.formData.address.country_label = obj.name_en;
-
-                axios.get(route('getAllProvinces', {'countryId': val})).then((res) => {
-                    this.provinces = res.data.result;
-                })
-            },
-            changeProvince(val){
-                if (!val) return;
-                this.cities = [];
-                this.formData.address.city = '';
-
-                let obj = {};
-                obj = this.provinces.find((item) => {
-                    return item.id === val;
-                });
-                this.formData.address.state_label = obj.name_en;
-
-                axios.get(route('getAllCities', {'provinceId': val})).then((res) => {
-                    this.cities = res.data.result;
-                })
-            },
-            changeCity(val){
-                if (!val) return;
-                let obj = {};
-                obj = this.cities.find((item) => {
-                    return item.id === val;
-                });
-                this.formData.address.city_label = obj.name_en;
-
+                this.address.country_label = obj.name_en;
             },
             saveAddress(){
-                axios.post(route('address.store'), this.formData.address).then((res) => {
-                    if (res.data.code == 0) {
-                        this.dialogFormVisible = false;
-                        location.reload();
+                this.$refs['ruleAddressForm'].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                        axios.post(route('address.store'), this.address).then((res) => {
+                            if (res.data.code == 0) {
+                                this.dialogFormVisible = false;
+                                this.addrObj = res.data.result;
+                                this.formData.addrSelected = this.addrObj[ this.addrObj.length-1 ].id
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
                     }
-                })
+                });
+            },
+            submitOrder(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        //发送地址 付款方式 备注 到后台生成订单
+                        axios.post( route('order.create') ,{
+                            order_address : ( _.filter( this.addrObj , (item) => item.id == this.formData.addrSelected ) )[0],
+                            order_payment_method: this.formData.paymentMethod,
+                            order_remark : this.formData.shippingRemark,
+                            order_freight: this.formData.shippingfreight
+                        }).then((res)=>{
+                            //if(res.data.code == 0) location.href = res.data.result;
+                        })
+
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             }
         }
     }
