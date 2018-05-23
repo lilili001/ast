@@ -63,10 +63,10 @@
 
         <!-- Main content -->
         <section class="content">
-            <el-card>
+
             @include('partials.notifications')
             @yield('content')
-        </el-card>
+
             <router-view></router-view>
         </section><!-- /.content -->
     </aside><!-- /.right-side -->

@@ -241,6 +241,10 @@ label {
   width: 60px !important;
 }
 
+.w80 {
+  width: 80px !important;
+}
+
 .w90 {
   width: 90px !important;
 }
@@ -351,5 +355,9 @@ label {
 
 .inline-block {
   display: inline-block;
+}
+
+.label666 {
+  color: #666;
 }
 

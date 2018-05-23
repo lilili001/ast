@@ -58,7 +58,7 @@ $directions:(t:top,b:bottom,l:left,r:right);
   background:#fff;
 }
 /**********************sizes********************************/
-$mapSizes:(60,90, 97, 100,136,145,150,175,170,200,220,278,300,314,286,288,306,320,680 );
+$mapSizes:(60,80,90, 97, 100,136,145,150,175,170,200,220,278,300,314,286,288,306,320,680 );
 @each $style in $mapSizes {
   .w#{$style} {
     width : #{$style}px !important;
@@ -89,3 +89,6 @@ $mapSizes:(60,90, 97, 100,136,145,150,175,170,200,220,278,300,314,286,288,306,32
 }
 .error{color:red;font-size:12px;font-weight:normal}
 .inline-block{display:inline-block}
+.label666{
+  color:#666
+}
