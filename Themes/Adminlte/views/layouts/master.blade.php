@@ -90,6 +90,7 @@
 </script>
 
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/lib.js') }}"></script>
 
 <?php if (is_module_enabled('Notification')): ?>
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>

@@ -10,7 +10,16 @@
                 >
             <el-table-column
                     type="selection"
-                    width="55">
+                    width="100">
+
+            </el-table-column>
+
+            <el-table-column label="selected" width="120">
+                <template slot-scope="scope">{{scope.row.options.selected }}</template>
+            </el-table-column>
+
+            <el-table-column label="rowId" width="120">
+                <template slot-scope="scope">{{scope.row.rowId }}</template>
             </el-table-column>
 
             <el-table-column
@@ -35,12 +44,12 @@
             </el-table-column>
             <el-table-column
                     prop="price"
-                    :label="trans('cart.unit_price')"
+                    :label="trans('cart.subtotal')"
                     show-overflow-tooltip>
                 <template slot-scope="scope">
                     <div class="price">
                         <span class="multiSign">{{ currencyObj['currency_to'] + currencyObj['symbol'] }} </span>
-                        <span class="multiPrice" :data-price="scope.row.price" >{{(scope.row.price) * currencyObj['rate'] }}</span>
+                        <span class="multiPrice" :data-price="scope.row.price" >{{  toFixed( (scope.row.subtotal) * currencyObj['rate']  )   }}</span>
                     </div>
                 </template>
             </el-table-column>
@@ -74,21 +83,25 @@
     export default {
         props:['cart-items','cart-total','currency'],
         computed:{
-            tableData3:function(){
-                return this.cartItems ?  JSON.parse( this.cartItems ) : [];
-            },
             currencyObj(){
                 return JSON.parse(this.currency);
             }
         },
         data() {
+            var tableData = this.cartItems ?    ( JSON.parse( this.cartItems ) )    : []
+            tableData = _.sortBy(tableData, function(item){
+                return item.options.index;
+            });
+
             return {
                 multipleSelection: [],
                 selectedCartTotal : this.cartTotal,
+                tableData3:tableData
             }
         },
         methods: {
             handleSelect(selection,row){
+
                 this.multipleSelection = selection;
                 var $isRowSelected = _.where(selection,{'rowId':row.rowId}).length > 0 ;
 
@@ -96,7 +109,9 @@
                     rowId:row.rowId,
                     type:$isRowSelected
                 }).then((res)=>{
-                    window.location.href = '/cart';
+                    var data = _.values( res.data.result );
+                    this.sortData(data);
+
                 })
             },
             handleChange(row,val){
@@ -105,7 +120,7 @@
                     rawId:rawId,
                     qty:val
                 }).then((res)=>{
-                    this.selectedCartTotal = res.data.result;
+                    this.selectedCartTotal = res.data.result * currencyObj.rate ;
                     if(res.data.code == -1){
                         this.tableData3[index].qty = row.qty;
                     }
@@ -113,9 +128,10 @@
             },
             handleSelectAll(selection){
                  axios.post(route('bulkUpdateStatus'),{
-                     data:section.length
+                     data:selection.length
                  }).then((res)=>{
-
+                     var data = _.values( res.data.result );
+                     this.sortData(data);
                  })
             },
             remove(row,index){
@@ -135,15 +151,36 @@
                 }else{
                       location.href="/checkout";
                 }
+            },
+            sortData(data){
+                this.tableData3 = _.sortBy(data.cart, function(item){
+                    return item.options.index;
+                });
+                var timer = setTimeout(()=>{
+                    this.tableData3.forEach(row => {
+                        if(row.options.selected){
+                            this.$refs.multipleTable.toggleRowSelection(row,true);
+                        }else{
+                            this.$refs.multipleTable.toggleRowSelection(row,false);
+                        }
+                    });
+                    clearInterval(timer);
+                },100);
+                this.selectedCartTotal = data.total * this.currencyObj.rate
+            },
+            toFixed(amount){
+                return currency(amount)
             }
         },
         mounted(){
+
             this.tableData3.forEach(row => {
                 if(row.options.selected){
                     this.$refs.multipleTable.toggleRowSelection(row,true);
                     this.multipleSelection.push(row);
                 }
             });
+
         }
     }
 </script>
