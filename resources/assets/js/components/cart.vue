@@ -44,12 +44,12 @@
             </el-table-column>
             <el-table-column
                     prop="price"
-                    :label="trans('cart.subtotal')"
+                    :label="trans('cart.price')"
                     show-overflow-tooltip>
                 <template slot-scope="scope">
                     <div class="price">
                         <span class="multiSign">{{ currencyObj['currency_to'] + currencyObj['symbol'] }} </span>
-                        <span class="multiPrice" :data-price="scope.row.price" >{{  toFixed( (scope.row.subtotal) * currencyObj['rate']  )   }}</span>
+                        <span class="multiPrice" :data-price="scope.row.price" >{{  toFixed( (scope.row.price) * currencyObj['rate']  )   }}</span>
                     </div>
                 </template>
             </el-table-column>
@@ -109,9 +109,8 @@
                     rowId:row.rowId,
                     type:$isRowSelected
                 }).then((res)=>{
-                    var data = _.values( res.data.result );
+                    var data = res.data.result  ;
                     this.sortData(data);
-
                 })
             },
             handleChange(row,val){
@@ -120,7 +119,7 @@
                     rawId:rawId,
                     qty:val
                 }).then((res)=>{
-                    this.selectedCartTotal = res.data.result * currencyObj.rate ;
+                    this.selectedCartTotal = currency( res.data.result.total * this.currencyObj.rate  )  ;
                     if(res.data.code == -1){
                         this.tableData3[index].qty = row.qty;
                     }
@@ -130,7 +129,7 @@
                  axios.post(route('bulkUpdateStatus'),{
                      data:selection.length
                  }).then((res)=>{
-                     var data = _.values( res.data.result );
+                     var data =  res.data.result  ;
                      this.sortData(data);
                  })
             },
@@ -153,7 +152,7 @@
                 }
             },
             sortData(data){
-                this.tableData3 = _.sortBy(data.cart, function(item){
+                this.tableData3 = _.sortBy( _.values( data.cart )  , function(item){
                     return item.options.index;
                 });
                 var timer = setTimeout(()=>{
