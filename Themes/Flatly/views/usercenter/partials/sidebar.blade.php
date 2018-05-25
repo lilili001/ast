@@ -6,17 +6,17 @@
             </div>
             <div class="block-content">
                 <ul>
-                    <li class="current">
+                    <li class="{{ isset($pageClass) && $pageClass  == 'usercenter'  ? 'current' : '' }}">
                         <a href="/usercenter">Account Dashboard</a>
                     </li>
-                    <li>
+                    <li class="{{ isset($pageClass) && $pageClass  == 'account'  ? 'current' : '' }}">
                         <a href="/account">Account Information</a>
                     </li>
-                    <li>
+                    <li class="{{ isset($pageClass) && $pageClass  == 'address'  ? 'current' : '' }}">
                         <a href="/address">Address Book</a>
                     </li>
-                    <li>
-                        <a href="/order">My Orders</a>
+                    <li class="{{ isset($pageClass) && $pageClass  == 'order'  ? 'current' : '' }}">
+                        <a href="{{route('frontend.order.index')}}">My Orders</a>
                     </li>
                     <li>
                         <a href="/reviews">My Product Reviews</a>

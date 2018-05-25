@@ -11,15 +11,19 @@
                     <div class="std">
                         <div style="margin:4px 0 0">
                             <div class="page-title">
-                                <h2>My Address</h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2 class="">My Address</h2>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal"
+                                                data-target="#createModal">新增
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <div>
-                                <div class="row none-margin">
-                                    <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal"
-                                            data-target="#createModal">新增
-                                    </button>
-                                </div>
-                                <table class="table border  addressbook clearfix mar-t20" width="100%" cellspacing="0"
+                                <table class=" data-table table table-bordered table-hover mar-t10" width="100%" cellspacing="0"
                                        cellpadding="0"
                                        border="0">
                                     <thead>

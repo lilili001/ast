@@ -46,13 +46,13 @@
                                     </el-col>
                                     <el-col :span="14">
                                         <div>{{item.name}}</div>
-                                        <div>qty:{{item.quantity}}</div>
+                                        <div>qty:{{item.qty}}</div>
                                         <div><span v-for="(option,opkey,index) in item.options.selectedItemLocale">
                                                 {{opkey}}:{{option}}
                                                 </span>
                                         </div>
                                     </el-col>
-                                    <el-col :span="6" class="pull-right"> {{ currencySymbol }} {{cartTotal}}</el-col>
+                                    <el-col :span="6" class="pull-right"> {{ currencySymbol }} {{ toFixed(item.subtotal * currencyObj.rate  ) }}</el-col>
                                 </el-row>
                                 <hr v-if="key!== orderItems.length-1 " style="margin:10px auto">
                             </dd>
@@ -69,11 +69,11 @@
                 <section class="pull-right mar-t20">
                     <el-row :gutter="10">
                         <el-col :span="14">Cart Total:</el-col>
-                        <el-col :span="10"> {{currencySymbol}} {{cartTotal}}</el-col>
+                        <el-col :span="10"> {{currencySymbol}} {{toFixed(cartTotal)}}</el-col>
                     </el-row>
                     <div>Free Shipping</div>
                     <hr>
-                    <h4>Order Total: <span class="price-red">{{ currencySymbol }} {{cartTotal}}</span> </h4>
+                    <h4>Order Total: <span class="price-red">{{ currencySymbol }} {{toFixed(cartTotal)}}</span> </h4>
                     <el-button :round=false type="primary"><a @click="submitOrder('formData')" >Place Oder</a></el-button>
                 </section>
             </el-row>
@@ -143,7 +143,7 @@
 <script>
     export default{
         name: 'checkout',
-        props: ['items', 'user', 'addresses','cartTotal','currencySymbol'],
+        props: ['items', 'user', 'addresses','cartTotal','currencySymbol' ,'currency' ],
         computed: {
             orderItems(){
                 return JSON.parse(this.items);
@@ -153,7 +153,10 @@
             },
             checkoutUrl(){
                 return  `/order/save/${this.formData.paymentMethod}`;
-             }
+             },
+            currencyObj(){
+                return JSON.parse( this.currency )
+            }
         },
         data(){
             return {
@@ -259,6 +262,9 @@
                         return false;
                     }
                 });
+            },
+            toFixed(amount){
+                return currency(amount).toString()
             }
         }
     }

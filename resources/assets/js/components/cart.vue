@@ -10,16 +10,7 @@
                 >
             <el-table-column
                     type="selection"
-                    width="100">
-
-            </el-table-column>
-
-            <el-table-column label="selected" width="120">
-                <template slot-scope="scope">{{scope.row.options.selected }}</template>
-            </el-table-column>
-
-            <el-table-column label="rowId" width="120">
-                <template slot-scope="scope">{{scope.row.rowId }}</template>
+                    width="80">
             </el-table-column>
 
             <el-table-column
@@ -42,6 +33,7 @@
                     </ul></div>
                 </template>
             </el-table-column>
+
             <el-table-column
                     prop="price"
                     :label="trans('cart.price')"
@@ -53,16 +45,28 @@
                     </div>
                 </template>
             </el-table-column>
+
             <el-table-column
                 prop="quantity"
-                    :label="trans('cart.qty')"
-                    show-overflow-tooltip>
+                    :label="trans('cart.qty')">
                 <template slot-scope="scope">
-                    <el-input-number  v-model="scope.row.qty" @change="handleChange(scope.row,$event)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
+                    <el-input-number  v-model="scope.row.qty" @change="updateQty(scope.row,$event)" :min="1" :max="scope.row.total" size="mini"></el-input-number>
                 </template>
             </el-table-column>
+
             <el-table-column
+                    prop="subtotal"
+                    :label="trans('cart.subtotal')"
                     show-overflow-tooltip>
+                <template slot-scope="scope">
+                    <div class="price subtotal">
+                        <span class="multiSign">{{ currencyObj['currency_to'] + currencyObj['symbol'] }} </span>
+                        <span class="multiPrice" :data-subtotal="scope.row.subtotal" >{{  toFixed( (scope.row.subtotal) * currencyObj['rate']  )   }}</span>
+                    </div>
+                </template>
+            </el-table-column>
+
+            <el-table-column>
                 <template slot-scope="scope">
                     <i class="el-icon-delete pointer" @click="remove( scope.row, scope.$index)"></i>
                 </template>
@@ -81,30 +85,23 @@
 </style>
 <script>
     export default {
-        props:['cart-items','cart-total','currency'],
+        props:[ 'currency'],
         computed:{
             currencyObj(){
                 return JSON.parse(this.currency);
             }
         },
         data() {
-            var tableData = this.cartItems ?    ( JSON.parse( this.cartItems ) )    : []
-            tableData = _.sortBy(tableData, function(item){
-                return item.options.index;
-            });
-
             return {
                 multipleSelection: [],
-                selectedCartTotal : this.cartTotal,
-                tableData3:tableData
+                selectedCartTotal : '',
+                tableData3:[]
             }
         },
         methods: {
             handleSelect(selection,row){
-
                 this.multipleSelection = selection;
                 var $isRowSelected = _.where(selection,{'rowId':row.rowId}).length > 0 ;
-
                 axios.post(route('updateStatus',{product:row.id},{params:{timeout:6000,async:true}}),{
                     rowId:row.rowId,
                     type:$isRowSelected
@@ -113,16 +110,14 @@
                     this.sortData(data);
                 })
             },
-            handleChange(row,val){
+            updateQty(row,val){
                 let rawId = row.rowId;
                 axios.post( route('updateCart',{product:row.id}),{
                     rawId:rawId,
                     qty:val
                 }).then((res)=>{
-                    this.selectedCartTotal = currency( res.data.result.total * this.currencyObj.rate  )  ;
-                    if(res.data.code == -1){
-                        this.tableData3[index].qty = row.qty;
-                    }
+                        var data = res.data.result;
+                        this.sortData(data);
                 });
             },
             handleSelectAll(selection){
@@ -137,7 +132,12 @@
                 axios.post( route('deleteCartItem',{product:row.id}),{
                     rawId:row.rowId
                 }).then((res)=>{
-                    this.tableData3.splice(index,1);
+                    if(res.data.code == 0){
+                        var data = res.data.result;
+                        this.sortData(data);
+                    }else{
+                        this.$message.error('未知错误');
+                    }
                 });
             },
             checkout(){
@@ -155,31 +155,32 @@
                 this.tableData3 = _.sortBy( _.values( data.cart )  , function(item){
                     return item.options.index;
                 });
+
+                this.toggleRow();
+                this.selectedCartTotal = currency(data.total * this.currencyObj.rate).toString();
+            },
+            toggleRow(){
                 var timer = setTimeout(()=>{
                     this.tableData3.forEach(row => {
                         if(row.options.selected){
                             this.$refs.multipleTable.toggleRowSelection(row,true);
+                            this.multipleSelection.push(row);
                         }else{
                             this.$refs.multipleTable.toggleRowSelection(row,false);
                         }
                     });
                     clearInterval(timer);
                 },100);
-                this.selectedCartTotal = data.total * this.currencyObj.rate
             },
             toFixed(amount){
-                return currency(amount)
-            }
+                return currency(amount).toString()
+            },
         },
         mounted(){
-
-            this.tableData3.forEach(row => {
-                if(row.options.selected){
-                    this.$refs.multipleTable.toggleRowSelection(row,true);
-                    this.multipleSelection.push(row);
-                }
+            axios.post(route('cart.cartItems')).then((res)=>{
+                var data = res.data.result;
+                this.sortData(data);
             });
-
         }
     }
 </script>

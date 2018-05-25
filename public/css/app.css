@@ -322,6 +322,10 @@ label {
   display: inline-block;
 }
 
+.radius4 {
+  border-radius: 4px !important;
+}
+
 .layout-content {
   min-height: 300px;
   margin: 0 24px;
@@ -359,5 +363,167 @@ label {
 
 .label666 {
   color: #666;
+}
+
+.w306 {
+  width: 306px;
+  display: inline-block;
+}
+
+/**********************custom styles********************************/
+
+.layout-content {
+  min-height: 300px;
+  margin: 0 24px;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.ivu-form-item-validating .ivu-input-icon-validate {
+  display: none;
+}
+
+.operate {
+  line-height: 24px;
+  text-align: center;
+  padding: 0 14px;
+  cursor: pointer;
+  width: 98px;
+}
+
+.operate:hover {
+  background: #f5f7f9;
+}
+
+.simple-breadcrumb {
+  width: 100%;
+  color: #666;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.simple-breadcrumb a {
+  color: #666 !important;
+}
+
+.simple-breadcrumb a:hover {
+  color: #1d86f4 !important;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.bg-shadow {
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.table-wrap {
+  margin-bottom: 30px;
+}
+
+.ivu-message-custom-content {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: middle;
+      -ms-flex-pack: middle;
+          justify-content: middle;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  line-height: 26px;
+}
+
+.bgary {
+  padding: 20px 30px;
+  margin-bottom: 10px;
+}
+
+.bgary .ivu-form-item {
+  margin-bottom: 0px !important;
+}
+
+.bgary.ivu-form-inline .ivu-form-item {
+  margin-right: 30px !important;
+}
+
+.bottom-btns {
+  margin: 40px auto 20px;
+}
+
+.title-big {
+  font-size: 16px;
+  font-weight: bold;
+  height: 20px;
+  line-height: 20px;
+}
+
+.line {
+  margin-right: 5px;
+  width: 2px;
+  height: 16px;
+  background: #000;
+  display: inline-block;
+  position: relative;
+  top: 2px;
+}
+
+form .ivu-input[readonly],
+fieldset[readonly] {
+  background: #fff;
+  color: #ccc;
+}
+
+textarea.ivu-input[readonly] {
+  color: #000 !important;
+}
+
+.viewBox > div {
+  clear: both;
+  margin-bottom: 14px;
+}
+
+.viewBox > div > div {
+  width: 280px;
+  display: inline-block;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.viewBox label.ivu-form-item-label {
+  width: 162px;
+  padding-right: 8px;
+  float: left;
+  text-align: right;
+  color: #666;
+}
+
+.sidebar .current a {
+  color: #cc0000;
+}
+
+.ress_tit {
+  background: #f7f7f7;
 }
 

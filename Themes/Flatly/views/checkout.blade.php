@@ -7,6 +7,7 @@
 @section('content')
     <div class="main">
          <checkout
+                 currency="{{ json_encode( $allowdCurrencies[getCurrentCurrency()] )    }}"
                  addresses="{{json_encode($addresses)}}"
                  cart-total="{{$total}}"
                  items="{{json_encode($items)}}"
