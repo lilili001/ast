@@ -26,8 +26,7 @@
                                             <th>订单号</th>
                                             <th>支付类型</th>
                                             <th>支付金额</th>
-                                            <th>支付状态</th>
-                                            <th>发货状态</th>
+                                            <th>订单状态</th>
                                             <th>{{ trans('core::core.table.created at') }}</th>
                                             <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                                         </tr>
@@ -40,8 +39,7 @@
                                             <td>{{ $order->order_id  }}</td>
                                             <td>{{ $order->payment_gateway  }}</td>
                                             <td>{{ $order->currency . $order->amount_current_currency  }}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ config('order.status')[$order->order_status]  }}</td>
                                             <td>
                                                 <a href="">
                                                     {{ $order->created_at }}
@@ -54,18 +52,22 @@
                                                     {{-- 取消订单：下单 未付款 --}}
                                                     @if(  $order->is_paid == false  && $order->payment_time == 0  )
                                                         <a class="cancel" href="javascript:;">取消</a>
+                                                            @if( $order->order_status !== 5  )
+                                                                <a href="">去支付</a>
+                                                            @endif
                                                     @endif
 
                                                     {{-- 退款 仅仅限于 已付款 未发货 24小时内可以申请退款 这时候即使订货了 也可以及时退回  --}}
-                                                    @if( $order->is_paid && $order->payment_time >0 && time() - $order->payment_time->timestamp <  3600*24  )
+                                                    @if( $order->is_paid  && $order->is_shipped == 0 && $order->payment_time >0 && time() - $order->payment_time->timestamp <  3600*24   )
                                                         <a class="refund" href="javascript:;">退款</a>
                                                     @endif
 
                                                     {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
+                                                    @if( $order->is_paied && $order->status == 9 )
                                                     <a class="refund_return" href="javascript:;"> 退货 </a>
-
                                                     {{-- 已收到货 对订单进行评价 --}}
                                                     <a href="">评价</a>
+                                                    @endif
 
                                                 </div>
                                             </td>
