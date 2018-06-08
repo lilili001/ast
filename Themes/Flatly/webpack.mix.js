@@ -16,9 +16,9 @@ mix.scripts([
   'node_modules/prismjs/prism.js',
   'resources/js/bootswatch.js',
   'resources/js/jquery.cookie.js',
+  'node_modules/underscore/underscore.js',
   'node_modules/currency.js/dist/currency.min.js'
 ], 'assets/js/all.js');
-
 
 /**
  * Copy Font directory https://laravel.com/docs/5.4/mix#url-processing

@@ -16,8 +16,33 @@
                             <div class="bgary bg-white bg-shadow radius4">
                                 <div slot="header" class="clearfix">
                                     <span>订单基本信息</span>
-                                    <button class="btn btn-primary" style="float: right;"   >操作按钮</button>
+                                    (<span style="color:red">{{ config('order.status')[$order->order_status]  }}</span>)
+{{--*************************操作按钮 start*************************************************************---}}
+                                    <div style="float: right;"   data-orderid="{{ $order->order_id  }}">
+                                        {{-- 取消订单：下单 未付款 --}}
+                                        @if(  $order->is_paid == false  && $order->payment_time == 0 && $order->order_status == 1  )
+                                            <a class="cancel btn btn-default" href="javascript:;">取消</a>
+                                            @if( $order->order_status !== 5  )
+                                                <a href="{{route('checkout.payment.paypal',['order'=> encrypt( $order->order_id ) ])}}" class="btn btn-default goToPay">去支付</a>
+                                            @endif
+                                        @endif
+
+                                        {{-- 退款 仅仅限于 已付款 未发货 24小时内可以申请退款 这时候即使订货了 也可以及时退回  --}}
+                                        @if( $order->is_paid  && $order->is_shipped == 0 && $order->payment_time >0 && time() - $order->payment_time->timestamp <  3600*24   )
+                                            <a class="refund  btn btn-default" href="javascript:;">退款</a>
+                                        @endif
+
+                                        {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
+                                        @if( $order->is_paied && $order->status == 9 )
+                                            <a class="refund_return  btn btn-default" href="javascript:;"> 退货 </a>
+
+                                            {{-- 已收到货 对订单进行评价 --}}
+                                            <a href="" class="btn btn-primary">评价</a>
+                                        @endif
+                                    </div>
+{{--*************************操作按钮 end*************************************************************---}}
                                 </div>
+
                                 <section class="order_basic_info">
                                     <div class="row mar-b10">
                                         <div class="col-md-4">
@@ -32,29 +57,33 @@
                                     </div>
 
                                     <div class="row mar-b10">
-                                        <div class="col-md-4"><span class="w80 label666">订单状态:</span> <span> </span></div>
-                                        <div class="col-md-4"><span class="w80 label666">发货方式:</span> <span> </span></div>
-                                        <div class="col-md-4"><span class="w80 label666" >追踪单号:</span> <span> </span></div>
+                                        <div class="col-md-4"><span class="w80 label666">订单状态:</span> <span> {{ config('order.status')[$order->order_status]  }} </span></div>
+                                        <div class="col-md-4"><span class="w80 label666">货币:</span> <span> {{$order->currency}} </span></div>
+                                        <div class="col-md-4"><span class="w80 label666">下单时间:</span> <span>2018-05-23</span></div>
                                     </div>
 
-                                    <div class="row mar-b10">
-                                        <div class="col-md-4"><span class="w80 label666">货币:</span> <span> {{$order->currency}} </span></div>
-                                        <div class="col-md-4"><span class="w80 label666">下单时间:</span> <span>2018-05-23</span></el-col>
+                                    @if( $order->is_shipped )
+                                        <div class="row mar-b10">
+                                            <div class="col-md-4"><span class="w80 label666">发货方式:</span> <span> {{ $order->delivery->delivery  }} </span></div>
+                                            <div class="col-md-4"><span class="w80 label666">追踪单号:</span> <span>{{ $order->delivery->tracking_number  }}</span></div>
+                                            <div class="col-md-4"><span class="w80 label666">发货时间:</span> <span>{{ $order->delivery->created_at  }}</span></div>
                                         </div>
+                                    @endif
                                 </section>
-                                <hr>
 
-                                <h4>Shipping Info</h4>
-                                <div class="mar-b10">
-                                    <span class="w80 label666">收货人:</span> <span>{{ $order->address->name  }}</span>
-                                </div>
-                                <div class="mar-b10">
-                                    <span class="w80 label666">收货地址:</span> <span>{{ $order->address->street . ' ,' .$order->address->city .  ' ,' .$order->address->state . ' ,' .$order->address->country  }}</span>
-                                </div>
-                                <div>
-                                    <span class="w80 label666">收货人电话:</span> <span>{{ $order->address->telephone }}</span>
-                                </div>
-
+                                @if( $order->is_shipped )
+                                    <hr>
+                                    <h4>Shipping Info</h4>
+                                    <div class="mar-b10">
+                                        <span class="w80 label666">收货人:</span> <span>{{ $order->address->name  }}</span>
+                                    </div>
+                                    <div class="mar-b10">
+                                        <span class="w80 label666">收货地址:</span> <span>{{ $order->address->street . ' ,' .$order->address->city .  ' ,' .$order->address->state . ' ,' .$order->address->country  }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="w80 label666">收货人电话:</span> <span>{{ $order->address->telephone }}</span>
+                                    </div>
+                                @endif
                                 <hr>
                                 <h4>Product Info</h4>
                                 <table class="table">
@@ -103,20 +132,28 @@
 @push('js-stack')
 
     <?php $locale = locale(); ?>
-    <script type="text/javascript">
-        $(function () {
-            $('.data-table').dataTable({
-                "paginate": true,
-                "lengthChange": true,
-                "filter": true,
-                "sort": true,
-                "info": true,
-                "autoWidth": true,
-                "order": [[ 0, "desc" ]],
-                "language": {
-                    "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
-                }
-            });
-        });
-    </script>
+    <script>
+        $(function(){
+
+            $('.cancel').click(function(){
+                var _this = this;
+                $.post(
+                    route('frontend.order.cancel',{order:$(this).parent().data('orderid') }),
+                    {_token:'{{csrf_token()}}'}
+                ).then(function(res){
+                    if(res.code == 0){
+                        $(_this).text('已取消')
+                    }
+                })
+            })
+
+            $('.refund').click(function(){
+                $.post(route('frontend.order.refund',{order:$(this).parent().data('orderid')})).then(function(){  })
+            })
+
+            $('.refund_return').click(function(){
+                $.post(route('frontend.order.refund_return',{order:$(this).parent().data('orderid')})).then(function(){  })
+            })
+        })
+    </script>~
 @endpush

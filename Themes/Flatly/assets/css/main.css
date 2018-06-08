@@ -3122,3 +3122,16 @@ table > tbody > tr > td,
 .help-block {
   margin-bottom: 0!important;
 }
+.goToPay {
+  background: #d41717;
+  border: 1px solid #d41717;
+  color: #fff;
+}
+.goToPay:hover {
+  background: #e61b1b;
+  border: 1px solid #d41717;
+  color: #fff;
+}
+.red {
+  color: red;
+}
