@@ -68,7 +68,7 @@
                                                     @endif
 
                                                     {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
-                                                    @if( $order->is_paid  && $order->order_status == 9 )
+                                                    @if( $order->is_paid  && in_array($order->order_status , [9 ])   )
                                                         <a class="refund_return" href="javascript:;"> 退货 </a>
 
                                                         {{-- 已收到货 对订单进行评价 --}}
@@ -304,6 +304,7 @@
                                 data:data
                             }).then(function(res){
                                 $('#refund_apply_myModal').modal('hide');
+                                location.reload()
                             })
                         }
                     });

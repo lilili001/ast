@@ -1,5 +1,7 @@
 <?php
 
+use Modules\User\Entities\Sentinel\User;
+
 if( !function_exists('user') ){
     function user($driver=null){
         if ($driver){
@@ -8,6 +10,11 @@ if( !function_exists('user') ){
         return app('auth')->user();
     }
 }
+
+function getUser($id){
+    return User::find($id);
+}
+
 // 获取树 保留key的树 无限极分类：
 /**
  * @param $list

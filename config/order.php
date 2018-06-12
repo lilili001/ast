@@ -29,6 +29,7 @@ return [
         13 => '已收到退货',
 
         20 => 'hold',// 欺诈订单或其他原因
+        21 => '退货审批驳回'
     ],
     'shipping_method' => [
         'ems' => 'Post Air' //E 邮宝

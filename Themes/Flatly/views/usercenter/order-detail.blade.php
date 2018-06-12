@@ -15,8 +15,16 @@
                             </div>
                             <div class="bgary bg-white bg-shadow radius4">
                                 <div slot="header" class="clearfix">
+                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
                                     <span>订单基本信息</span>
-                                    (<span style="color:red">{{ config('order.status')[$order->order_status]  }}</span>)
+                                    (<span class="<?php
+
+                                    //如果是退货相关的 点击此按钮 弹出 买卖双方 退货对话
+                                    if( in_array( $order->order_status , [15,16,17,10,11,12,13,21] ) ){
+                                        echo "refund_process";
+                                    }
+
+                                    ?>" style="color:red">{{ config('order.status')[$order->order_status]  }}</span>)
 {{--*************************操作按钮 start*************************************************************---}}
                                     <div style="float: right;"   data-orderid="{{ $order->order_id  }}">
                                         {{-- 取消订单：下单 未付款 --}}
@@ -127,6 +135,9 @@
             </div>
         </div>
     </div>
+
+    @include('sale::admin.saleorders.partials.refund-comments')
+
 @stop
 
 @push('js-stack')
@@ -145,15 +156,21 @@
                         $(_this).text('已取消')
                     }
                 })
-            })
+            });
 
             $('.refund').click(function(){
                 $.post(route('frontend.order.refund',{order:$(this).parent().data('orderid')})).then(function(){  })
-            })
+            });
 
             $('.refund_return').click(function(){
                 $.post(route('frontend.order.refund_return',{order:$(this).parent().data('orderid')})).then(function(){  })
             })
+
+            var orderid = $('[name="order_id"]').val();
+            $('.refund_process').click(function(){
+                console.log(123)
+                $('#refund-comments').modal('show');
+            });
         })
-    </script>~
+    </script>
 @endpush
