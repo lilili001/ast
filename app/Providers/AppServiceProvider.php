@@ -34,12 +34,12 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        Relation::morphMap([
-            'order_refund' => 'Modules\Sale\Entities\OrderRefund',//退款沟通
-            'order_return' => 'Modules\Sale\Entities\OrderReturn',//退货沟通
-            'order'        => 'Modules\Mpay\Entities\Order', //订单评论
-            'product'      => 'Modules\Product\Entities\Product', //产品咨询
-        ]);
+//        Relation::morphMap([
+//            'order_refund' => 'Modules\Sale\Entities\OrderRefund',//退款沟通
+//            'order_return' => 'Modules\Sale\Entities\OrderReturn',//退货沟通
+//            'order'        => 'Modules\Mpay\Entities\Order', //订单评论
+//            'product'      => 'Modules\Product\Entities\Product', //产品咨询
+//        ]);
     }
 
     /**

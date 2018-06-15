@@ -23,11 +23,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/checkout.js', 'public/js')
     .scripts([
         'resources/assets/js/lib/jquery.validate.min.js',
-        'node_modules/lightbox2/dist/js/lightbox.min.js'
+        'node_modules/lightbox2/dist/js/lightbox.min.js',
+        'resources/assets/js/lib/jquery.raty.min.js'
         // 'resources/assets/js/lib/messages_zh.js' //中文校验时可打开
     ],'public/js/lib.js')
-
-    .sass('resources/assets/sass/app.scss', 'public/css')
-    
-;
+    .sass('resources/assets/sass/app.scss', 'public/css');
 

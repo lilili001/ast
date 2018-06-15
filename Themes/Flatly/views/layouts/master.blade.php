@@ -32,6 +32,7 @@
         ?>;
     </script>
     {!! Theme::style('css/main.css') !!}
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_575978_un9g2gammk.css">
     @stack('css-stack')
     @routes
 

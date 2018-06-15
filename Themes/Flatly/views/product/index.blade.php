@@ -168,7 +168,85 @@
                                 {{--@endforeach--}}
                             </div>
                         </div>
-                        <div class="box">review</div>
+                        <div class="box">
+                            <h4>Review:</h4>
+                            展示评论列表, 支持无限极 ,评论完 系统通知对方
+                            @if( isset($reviews) )
+                                @foreach($reviews as $review)
+                                    <hr>
+                                <div class="w-review" id="reply-{{$review['id']}}">
+
+                                    <div class="review-title">
+                                        <span>by</span> <b>{{ getUser($review['user_id'])->first_name . ' '. getUser($review['user_id'])->last_name  }}</b>
+                                        <span class="score" data-score="{{$review['goods_score']}}"></span>
+                                        <span class="pull-right">{{$review['created_at']}}</span>
+                                    </div>
+
+                                    <div class="review-detail">
+                                        {{$review['content']}}
+                                        <?php
+                                        $appraise_img_path =  mb_split(';',$review['appraise_img_path']);
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @foreach($appraise_img_path as $key => $img)
+                                                    <a class="review_img" href="/images/{{$img}}" data-lightbox="roadtrip">
+                                                        <img width="80" src="/images/{{$img}}" alt=""></a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{--评论回复框--}}
+                                    @include('product.partials.reply',[
+                                        'reply_count' => count( $review['replies']  ) ,
+                                        'reviewId' => $review['id'] ,
+                                        'to_user_id' => $review['user_id']
+                                     ])
+
+                                    {{-- 如果有子评论则再次循环 最多展示2级评论 --}}
+
+                                    @if( !empty( $review['replies'] ) )
+                                        <div class="comment-box padding2030">
+                                        @foreach( $review['replies'] as $reply )
+
+                                            @if($loop->first )
+                                            @else
+                                                <hr>
+                                            @endif
+
+                                            <div class="w-review review-replies" id="reply-{{$reply['id']}}">
+                                                <div class="review-title">
+                                                    <span>by</span> <b>{{ getUser($reply['user_id'])->first_name . ' '. getUser($reply['user_id'])->last_name  }}</b>
+
+                                                    @if( $reply['to_user_id'] != $reply['user_id'] )
+                                                        to
+                                                    <b>{{ getUser($reply['to_user_id'])->first_name . ' '. getUser($reply['to_user_id'])->last_name  }}</b>
+                                                    @endif
+                                                    <span class="pull-right">{{$reply['created_at']}}</span>
+                                                </div>
+
+                                                <div class="review-detail">
+                                                    {{$reply['content']}}
+                                                </div>
+
+                                                {{--评论回复框--}}
+                                                @include('product.partials.reply',[
+                                                    'reviewId' => $review['id' ] ,
+                                                    'to_user_id' => $reply['user_id']
+                                                ])
+                                            </div>
+
+                                        @endforeach
+                                        </div>
+                                    @endif
+
+                                </div>
+
+                                @endforeach
+                            @endif
+
+                        </div>
                         <div class="box">
                             Payment Methods:
                             FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment
@@ -251,11 +329,11 @@
             var selectedItemLocale = {};
             var selectedObj = {};
             //1. 选择一个属性 color
-            $('.product_options li').click(function(){
-                if( $(this).children('a').hasClass('no_active') ) return;
+            $('.product_options li').click(function () {
+                if ($(this).children('a').hasClass('no_active')) return;
 
                 $(this).siblings().removeClass('on');
-               // $(this).siblings('li').children('a').removeClass('current');
+                // $(this).siblings('li').children('a').removeClass('current');
 
                 //获取选中的属性
                 var attr = $(this).children('a').attr('attr');
@@ -264,13 +342,13 @@
                 var keyLocale = $(this).data('locale_attr_key');
                 var valueLocale = $(this).data('locale_val');
 
-                if( $(this).hasClass('on') ){
+                if ($(this).hasClass('on')) {
                     $(this).removeClass('on');
                     //$(this).children('a').removeClass('current');
                     //删除以选中元素
                     selectedObj = _.omit(selectedObj, attr);
                     selectedItemLocale = _.omit(selectedItemLocale, keyLocale);
-                }else{
+                } else {
                     $(this).addClass('on');
                     //$(this).children('a').addClass('current');
                     selectedObj[attr] = value;
@@ -278,26 +356,26 @@
                 }
 
                 //2.获取所有该color的数据
-                $('ul').each(function(index,item){
+                $('ul').each(function (index, item) {
                     var curRowAttr = $(item).attr('attr');
-                    var selectedObjNew = Object.assign( {} , selectedObj );
-                    selectedObjNew = _.omit( selectedObjNew , curRowAttr );
+                    var selectedObjNew = Object.assign({}, selectedObj);
+                    selectedObjNew = _.omit(selectedObjNew, curRowAttr);
 
                     var lis = $(this).children('li');
                     lis.children('a').removeClass('no_active');
-                    lis.each(function(index,item){
+                    lis.each(function (index, item) {
                         var a = $(item).children('a');
                         var attr = a.attr('attr');
                         var value = a.attr('value');
                         selectedObjNew[attr] = value;
-                        var res = _.where( exsist_skus , selectedObjNew );
-                        if(res.length == 0){
+                        var res = _.where(exsist_skus, selectedObjNew);
+                        if (res.length == 0) {
                             $(item).children('a').addClass('no_active')
                         }
                     });
                 });
 
-                if ( _.keys(selectedObj).length == $attrs.length) {
+                if (_.keys(selectedObj).length == $attrs.length) {
                     $('.error').hide();
                     var url = '/{{ locale() . '/'. $product->id . '/getSku' }}';
 
@@ -306,8 +384,8 @@
                         qty: $('#uantity').val(),
                         options: selectedObj
                     }).then(function (res) {
-                        $('.multiPrice').data('price',res.result.price  );
-                        $('.multiPrice').text(res.result.price * window.currencyRates[ $.cookie('currency') ]['rate'] );
+                        $('.multiPrice').data('price', res.result.price);
+                        $('.multiPrice').text(res.result.price * window.currencyRates[$.cookie('currency')]['rate']);
                         $('.stock').text(res.result.stock);
                     });
                 }
@@ -339,7 +417,7 @@
                 var url = '/{{ locale().'/'.$product->id.'/addToCart'  }}';
                 $.post(url, {
                     _token: '{{ csrf_token()  }}',
-                    selectedObjLocale:selectedItemLocale,
+                    selectedObjLocale: selectedItemLocale,
                     qty: $('.qty').val(),
                     options: selectedObj
                 }).then(function (res) {
@@ -347,9 +425,50 @@
                         location.href = "/cart";
                     }
                 });
-
-            });
+            })
         })
     </script>
 @stop
 
+@push('js-stack')
+    <script src="{{mix('js/lib.js')}}"></script>
+    <script>
+        $(function(){
+
+            $('.score').raty({
+                readOnly: true,
+                score: function(){
+                    return $(this).data('score');
+                },
+                starOff:'{{Theme::url('images/star-off.png')}}',
+                starOn:'{{Theme::url('images/star-on.png')}}',
+                starHalf:'{{Theme::url('images/star-half.png')}}',
+            });
+
+            $('.reply123').click(function(){
+                //$('.reply-form').hide();
+                $(this).parent().next('.reply-form').toggle();
+                return false;
+            });
+
+            $('.comment-count').click(function(){
+                $('.reply-form').hide();
+                $(this).parent().siblings('.comment-box').toggle();
+            });
+
+            /***************评论回复 任何登陆用户均可回复公开评论*************************/
+            $('.comment-act').click(function(){
+                var _this = this;
+                $.ajax({
+                    type:'post',
+                    url:  route('frontend.order.review_reply_save'),
+                    data:$(this).parent('form').serializeArray()
+                }).then(function(res){
+                    $(_this).parents('.reply-form').hide()
+                })
+                return false
+            })
+
+        });
+    </script>
+@endpush

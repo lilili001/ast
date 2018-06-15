@@ -67,6 +67,11 @@
                                                         <a class="refund" href="javascript:;">退款 </a>
                                                     @endif
 
+                                                    {{--确认收货 用户点击确认收货更改订单状态 从已发货改为已收货--}}
+                                                    {{--@if( $order->order_status == 7 )--}}
+                                                        {{--<a href="javascript:;" class="confirm-receipt">确认收货</a>--}}
+                                                    {{--@endif--}}
+
                                                     {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
                                                     @if( $order->is_paid  && in_array($order->order_status , [9 ])   )
                                                         <a class="refund_return" href="javascript:;"> 退货 </a>
@@ -81,8 +86,8 @@
                                                     @endif
 
                                                     {{-- 发货后两天 定时任务 显示 确认收货按钮 买家确认收货后 订单状态等待收货  显示评价按钮 --}}
-                                                    @if( $order->is_shipped && $order->order_status == 8   )
-                                                        <a class="confirm-order-receipt" href="javascript:;">确认收货</a>
+                                                    @if( $order->is_shipped && $order->order_status == 8 || $order->order_status == 7  )
+                                                        <a class="confirm-order-receipt" href="{{route('frontend.order.confirm_receipt',['order'=>$order->order_id])}}">确认收货</a>
                                                     @endif
 
                                                 </div>
@@ -105,99 +110,11 @@
     </div>
     <div class="clear"></div>
     {{--*************************************买家填写退货申请**********************************************************************--}}
-    <!-- Modal -->
-    <div class="modal fade" id="refund_apply_myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">退款申请</h4>
-          </div>
-          <div class="modal-body">
+    @include('usercenter.partials.goods-return-apply')
 
-              <form class="form-horizontal"  enctype ="multipart/form-data" method="post" action="" id="refund_apply_form" autocomplete="off" novalidate="novalidate">
-                            <div class="box-body">
-
-                              <div class="form-group mar-b0">
-                                <label for="inputPassword3" class="col-sm-3 control-label">订单金额:</label>
-                                <div class="col-sm-9 padding-l0 pad-t7 order_amount"></div>
-                              </div>
-
-                              <div class="form-group mar-b0 is-required">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">我愿意支付卖家：</label>
-                                    <div class="col-sm-9 padding-l0  pad-t7">
-                                        <input  type="text" name="like_to_pay_seller" required class="form-control input-sm like-to-pay-seller" placeholder="">
-                                    </div>
-                              </div>
-
-                              <div class="form-group mar-b0 is-required">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">退款金额：</label>
-                                    <input type="hidden" name="refund_amount" required>
-                                    <div class="col-sm-9 padding-l0 refund_amount"> </div>
-                              </div>
-
-                              <div class="form-group mar-b0">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">退款原因：</label>
-                                    <div class="col-sm-9 padding-l0">
-                                        <textarea name="refund_reason" class="form-control input-sm" id="" cols="30" rows="2"></textarea>
-                                    </div>
-                              </div>
-
-                              <div class="form-group  mar-t10">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">上传附件：</label>
-                                    <div class="col-sm-9 padding-l0">
-                                        <div class="file_input_wrap">
-                                            <div class="upload">点击上传</div>
-                                            <input type="file" multiple name="orderfile[]" class="file_input">
-                                            <span  class="filenames"></span>
-                                        </div>
-                                    </div>
-                              </div>
-                            </div>
-                            <!-- /.box-footer -->
-                  <!-- /.box-body -->
-                  <div class="box-footer modal-footer">
-                      <button type="submit" class="btn btn-default ">Cancel</button>
-                      <button type="submit" class="btn btn-info pull-right">Save</button>
-                  </div>
-              </form>
-          </div>
-        </div>
-      </div>
-    </div>
 
     {{--*************************************买家填写退货物流信息**********************************************************************--}}
-
-    <!-- Modal -->
-    <div class="modal fade" id="return_shipping_modal" tabindex="-1"  role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">退货信息</h4>
-                </div>
-                <div class="modal-body">
-                   <form role="form">
-                         <div class="box-body">
-                           <div class="form-group">
-                             <label for="carrier">物流公司</label>
-                             <input type="text" class="form-control"  placeholder="物流公司">
-                           </div>
-                           <div class="form-group">
-                             <label for="trackingNo">运单号</label>
-                             <input type="text" class="form-control" placeholder="trackingNo">
-                           </div>
-                         </div>
-                   </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('usercenter.partials.goods-return-shipping')
 
 </div>
 @stop
@@ -315,6 +232,16 @@
                 var _this = this;
                 $('#return_shipping_modal').modal('show')
             });
+
+            $('.confirm-receipt').click(function(){
+                $.ajax({
+                    type:'post',
+                    url:route('frontend.order.confirm_receipt',{order:orderid}),
+                }).then(function(res){
+
+                })
+            })
+
         })
     </script>
 @endpush

@@ -272,3 +272,36 @@ textarea.ivu-input[readonly] {
   }
 }
 .w100f{max-width:100%}
+.comment-box{
+  display:none;
+  background:#f9f8f7!important;
+  border:1px solid #ddd;
+  hr{
+    margin-top:0;
+    margin-bottom:0
+  }
+}
+.comment-box textarea{border:1px solid #ddd}
+.reply-form{display:none}
+.thumbs{
+  i{
+    background:url("/themes/flatly/images/yes-or-no.png");
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    padding: 0 0 0 14px;
+    font-size: 11px;
+  }
+   .up{
+    background-position: 0 4px;
+    &:hover,&.active{
+      background-position: 0 -55px;
+    }
+  }
+   .down{
+    background-position: 0 -110px;
+    &:hover,&.active{
+      background-position: 0 -165px;
+    }
+  }
+}

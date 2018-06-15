@@ -1,6 +1,7 @@
 <?php
 
 use Modules\User\Entities\Sentinel\User;
+use Modules\Mpay\Entities\Order;
 
 if( !function_exists('user') ){
     function user($driver=null){
@@ -13,6 +14,10 @@ if( !function_exists('user') ){
 
 function getUser($id){
     return User::find($id);
+}
+
+function getOrder($orderId){
+    return Order::where('order_id',$orderId)->get()->first();
 }
 
 // 获取树 保留key的树 无限极分类：
@@ -32,7 +37,7 @@ function getUser($id){
     return $tree;
 }
 //去掉了 key的树
-  function getNodeTree(&$list,&$tree,$pId=0){
+  function getNodeTree(&$list,&$tree,$pId=0  ){
     foreach($list as $key=>$value){
         if($pId == $value['pId']){
             $tree[$key] =$value;
