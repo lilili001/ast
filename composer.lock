@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba21e8a312cedb4dbbfce0bafe2e8cc1",
+    "content-hash": "d1b6cdb45fdf381f1515b39d2fe5c972",
     "packages": [
         {
             "name": "ast/attribute-module",
@@ -3772,6 +3772,54 @@
                 "purchase"
             ],
             "time": "2017-11-10T08:10:43+00:00"
+        },
+        {
+            "name": "overtrue/laravel-follow",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-follow.git",
+                "reference": "cf76116eb4a5b527f3f32e8627b0e7925730fa2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-follow/zipball/cf76116eb4a5b527f3f32e8627b0e7925730fa2e",
+                "reference": "cf76116eb4a5b527f3f32e8627b0e7925730fa2e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "laravel/laravel": "5.*",
+                "mockery/mockery": "1.0.x-dev",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelFollow\\FollowServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelFollow\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "Laravel 5 User Based System",
+            "time": "2018-05-23T02:12:09+00:00"
         },
         {
             "name": "paragonie/random_compat",

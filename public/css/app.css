@@ -779,28 +779,28 @@ textarea.ivu-input[readonly] {
 
 .thumbs i {
   background: url("/themes/flatly/images/yes-or-no.png");
-  height: 20px;
-  line-height: 20px;
+  height: 16px;
+  line-height: 16px;
   display: inline-block;
   padding: 0 0 0 14px;
   font-size: 11px;
 }
 
 .thumbs .up {
-  background-position: 0 4px;
+  background-position: 0 1px;
 }
 
 .thumbs .up:hover,
 .thumbs .up.active {
-  background-position: 0 -55px;
+  background-position: -55px 0px;
 }
 
 .thumbs .down {
-  background-position: 0 -110px;
+  background-position: -110px 3px;
 }
 
 .thumbs .down:hover,
 .thumbs .down.active {
-  background-position: 0 -165px;
+  background-position: -165px 2px;
 }
 
