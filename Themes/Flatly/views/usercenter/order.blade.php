@@ -161,8 +161,8 @@
                 $.get(
                     route('frontend.order.detail',{order:$(this).parent().data('orderid')})
                 ).then(function(res){
-                    var order_total_amount = res.result.amount_current_currency;
-                    $('#refund_apply_myModal .order_amount').html( res.result.currency + res.result.amount_current_currency  );
+                    var order_total_amount = res.result.order.amount_current_currency;
+                    $('#refund_apply_myModal .order_amount').html( res.result.order.currency + res.result.order.amount_current_currency  );
                     $('#refund_apply_myModal').modal('show');
 
                     $('#refund_apply_myModal .like-to-pay-seller').attr('max',order_total_amount);

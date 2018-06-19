@@ -1,7 +1,7 @@
 <div class="text-right operator">
     <a href="javascript:;" class="reply-count reply123">Reply</a>
     @if( isset($reply_count) )
-        <a href="javascript:;" class="reply-count comment-count">评论个数({{  $reply_count  }})</a>
+        <a href="javascript:;" class="reply-count comment-count" data-reply_count="{{$reply_count}}">评论个数({{  $reply_count  }})</a>
     @endif
     <span class="thumbs" data-review_id="{{$reviewId}}" data-reply_id="{{$replyId}}" data-item_type="{{$item_type}}">
         <a href="javascript:;"><i class="up {{ user()->hasUpvoted($item) ? 'active' :'' }}"></i>( <span class="count">{{ count( $item->upvoters()->get())   }}</span>   )</a>

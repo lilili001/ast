@@ -11,9 +11,26 @@
                 <div class="std">
                     <div style="margin:4px 0 0">
                         <div class="page-title">
-                            <h2>My Dashboard</h2>
+                            <h2>My Favorites</h2>
                         </div>
-                        account
+                        @foreach( $favorites as $item )
+                            <hr>
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{{$item->slug}}">
+                                        <img src="@thumbnail( $item->featured_images->first()->path, 'smallThumb')"
+                                             alt=""/>
+
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading">{{ $item->title  }}
+                                        <a class="pull-right remove" data-id="{{$item->id}}" href="javascript:;">remove</a>
+                                    </h5>
+                                </div>
+                            </div>
+
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -22,3 +39,23 @@
     <div class="clear"></div>
 </div>
     @stop
+@push('js-stack')
+    <script>
+        $(function(){
+            $('.remove').click(function(){
+                var id = $(this).data('id');
+                $.ajax({
+                    type:'post',
+                    url:'{{route('product.addToFavorite')}}',
+                    data:{
+                        _token:'{{csrf_token()}}',
+                        id: id
+                    },
+                    success:function(res){
+                         location.reload()
+                    }
+                })
+            });
+        })
+    </script>
+@endpush

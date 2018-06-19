@@ -236,7 +236,7 @@
                                                 {{--评论回复框--}}
                                                 @include('product.partials.reply',[
                                                     'reviewId' => $review->id ,
-                                                    'item' => $review,
+                                                    'item' => $reply,
                                                     'replyId' => $reply->id,
                                                     'to_user_id' => $reply->user_id,
                                                     'item_type' => 'product_review_apply'
@@ -470,7 +470,7 @@
                 if( $(this).hasClass('active') ){
                     $(this).parent().siblings().children('i').removeClass('active')
                 }
-                
+
                 var itemId = replyId !=0 ? replyId : reviewId;
                 $.post('{{route('frontend.order.product_comment_vote')}}',{
                     _token:'{{csrf_token()}}',
@@ -515,6 +515,7 @@
             });
 
             $('.comment-count').click(function(){
+                if($(this).data('reply_count') == 0) return;
                 $('.reply-form').hide();
                 $(this).parent().siblings('.comment-box').toggle();
             });

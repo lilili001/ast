@@ -18,10 +18,10 @@
                     <li class="{{ isset($pageClass) && $pageClass  == 'order'  ? 'current' : '' }}">
                         <a href="{{route('frontend.order.index')}}">My Orders</a>
                     </li>
-                    <li>
+                    <li class="{{ isset($pageClass) && $pageClass  == 'reviews'  ? 'current' : ''}}">
                         <a href="/reviews">My Product Reviews</a>
                     </li>
-                    <li>
+                    <li class="{{ isset($pageClass) && $pageClass  == 'favorites'  ? 'current' : ''}}">
                         <a href="/favorites">My Favorite</a>
                     </li>
 
