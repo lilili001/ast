@@ -193,7 +193,8 @@ return [
         \App\Providers\AjaxResponseServiceProvider::class,
 
         //Moltin\Cart\CartServiceProvider::class,
-        \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class
+        \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
+        Overtrue\LaravelFollow\FollowServiceProvider::class
     ],
 
     /*
