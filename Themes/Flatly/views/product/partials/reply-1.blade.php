@@ -4,10 +4,11 @@
         <a href="javascript:;" class="reply-count comment-count">评论个数({{  $reply_count  }})</a>
     @endif
     <span class="thumbs" data-review_id="{{$reviewId}}" data-reply_id="{{$replyId}}" data-item_type="{{$item_type}}">
-        <a href="javascript:;"><i class="up {{ user()->hasUpvoted($item) ? 'active' :'' }}"></i>( <span class="count">{{ count( $item->upvoters()->get())   }}</span>   )</a>
-        <a href="javascript:;"><i class="down {{ user()->hasDownvoted($item) ? 'active' :'' }}"></i>(<span class="count">{{ count( $item->downvoters()->get() )   }}</span>  )</a>
+        <a href="javascript:;"><i class="up"></i></a>
+        <a href="javascript:;"><i class="down"></i></a>
     </span>
 </div>
+
 
 <div class="reply-form padding230">
     <form action="">

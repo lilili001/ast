@@ -62,6 +62,9 @@
 
                 <div class="pull-left product_info">
                     <h1>{{$product->title}}</h1>
+
+                    <span id="product_reviews"></span> <span class="product_review_count">(<a href="#review-box">{{ count($reviews) }}</a>)</span>
+
                     <div>Item Code:sdfff</div>
                     <div class="">Stock: <span class="stock">{{ $product->stock  }}</span></div>
                     <div class="price">
@@ -138,8 +141,13 @@
                     <div class="clearfix"></div>
                     {{--sku attrs end--}}
                     <div class="error" style="display: none">请选择属性</div>
-                    <div class="action-btn"><a href="javascript:;" class="btn  add_to_cart_btn" id="addCartBtn"><span
-                                    class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a></div>
+                    <div class="action-btn">
+                        <a href="javascript:;" class="btn  add_to_cart_btn" id="addCartBtn">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a>
+
+                        <a href="javascript:;" class="btn mar-t40 addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  user()->hasFavorited($product) ? 'active' : ''  }} "></span>
+                            (<span class="favorite_count">{{$favorite_count}}</span>)</a>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
 
@@ -147,15 +155,7 @@
             <!--below content-->
             <div class="bellow">
 
-                <div class="slideTxtBox">
-                    <div class="hd">
-                        <ul>
-                            <li>详情</li>
-                            <li>评论</li>
-                            <li>运费说明</li>
-                        </ul>
-                    </div>
-                    <div class="bd">
+                 <div class="bd">
                         <div class="box">
                             <div class="pic">
                                 {{--@foreach($product->featured_images as $featuredImage)--}}
@@ -168,24 +168,24 @@
                                 {{--@endforeach--}}
                             </div>
                         </div>
-                        <div class="box">
+                        <div class="box review" id="review-box">
                             <h4>Review:</h4>
-                            展示评论列表, 支持无限极 ,评论完 系统通知对方
+                            展示评论列表, 评论完 系统通知对方
                             @if( isset($reviews) )
                                 @foreach($reviews as $review)
                                     <hr>
-                                <div class="w-review" id="reply-{{$review['id']}}">
+                                <div class="w-review" id="reply-{{$review->id}}">
 
                                     <div class="review-title">
-                                        <span>by</span> <b>{{ getUser($review['user_id'])->first_name . ' '. getUser($review['user_id'])->last_name  }}</b>
-                                        <span class="score" data-score="{{$review['goods_score']}}"></span>
-                                        <span class="pull-right">{{$review['created_at']}}</span>
+                                        <span>by</span> <b>{{ getUser($review->user_id)->first_name . ' '. getUser($review['user_id'])->last_name  }}</b>
+                                        <span class="score" data-score="{{$review->goods_score}}"></span>
+                                        <span class="pull-right">{{$review->created_at}}</span>
                                     </div>
 
                                     <div class="review-detail">
-                                        {{$review['content']}}
+                                        {{$review->content}}
                                         <?php
-                                        $appraise_img_path =  mb_split(';',$review['appraise_img_path']);
+                                        $appraise_img_path =  mb_split(';',$review->appraise_img_path);
                                         ?>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -199,31 +199,34 @@
 
                                     {{--评论回复框--}}
                                     @include('product.partials.reply',[
-                                        'reply_count' => count( $review['replies']  ) ,
-                                        'reviewId' => $review['id'] ,
-                                        'to_user_id' => $review['user_id']
+                                        'reply_count' => count( $review->replies ) ,
+                                        'item' => $review,
+                                        'reviewId' => $review->id ,
+                                        'to_user_id' => $review->user_id,
+                                        'replyId' => 0,
+                                        'item_type' => 'product_review'
                                      ])
 
                                     {{-- 如果有子评论则再次循环 最多展示2级评论 --}}
 
-                                    @if( !empty( $review['replies'] ) )
+                                    @if( !empty( $review->replies ) )
                                         <div class="comment-box padding2030">
-                                        @foreach( $review['replies'] as $reply )
+                                        @foreach( $review->replies as $reply )
 
                                             @if($loop->first )
                                             @else
                                                 <hr>
                                             @endif
 
-                                            <div class="w-review review-replies" id="reply-{{$reply['id']}}">
+                                            <div class="w-review review-replies" id="reply-{{$reply->id}}">
                                                 <div class="review-title">
-                                                    <span>by</span> <b>{{ getUser($reply['user_id'])->first_name . ' '. getUser($reply['user_id'])->last_name  }}</b>
+                                                    <span>by</span> <b>{{ getUser($reply->user_id)->first_name . ' '. getUser($reply->user_id)->last_name  }}</b>
 
-                                                    @if( $reply['to_user_id'] != $reply['user_id'] )
+                                                    @if( $reply->to_user_id != $reply->user_id )
                                                         to
-                                                    <b>{{ getUser($reply['to_user_id'])->first_name . ' '. getUser($reply['to_user_id'])->last_name  }}</b>
+                                                    <b>{{ getUser($reply->to_user_id)->first_name . ' '. getUser($reply->to_user_id)->last_name  }}</b>
                                                     @endif
-                                                    <span class="pull-right">{{$reply['created_at']}}</span>
+                                                    <span class="pull-right">{{$reply->created_at}}</span>
                                                 </div>
 
                                                 <div class="review-detail">
@@ -232,8 +235,11 @@
 
                                                 {{--评论回复框--}}
                                                 @include('product.partials.reply',[
-                                                    'reviewId' => $review['id' ] ,
-                                                    'to_user_id' => $reply['user_id']
+                                                    'reviewId' => $review->id ,
+                                                    'item' => $review,
+                                                    'replyId' => $reply->id,
+                                                    'to_user_id' => $reply->user_id,
+                                                    'item_type' => 'product_review_apply'
                                                 ])
                                             </div>
 
@@ -247,7 +253,9 @@
                             @endif
 
                         </div>
+                     <hr>
                         <div class="box">
+                            <h4>Payment:</h4>
                             Payment Methods:
                             FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment
                             methods:
@@ -269,7 +277,6 @@
                         </div>
 
                     </div>
-                </div>
 
             </div>
         </div>
@@ -283,7 +290,7 @@
     <script>
         $(function () {
 
-            jQuery(".slideTxtBox").slide({trigger: "click", pnLoop: false});
+            //jQuery(".slideTxtBox").slide({trigger: "click", pnLoop: false});
 
             var $easyzoom = $('.easyzoom').easyZoom();
             // Setup thumbnails example
@@ -402,7 +409,7 @@
                 oldV = oldV > 1 ? oldV-- : oldV;
                 $(this).siblings('.qty').val(oldV);
             });
-
+            //加入购物车
             $('#addCartBtn').click(function () {
                 var isLogin = '{{Auth::check() ? true : false }}';
                 if (!isLogin) {
@@ -425,6 +432,54 @@
                         location.href = "/cart";
                     }
                 });
+            });
+
+            //加入收藏夹
+            $('.addFavoriateBtn').click(function(){
+                $.ajax({
+                    type:'post',
+                    url:'{{route('product.addToFavorite')}}',
+                    data:{
+                        _token:'{{csrf_token()}}',
+                        id:'{{ $product->id }}',
+                        type:1
+                    },
+                    success:function(res){
+                        if(res.result.attached.length == 0){
+                            var favorite_count = $('.favorite_count').text() - 1;
+                            $('.favorite_count').text(favorite_count);
+                            $('.addFavoriateBtn span.active').removeClass('active')
+                        }else{
+                            var favorite_count = Number( $('.favorite_count').text() ) + 1;
+                            $('.favorite_count').text(favorite_count);
+                            $('.addFavoriateBtn span.glyphicon').addClass('active')
+                        }
+                    }
+                })
+            })
+
+            //评论赞
+            $('.thumbs i').click(function(){
+                var item_type = $(this).parents('span.thumbs').data('item_type');
+                var reviewId = $(this).parents('span.thumbs').data('review_id');
+                var replyId = $(this).parents('span.thumbs').data('reply_id');
+                var isUp = $(this).hasClass('up') ? 1 : 0;
+                var _this = this;
+
+                $(this).toggleClass('active');
+                if( $(this).hasClass('active') ){
+                    $(this).parent().siblings().children('i').removeClass('active')
+                }
+                
+                var itemId = replyId !=0 ? replyId : reviewId;
+                $.post('{{route('frontend.order.product_comment_vote')}}',{
+                    _token:'{{csrf_token()}}',
+                    item_type : item_type,
+                    id : itemId,
+                    up: isUp
+                }).then(function(res){
+                     location.reload()
+                })
             })
         })
     </script>
@@ -443,6 +498,14 @@
                 starOff:'{{Theme::url('images/star-off.png')}}',
                 starOn:'{{Theme::url('images/star-on.png')}}',
                 starHalf:'{{Theme::url('images/star-half.png')}}',
+            });
+
+            $('#product_reviews').raty({
+                starOff:'{{Theme::url('images/star-off.png')}}',
+                starOn:'{{Theme::url('images/star-on.png')}}',
+                starHalf:'{{Theme::url('images/star-half.png')}}',
+                readOnly:true,
+                score:5
             });
 
             $('.reply123').click(function(){
@@ -465,7 +528,7 @@
                     data:$(this).parent('form').serializeArray()
                 }).then(function(res){
                     $(_this).parents('.reply-form').hide()
-                })
+                });
                 return false
             })
 

@@ -32,7 +32,7 @@ label{font-weight: normal!important;}
 .el-dialog__body{padding:0 20px!important;}
 .el-form-item__error{position:relative!important;}
 /**********************margins********************************/
-$mapMargins:(0,4,6,8,10,14,15,20,30,140);
+$mapMargins:(0,4,6,8,10,14,15,20,30,40,140);
 $directions:(t:top,b:bottom,l:left,r:right);
 @each $d-key,$d-value in $directions {
   @each $style in $mapMargins {
@@ -303,5 +303,15 @@ textarea.ivu-input[readonly] {
     &:hover,&.active{
       background-position: -165px 2px;
     }
+  }
+}
+.addFavoriateBtn{
+  .glyphicon{top:3px;}
+  .active{color:#cc0000}
+}
+
+.addFavoriateBtn:hover{
+  span{
+    color:#cc0000;
   }
 }

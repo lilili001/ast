@@ -194,7 +194,7 @@ return [
 
         //Moltin\Cart\CartServiceProvider::class,
         \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
-        Overtrue\LaravelFollow\FollowServiceProvider::class
+        \Overtrue\LaravelFollow\FollowServiceProvider::class
     ],
 
     /*
