@@ -46,44 +46,45 @@
 
                                                     {{-- 取消订单：下单 未付款 --}}
                                                     @if(  $order->is_paid == false  && $order->payment_time == 0 && $order->order_status == 1  )
-                                                        <a class="cancel" href="javascript:;">取消</a>
-                                                            @if( $order->order_status !== 5  )
-                                                                <a href="{{route('checkout.payment.paypal',['order'=> encrypt( $order->order_id ) ])}}">去支付</a>
-                                                            @endif
+                                                        <a class="cancel pad-r4" href="javascript:;">取消订单</a>
+                                                        @if( $order->order_status !== 5  )
+                                                            <a class=" pad-r4" href="{{route('checkout.payment.paypal',['order'=> encrypt( $order->order_id ) ])}}">去支付</a>
+                                                        @endif
                                                     @endif
 
                                                     @if( $order->order_status == 5 )
-                                                        <span href="javascript:;">已取消</span>
+                                                        <span href="javascript:;" class="pad-r4">已取消</span>
                                                     @endif
 
-                                                    {{-- 退款 仅仅限于 已付款 未发货 24小时内可以申请退款 这时候即使订货了 也可以及时退回  --}}
-                                                    @if(
-                                                        $order->is_paid
-                                                        && $order->is_shipped == 0
-                                                        && $order->payment_time >0
-                                                        && time() - strtotime($order->payment_time) <  3600*24
-                                                        && $order->order_status != 15
-                                                    )
-                                                        <a class="refund" href="javascript:;">退款 </a>
-                                                    @endif
+                                                    <a class="pad-r4" href="{{ route('frontend.order.detail', ['order' => $order->order_id] ) }}">查看详情</a>
+                                                     {{--退款 仅仅限于 已付款 未发货 24小时内可以申请退款 这时候即使订货了 也可以及时退回--}}
+                                                    {{--@if(--}}
+                                                        {{--$order->is_paid--}}
+                                                        {{--&& $order->is_shipped == 0--}}
+                                                        {{--&& $order->payment_time >0--}}
+                                                        {{--&& time() - strtotime($order->payment_time) <  3600*24--}}
+                                                        {{--&& $order->order_status != 15--}}
+                                                    {{--)--}}
+                                                        {{--<a class="refund" href="javascript:;">退款 </a>--}}
+                                                    {{--@endif--}}
 
                                                     {{--确认收货 用户点击确认收货更改订单状态 从已发货改为已收货--}}
                                                     {{--@if( $order->order_status == 7 )--}}
                                                         {{--<a href="javascript:;" class="confirm-receipt">确认收货</a>--}}
                                                     {{--@endif--}}
 
-                                                    {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
-                                                    @if( $order->is_paid  && in_array($order->order_status , [9 ])   )
-                                                        <a class="refund_return" href="javascript:;"> 退货 </a>
+                                                     {{--退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款--}}
+                                                    {{--@if( $order->is_paid  && in_array($order->order_status , [9 ])   )--}}
+                                                        {{--<a class="refund_return" href="javascript:;"> 退货 </a>--}}
 
-                                                        {{-- 已收到货 对订单进行评价 --}}
-                                                        <a class="leave-comment" href="javascript:;">评价</a>
-                                                    @endif
+                                                         {{--已收到货 对订单进行评价--}}
+                                                        {{--<a class="leave-comment" href="javascript:;">评价</a>--}}
+                                                    {{--@endif--}}
 
-                                                    {{-- 退货申请审批通过 11 买家填写退货物流信息 --}}
-                                                    @if( $order->order_status == 11 )
-                                                        <a href="javascript:;" class="fill-return-shipping-info">填写退货物流</a>
-                                                    @endif
+                                                     {{--退货申请审批通过 11 买家填写退货物流信息--}}
+                                                    {{--@if( $order->order_status == 11 )--}}
+                                                        {{--<a href="javascript:;" class="fill-return-shipping-info">填写退货物流</a>--}}
+                                                    {{--@endif--}}
 
                                                     {{-- 发货后两天 定时任务 显示 确认收货按钮 买家确认收货后 订单状态等待收货  显示评价按钮 --}}
                                                     @if( $order->is_shipped && $order->order_status == 8 || $order->order_status == 7  )
@@ -227,7 +228,7 @@
                     });
                 });
             });
-
+            //退货物流填写
             $('.fill-return-shipping-info').click(function(){
                 var _this = this;
                 $('#return_shipping_modal').modal('show')

@@ -53,10 +53,10 @@ function getOrder($orderId){
  * 得到新订单号 此处用于生成发货单号
  * @return  string
  */
-function build_no()
+function build_no($prefix = 'SHIPPING')
 {
     /* 选择一个随机的方案 */
     mt_srand((double) microtime() * 1000000);
     /* PHPALLY + 年月日 + 6位随机数 */
-    return 'SHIPPING' . date('Ymd') . str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+    return $prefix . date('Ymd') . str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
 }

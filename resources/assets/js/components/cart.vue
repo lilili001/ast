@@ -28,9 +28,9 @@
                     width="180">
                 <template slot-scope="scope">
                     <div><a :href="scope.row.slug">{{scope.row.name}}</a></div>
-                    <div><ul class="fon12">
-                        <li v-for="(value,key) in (scope.row.options.selectedItemLocale)" :key="key"> {{key}}:{{value}} </li>
-                    </ul></div>
+                    <div><div class="fon12">
+                        <span v-for="(value,key,index) in (scope.row.options.selectedItemLocale)" :key="key"> <i v-if="index!==0">,</i> {{key}}:{{value}}  </span>
+                    </div></div>
                 </template>
             </el-table-column>
 
