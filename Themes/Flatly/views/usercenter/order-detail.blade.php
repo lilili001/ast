@@ -162,18 +162,62 @@
 
                                                 <td>
                                                     {{--*********************如果有退款 退货相关则显示 如果没有则按订单状态显示***********************--}}
-                                                    @if( in_array( $item->id , $order->refund()->pluck('item_id')->toArray()  ) )
-                                                        <?php
-                                                            $refund = $item->refund()->get()->first();
-                                                        ?>
-                                                        <span> {{   $refund->refund_status == 1 ? '已退款' : '退款中'   }}  </span>
+                                                    <?php
+                                                        $refund = $item->refund()->get()->first();
+                                                        $return = $item->goods_return()->get()->first();
+                                                    ?>
+                                                    {{--如果有退款申请 并且无需退货 【退款申请,等待卖家审批】--}}
+                                                    {{--如果有退款申请 并且无需退货 已退款 【已退款】--}}
+                                                    {{--如果有退款申请 并且需退货 【退货申请,等待卖家审批】--}}
+                                                    {{--如果有退款申请 并且需退货 卖家已审批 【卖家同意退货】  --}}
+                                                    {{--如果有退款申请 已填写退货单【商品退货中】  --}}
+                                                    {{--如果有退款申请 已填写退货单【已退款】  --}}
 
-                                                        {{--其他状态还有 退货审批、 退货审批通过 、退货中、已收到退货、退款中 --}}
-
-                                                    @else
-                                                        <span>{{  config('order')['status'][$order->order_status]  }}</span>
-
+                                                    @if( !empty($refund) && $item->id == $refund->item_id
+                                                        && $refund->need_return_goods == 0
+                                                        && $refund->approve_status == 0 )
+                                                        退款申请中,等待卖家审批
                                                     @endif
+
+                                                    @if(!empty($refund) && $item->id == $refund->item_id
+                                                        && $refund->refund_status == 1 )
+                                                        已退款
+                                                    @endif
+
+                                                    @if(!empty($refund) && $item->id == $refund->item_id
+                                                     && $refund->need_return_goods == 1
+                                                     && $refund->approve_status == 0
+                                                     && $refund->refund_status == 0
+                                                     )
+                                                        退货申请中,等待卖家审批
+                                                    @endif
+
+                                                    @if(!empty($refund) && $item->id == $refund->item_id
+                                                     && $refund->need_return_goods == 1
+                                                     && $refund->approve_status == 1
+                                                     && $refund->refund_status == 0
+                                                     && empty($return)
+                                                     )
+                                                        卖家同意退货
+                                                    @endif
+
+                                                    @if(!empty($refund) && !empty($return) && $item->id == $return->goods_id
+                                                        && empty($return->shipping_time) == false
+                                                        && $return->pickup_time ==false
+                                                        && $refund->refund_status == 0
+                                                    )
+                                                       商品退货中
+                                                    @endif
+
+                                                    @if(!empty($refund) && !empty($return) && $item->id == $return->goods_id
+                                                        && empty($return->shipping_time) == false
+                                                        && empty($return->pickup_time) == false
+                                                        && $refund->refund_status == 0
+                                                    )
+                                                        卖家已收到退货
+                                                    @endif
+
+                                                    {{--<span>{{  config('order')['status'][$order->order_status]  }}</span>--}}
 
                                                 </td>
 
@@ -200,7 +244,14 @@
                                                     {{--@endif--}}
 
                                                     {{-- 退货 已收到货物 需要接入物流api实时监测是否已签收 不满意 7天内 申请退货 退货完成后退款 --}}
-                                                    @if( $order->is_paid  && in_array($order->order_status , [9 ])   )
+                                                    <?php
+                                                        //判断是否已申请退货
+                                                        $temp = $order->refund()->where([
+                                                            'item_id' => $item->id,
+                                                            'need_return_goods' => 1
+                                                        ])->pluck('item_id')->toArray()
+                                                    ?>
+                                                    @if( $order->is_paid  && in_array($order->order_status , [9 ]) && in_array( $item->id , $temp  ) == false   )
                                                         <a class="refund_return" href="javascript:;"> 退货 </a>
 
                                                         {{-- 已收到货 对订单进行评价 --}}
@@ -208,7 +259,9 @@
                                                     @endif
 
                                                     {{-- 退货申请审批通过 11 买家填写退货物流信息 --}}
-                                                    @if( $order->order_status == 11 )
+                                                    @if(!empty($refund) && $order->order_status == 11
+                                                    && $refund->need_return_goods == 1
+                                                    && $refund->refund_status == 0  && empty($return)   )
                                                         <a href="javascript:;" class="fill-return-shipping-info">填写退货物流</a>
                                                     @endif
 
@@ -239,7 +292,7 @@
 @stop
 
 @push('js-stack')
-
+    <script src="{{mix('js/lib.js')}}"></script>
     <?php $locale = locale(); ?>
     <script>
         $(function(){
@@ -255,14 +308,6 @@
                     }
                 })
             });
-
-            // $('.refund').click(function(){
-            //     $.post(route('frontend.order.refund',{order:$(this).parent().data('orderid')})).then(function(){  })
-            // });
-            //
-            // $('.refund_return').click(function(){
-            //     $.post(route('frontend.order.refund_return',{order:$(this).parent().data('orderid')})).then(function(){  })
-            // })
 
             var orderid = $('[name="order_id"]').val();
             $('.refund_process').click(function(){
@@ -292,11 +337,11 @@
                 var _this = this;
                 var orderid = $(_this).parent().data('orderid');
                 var totalAmount = $(this).parent().data('amount');
-                var currency = $(this).parent().data('currency');
+                var currencySymbol = $(this).parent().data('currency');
                 var item_id = $(this).parent().data('itemid');
 
                 //请求订单详情 获取订单金额 反填
-                $('#refund_apply_myModal .order_amount').html( currency + totalAmount  );
+                $('#refund_apply_myModal .order_amount').html( currencySymbol + totalAmount  );
                 $('#refund_apply_myModal').modal('show');
 
                 $('#refund_apply_myModal .like-to-pay-seller').attr('max',totalAmount);
@@ -346,7 +391,7 @@
                         data.append('like_to_pay_seller' ,$('[name="like_to_pay_seller"]').val() ) ;
                         data.append('refund_amount',$('[name="refund_amount"]').val()  );
                         data.append('refund_reason',$('[name="refund_reason"]').val() );
-                        data.append('item_id',item_id)
+                        data.append('item_id',item_id);
 
                         $.ajax({
                             type:'post',
@@ -360,15 +405,31 @@
                         })
                     }
                 });
-
             });
             //退货物流填写
             $('.fill-return-shipping-info').click(function(){
                 var _this = this;
-                $('#return_shipping_modal').modal('show')
+                $('#return_shipping_modal').modal('show');
+
+                $('#return_shipping_modal form').validate({
+                    ignore:'',
+                    //debug:true,
+                    submitHandler: function(form)
+                    {
+                        $.post(route('frontend.order.return_order'),{
+                            _token:'{{csrf_token()}}',
+                            orderid: $(_this).parent().data('orderid'),
+                            itemid:  $(_this).parent().data('itemid'),
+                            delivery:$("#return_shipping_modal").find("[name='delivery']").val(),
+                            tracking_no:$("#return_shipping_modal").find("[name='tracking_no']").val()
+                        }).then(function(res){
+                            if(res.code == 0){
+                                location.reload()
+                            }
+                        })
+                    }
+                });
             });
-
-
         })
     </script>
 @endpush
