@@ -11,15 +11,17 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="carrier">物流公司</label>
-                            <input name="delivery" required type="text" class="form-control"  placeholder="物流公司">
+                            <select class="form-control" name="delivery" id="">
+                                @foreach( getCarrierList()['data'] as  $key=>$shipping )
+                                    <option value="{{$shipping['code']}}">{{$shipping['name']}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="trackingNo">运单号</label>
                             <input name="tracking_no" required type="text" class="form-control" placeholder="trackingNo">
                         </div>
                     </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

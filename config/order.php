@@ -34,5 +34,6 @@ return [
     ],
     'shipping_method' => [
         'ems' => 'Post Air' //E 邮宝
-    ]
+    ],
+    'tracking_apikey' => '94b0c08c-081e-48c5-876c-fedd9bc88d63'
 ];
