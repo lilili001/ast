@@ -583,7 +583,8 @@
 
                         $('#return_modal .modal-body').html(str);
                         $('#return_modal').modal('show');
-
+                    }else{
+                        alert( data.meta.code + ':'+ data.meta.message )
                     }
                 })
             });
