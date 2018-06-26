@@ -25,6 +25,10 @@
                         <a href="/favorites">My Favorite</a>
                     </li>
 
+                    <li class="{{ isset($pageClass) && $pageClass  == 'notifications'  ? 'current' : ''}}">
+                        <a href="/notifications">Notifications</a>
+                    </li>
+
                 </ul>
             </div>
         </div>

@@ -36,6 +36,18 @@ function getOrder($orderId){
     }
     return $tree;
 }
+
+function findDialogId( $messages,$fromUserId,$toUserId )
+{
+    return $messages->contains(function ($key,$value) use($fromUserId,$toUserId){
+        if( strstr($value,$fromUserId) && strstr($value,$toUserId) ){
+            return $value;
+        }else{
+            return false;
+        }
+    });
+}
+
 //去掉了 key的树
   function getNodeTree(&$list,&$tree,$pId=0  ){
     foreach($list as $key=>$value){
