@@ -10,7 +10,7 @@
                         <a href="/usercenter">Account Dashboard</a>
                     </li>
                     <li class="{{ isset($pageClass) && $pageClass  == 'account'  ? 'current' : '' }}">
-                        <a href="/account">Account Information</a>
+                        <a href="/account">Password Reset</a>
                     </li>
                     <li class="{{ isset($pageClass) && $pageClass  == 'address'  ? 'current' : '' }}">
                         <a href="/address">Address Book</a>

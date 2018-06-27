@@ -17,7 +17,8 @@ mix.scripts([
   'resources/js/bootswatch.js',
   'resources/js/jquery.cookie.js',
   'node_modules/underscore/underscore.js',
-  'node_modules/currency.js/dist/currency.min.js'
+  'node_modules/currency.js/dist/currency.min.js',
+   'resources/js/bootbox.js'
 ], 'assets/js/all.js');
 
 /**

@@ -15,5 +15,5 @@ return [
 
     'failed' => '凭证不匹配, 验证失败.',
     'throttle' => '尝试登入次数过多. 请等待 :seconds 秒.',
-
+    'oldPass' => '旧密码'
 ];
