@@ -194,7 +194,8 @@ return [
 
         //Moltin\Cart\CartServiceProvider::class,
         \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
-        \Overtrue\LaravelFollow\FollowServiceProvider::class
+        \Overtrue\LaravelFollow\FollowServiceProvider::class,
+        SocialiteProviders\Manager\ServiceProvider::class, // add
     ],
 
     /*
@@ -242,6 +243,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'AjaxResponse' => 'App\Facades\AjaxResponseFacade',
-        'Omnipay' => \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class
+        'Omnipay' => \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class, // add
     ],
 ];

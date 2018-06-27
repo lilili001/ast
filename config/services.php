@@ -30,9 +30,19 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => Modules\User\Entities\Sentinel\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),         // 你的 GitHub Client ID
+        'client_secret' => env('GITHUB_CLIENT_SECRET'), // 你的 GitHub Client Secret
+        'redirect' => env('OAUTH_REDIRECT_URL'),
+    ],
+    'qq' => [
+        'client_id' => env('QQ_KEY'),
+        'client_secret' => env('QQ_SECRET'),
+        'redirect' => env('OAUTH_REDIRECT_URL'),
+    ],
 ];
