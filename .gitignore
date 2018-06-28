@@ -10,3 +10,4 @@ public/js
 .env
 */.DS_Store
 public/images/
+bootstrap/cache/
