@@ -1,7 +1,7 @@
 <?php
 
 use Modules\User\Entities\Sentinel\User;
-use Modules\Mpay\Entities\Order;
+use Modules\Sale\Entities\Order;
 
 if( !function_exists('user') ){
     function user($driver=null){

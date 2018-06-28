@@ -35,7 +35,6 @@
         "ast/product-module": "^1.0",
         "ast/blog-module": "^1.0",
         "ast/media-module": "^1.2",
-        "ast/mpay-module" : "^1.1",
         "gloudemans/shoppingcart": "^2.5",
         "paypal/rest-api-sdk-php": "^1.13",
         "sudiptpa/paypal-ipn": "^2.0",
