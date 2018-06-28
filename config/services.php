@@ -43,6 +43,16 @@ return [
     'qq' => [
         'client_id' => env('QQ_KEY'),
         'client_secret' => env('QQ_SECRET'),
-        'redirect' => env('OAUTH_REDIRECT_URL'),
+        'redirect' => env('QQ_REDIRECT_URL'),
     ],
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URL')
+    ],
+    'weibo' => [
+        'client_id' => env('WEIBO_CLIENT_ID'),
+        'client_secret' => env('WEIBO_CLIENT_SECRET'),
+        'redirect' => env('WEIBO_REDIRECT_URL')
+    ]
 ];

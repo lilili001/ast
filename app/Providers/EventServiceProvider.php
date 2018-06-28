@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use SocialiteProviders\QQ\QqExtendSocialite;
+use SocialiteProviders\Weibo\WeiboExtendSocialite;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,8 +19,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         'SocialiteProviders\Manager\SocialiteWasCalled' => [
-            QqExtendSocialite::class
-        ],
+            QqExtendSocialite::class,
+            WeiboExtendSocialite::class
+        ]
     ];
     /**
      * Register any events for your application.
