@@ -2722,27 +2722,25 @@ footer li.active a {
   height: auto;
 }
 .product-detail-page .price {
-  font-size: 30px;
+  font-size: 23px;
   margin: 20px 0;
+  font-weight: bold;
+  color: #333;
 }
 .product-detail-page .add_to_cart_btn {
-  background: #111;
-  background-size: 30px;
-  border: medium none;
-  cursor: pointer;
-  height: 50px;
-  width: 235px;
-  margin-right: 10px;
-  margin-top: 30px;
+  background-color: #cb2027;
+  border-color: #cb2027;
   color: #fff;
-  font-size: 16px;
-  text-transform: uppercase;
-  font-family: gillbold, arial;
-  float: left;
-  padding-top: 15px;
+  font-size: 18px;
+  padding: 4px 14px 4px 14px;
+  line-height: 26px;
+  margin-right: 1px;
+  display: inline-block;
+  position: relative;
+  border-radius: 0;
 }
-.product-detail-page .add_to_cart_btn span {
-  padding-right: 10px;
+.product-detail-page .add_to_cart_btn:hover {
+  opacity: 0.8;
 }
 .product-detail-page .option_box {
   clear: both;
@@ -2800,10 +2798,10 @@ footer li.active a {
   right: 0;
   width: 8px;
 }
-.product-detail-page .option_box.qty .qty_div {
+.product-detail-page .option_box.qty_wrap .qty_div {
   border: 1px solid #ddd;
 }
-.product-detail-page .option_box.qty span {
+.product-detail-page .option_box.qty_wrap span {
   display: block;
   _display: inline;
   float: left;
@@ -2817,13 +2815,13 @@ footer li.active a {
   top: 0;
   overflow: hidden;
 }
-.product-detail-page .option_box.qty span .glyphicon-minus {
+.product-detail-page .option_box.qty_wrap span .glyphicon-minus {
   border-right: 1px solid #ddd;
 }
-.product-detail-page .option_box.qty span .glyphicon-plus {
+.product-detail-page .option_box.qty_wrap span .glyphicon-plus {
   border-left: 1px solid #ddd;
 }
-.product-detail-page .option_box.qty input {
+.product-detail-page .option_box.qty_wrap input {
   float: left;
   margin: 0;
   padding: 0;
@@ -2892,12 +2890,21 @@ footer li.active a {
   width: 550px;
 }
 .product-detail-page .product_info {
-  width: 628px;
+  width: 548px;
   padding-left: 20px;
 }
 .product-detail-page .product_info h1 {
-  font-size: 15px;
+  font-size: 16px;
+  padding: 3px 0 7px 0;
+  line-height: 18px;
+  position: relative;
   margin: 0;
+  color: #333;
+  font-weight: bold;
+}
+.product-detail-page .product_info hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .product-detail-page .zoom-wrap {
   float: left;
@@ -2938,6 +2945,57 @@ footer li.active a {
 }
 .product-detail-page .slideTxtBox .bd {
   padding: 20px;
+}
+.bought dt span {
+  color: #000;
+  display: block;
+  float: left;
+  font-size: 18px;
+  font-weight: bold;
+}
+.bought .imgbox {
+  height: 200px;
+  overflow: hidden;
+}
+.bought dd {
+  float: left;
+  margin-left: 10px;
+}
+.bought dd .title a {
+  color: #999;
+  font-size: 12px;
+  font-family: Arial;
+}
+.bought dd .price {
+  font-size: 14px;
+  color: #000;
+  font-weight: bold;
+}
+.bought dd.first {
+  margin-left: 0;
+}
+.title-bar-s {
+  line-height: 40px;
+  height: 40px;
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
+  position: relative;
+  margin: 0 auto;
+}
+.title-bar-s h2 {
+  font: 18px/40px Helvetica;
+  color: #333;
+  padding: 0 10px;
+  display: inline-block;
+}
+.gallery-right h1 {
+  font-size: 18px;
+  color: #666;
+  line-height: 20px;
+  font-weight: bold;
+  display: inline-block;
+  float: left;
+  width: 100%;
 }
 .navbar {
   margin-bottom: 0!important;
@@ -3137,4 +3195,9 @@ table > tbody > tr > td,
 }
 .link {
   color: #1d86f4;
+}
+@media (min-width: 1200px) {
+  .cmspage .container {
+    width: 1070px;
+  }
 }

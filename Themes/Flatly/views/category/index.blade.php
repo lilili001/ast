@@ -15,8 +15,8 @@
                 {{--alix start--}}
                 @if( isset($products) )
                     @foreach($products as $product)
-                        <div class="col-md-4">
-                            <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}">
+                        <div class="col-md-3 item">
+                            <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}" style="max-height:200px;overflow:hidden">
                                 @if(count( $product->featured_images->toArray() )>0)
                                     <img src="@thumbnail( $product->featured_images->first()->path, 'mediumThumb')"
                                          alt=""/>

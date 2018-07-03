@@ -37,13 +37,13 @@
     @routes
 
 </head>
-<body>
+<body class="cmspage">
 
 @include('partials.admin-bar')
 
 @include('partials.navigation')
 
-<div class="container" id="app">
+<div class=" container" id="app">
     @yield('content')
 </div>
 @include('partials.footer')

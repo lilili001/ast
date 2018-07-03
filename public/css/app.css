@@ -820,8 +820,14 @@ textarea.ivu-input[readonly] {
   background-position: -165px 2px;
 }
 
+.addFavoriateBtn {
+  color: #666;
+}
+
 .addFavoriateBtn .glyphicon {
   top: 3px;
+  font-size: 22px;
+  color: #ddd;
 }
 
 .addFavoriateBtn .active {

@@ -31,13 +31,6 @@
       0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
     ),
   ),
-  'laravel/tinker' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    ),
-  ),
   'nwidart/laravel-modules' => 
   array (
     'providers' => 
@@ -92,17 +85,6 @@
       0 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
     ),
   ),
-  'yajra/laravel-datatables-oracle' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
-    ),
-  ),
   'dimsav/laravel-translatable' => 
   array (
     'providers' => 
@@ -129,66 +111,6 @@
     ),
     'aliases' => 
     array (
-    ),
-  ),
-  'ast/product-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Product\\Providers\\ProductServiceProvider',
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'intervention/image' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Image' => 'Intervention\\Image\\Facades\\Image',
-    ),
-  ),
-  'ast/mpay-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Mpay\\Providers\\MpayServiceProvider',
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'maatwebsite/excel' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
-    ),
-  ),
-  'barryvdh/laravel-debugbar' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
-    ),
-  ),
-  'overtrue/laravel-follow' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Overtrue\\LaravelFollow\\FollowServiceProvider',
     ),
   ),
   'ast/socialite' => 
@@ -218,6 +140,91 @@
     'providers' => 
     array (
       0 => 'SocialiteProviders\\Manager\\ServiceProvider',
+    ),
+  ),
+  'nesbot/carbon' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Carbon\\Laravel\\ServiceProvider',
+    ),
+  ),
+  'laravel/tinker' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    ),
+  ),
+  'intervention/image' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+  ),
+  'maatwebsite/excel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
+    ),
+  ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
+  ),
+  'yajra/laravel-datatables-oracle' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
+    ),
+  ),
+  'ast/product-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Product\\Providers\\ProductServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'ast/sale-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Sale\\Providers\\SaleServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'overtrue/laravel-follow' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Overtrue\\LaravelFollow\\FollowServiceProvider',
     ),
   ),
 );

@@ -63,10 +63,19 @@
                 <div class="pull-left product_info">
                     <h1>{{$product->title}}</h1>
 
-                    <span id="product_reviews"></span> <span class="product_review_count">(<a href="#review-box">{{ count($reviews) }}</a>)</span>
+                    <div class="row">
+                    <div class="col-md-6">
+                        <span id="product_reviews"></span> <span class="product_review_count">(<a href="#review-box">{{ count($reviews) }}</a>)</span>
+                    </div>
+                        <div class="col-md-6 pull-right">
+                            <img class="pull-right" src="{{'/assets/images/free_ateration_en_a0f9a23325aaee0b.png'}}" alt="">
+                        </div>
+                    </div>
+
 
                     <div>Item Code:sdfff</div>
                     <div class="">Stock: <span class="stock">{{ $product->stock  }}</span></div>
+                    <hr>
                     <div class="price">
                         <span class="multiSign"> {{ json_decode( setting('currency::current-currency') )[0] . $allowdCurrencies[getCurrentCurrency()]['symbol'] }} </span>
                         <span class="multiPrice" data-price="{{ $product->price  }}">{{$product->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
@@ -129,7 +138,7 @@
                         </div>
                     @endforeach
                     </div>
-                    <div class="option_box">
+                    <div class="option_box qty_wrap">
                         <label for="">数量</label>
                         <div class="pull-left qty_div">
                             <span data-action="decrease" class="glyphicon glyphicon-minus qty-action pointer"></span>
@@ -141,12 +150,13 @@
                     <div class="clearfix"></div>
                     {{--sku attrs end--}}
                     <div class="error" style="display: none">请选择属性</div>
-                    <div class="action-btn">
+                    <div class="action-btn mar-t20">
                         <a href="javascript:;" class="btn  add_to_cart_btn" id="addCartBtn">
-                            <span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</a>
-
-                        <a href="javascript:;" class="btn mar-t40 addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  user()->hasFavorited($product) ? 'active' : ''  }} "></span>
-                            (<span class="favorite_count">{{$favorite_count}}</span>)</a>
+                            {{--<span class="glyphicon glyphicon-shopping-cart"></span>--}}
+                            Add To Cart</a>
+                        <a href="javascript:;" class="btn addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  user()->hasFavorited($product) ? 'active' : ''  }} "></span>
+                            <input type="hidden" name="favorite_count" value="{{$favorite_count}}">
+                            <span class="favorite_count">Add to Favorites </span> </a>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -154,8 +164,30 @@
             </div>
             <!--below content-->
             <div class="bellow">
+                <div class="bought mar-t20">
+                <dl>
+                    <dt><span>CUSTOMERS WHO BOUGHT THIS ITEM ALSO BOUGHT</span></dt>
+                <div class="clearfix"></div>
 
-                 <div class="bd">
+                        @foreach($relatedProducts as $related)
+                            <dd class="{{ $loop->first  ? 'first' : ''  }}">
+                                <div class="imgbox">
+                                <a rel="nofollow" href="">
+                                    <img dir="ltr" width="200px" src="@thumbnail( $related->featured_images->first()->path, 'mediumThumb')" alt="{{$related->title}}" data-track-product-id="{{$related->id}}" data-track-product-list="{{$related->title}}" data-track-product-position="2"></a>
+                                 </div>
+                                <div class="title pad-t6"><a rel="nofollow" title="{{$related->title}}" href=" ">{{ $related->title  }}</a></div>
+                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}" class="price" >
+                                    <span class="multiSign">{{ json_decode( setting('currency::current-currency') )[0] . $allowdCurrencies[getCurrentCurrency()]['symbol'] }}</span>
+                                    <span class="multiPrice" data-price="{{$product->price}}">{{$product->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
+                                </a>
+                            </dd>
+                        @endforeach
+
+                <div class="clearfix"></div>
+                </dl>
+                </div>
+
+                 <div class="bd mar-t20">
                         <div class="box">
                             <div class="pic">
                                 {{--@foreach($product->featured_images as $featuredImage)--}}
@@ -168,12 +200,20 @@
                                 {{--@endforeach--}}
                             </div>
                         </div>
-                        <div class="box review" id="review-box">
-                            <h4>Review:</h4>
-                            展示评论列表, 评论完 系统通知对方
+                        <div class="box review clearfix" id="review-box">
+                            <div class="title-bar-s">
+                                <h2>Review:</h2>
+                            </div>
+
+                            @if( count( $reviews ) == 0 )
+                                暂无评论,下单发表评论
+                            @endif
+
                             @if( isset($reviews) )
                                 @foreach($reviews as $review)
+                                    @if( $loop->first == false )
                                     <hr>
+                                    @endif
                                 <div class="w-review" id="reply-{{$review->id}}">
 
                                     <div class="review-title">
@@ -250,29 +290,32 @@
                                 </div>
 
                                 @endforeach
+
                             @endif
 
                         </div>
-                     <hr>
+
                         <div class="box">
-                            <h4>Payment:</h4>
-                            Payment Methods:
+                            <div class="title-bar-s mar-t20">
+                                <h2>Payment Methods:</h2>
+                            </div>
+
                             FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment
                             methods:
 
-                            Global:
+                            Global: </br>
 
-                            1. PayPal
+                            1. PayPal </br>
 
-                            1) Login To Your Account or use Credit Card Express.
+                            1) Login To Your Account or use Credit Card Express. </br>
                             2) Enter your Card Details, the order will be shipped to your PayPal address. And click
-                            "Submit".
-                            3) Your Payment will be processed and a receipt will be sent to your email inbox.
+                            "Submit".</br>
+                            3) Your Payment will be processed and a receipt will be sent to your email inbox.</br>
 
-                            2. Credit Card
+                            2. Credit Card</br>
 
-                            1) Choose your shipping address OR create a new one.
-                            2) Enter your Card Details and click "Submit".
+                            1) Choose your shipping address OR create a new one.</br>
+                            2) Enter your Card Details and click "Submit".</br>
                             3) Your Payment will be processed and a receipt will be sent to your email inbox.
                         </div>
 
@@ -405,9 +448,9 @@
                 $(this).siblings('.qty').val(oldV)
             })
             $('.qty-action[data-action="decrease"]').click(function () {
-                var oldV = Number($(this).siblings('.qty').val());
-                oldV = oldV > 1 ? oldV-- : oldV;
-                $(this).siblings('.qty').val(oldV);
+                var oldV = Number($('#quantity').val());
+                oldV = Number(oldV) > 1 ? oldV-1 : oldV;
+                $('#quantity').val(oldV);
             });
             //加入购物车
             $('#addCartBtn').click(function () {
