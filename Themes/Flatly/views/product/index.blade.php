@@ -172,13 +172,13 @@
                         @foreach($relatedProducts as $related)
                             <dd class="{{ $loop->first  ? 'first' : ''  }}">
                                 <div class="imgbox">
-                                <a rel="nofollow" href="">
+                                <a rel="nofollow" href="{{ URL::route($currentLocale . '.product.slug', [$related->slug])}}">
                                     <img dir="ltr" width="200px" src="@thumbnail( $related->featured_images->first()->path, 'mediumThumb')" alt="{{$related->title}}" data-track-product-id="{{$related->id}}" data-track-product-list="{{$related->title}}" data-track-product-position="2"></a>
                                  </div>
-                                <div class="title pad-t6"><a rel="nofollow" title="{{$related->title}}" href=" ">{{ $related->title  }}</a></div>
-                                <a href="{{ URL::route($currentLocale . '.product.slug', [$product->slug]) }}" class="price" >
+                                <div class="title pad-t6"><a rel="nofollow" title="{{$related->title}}" href="{{ URL::route($currentLocale . '.product.slug', [$related->slug])}}">{{ $related->title  }}</a></div>
+                                <a href="{{ URL::route($currentLocale . '.product.slug', [$related->slug]) }}" class="price" >
                                     <span class="multiSign">{{ json_decode( setting('currency::current-currency') )[0] . $allowdCurrencies[getCurrentCurrency()]['symbol'] }}</span>
-                                    <span class="multiPrice" data-price="{{$product->price}}">{{$product->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
+                                    <span class="multiPrice" data-price="{{$related->price}}">{{$related->price * $allowdCurrencies[getCurrentCurrency()]['rate'] }}</span>
                                 </a>
                             </dd>
                         @endforeach
@@ -189,6 +189,10 @@
 
                  <div class="bd mar-t20">
                         <div class="box">
+                            <div class="title-bar-s">
+                                <h2>Description:</h2>
+                            </div>
+                            {!! $product->description !!}
                             <div class="pic">
                                 {{--@foreach($product->featured_images as $featuredImage)--}}
                                     {{--<div class="pic">--}}
