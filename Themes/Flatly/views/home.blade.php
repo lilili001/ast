@@ -9,6 +9,7 @@
 @stop
 
 @section('content')
+
     <div class="main">
         <h1>{{ $page->title }}</h1>
         {!! $page->body !!}

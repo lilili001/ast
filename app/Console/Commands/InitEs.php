@@ -12,7 +12,7 @@ class InitEs extends Command
      *
      * @var string
      */
-    protected $signature = 'es:init';
+    protected $signature = 'esa:init1';
 
     /**
      * The console command description.
@@ -44,7 +44,8 @@ class InitEs extends Command
 
     protected function createIndex(Client $client)
     {
-        $url = config('scout.elasticsearch.hosts')[0] . ':9200/' . config('scout.elasticsearch.index');
+       // $url = config('scout.elasticsearch.hosts')[0] . ':9200/' . config('scout.elasticsearch.index');
+        $url = 'localhost:9200/ast';
         $client->put($url, [
             'json' => [
                 'settings' => [

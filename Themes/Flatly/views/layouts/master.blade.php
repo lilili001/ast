@@ -2,8 +2,9 @@
 <html>
 <head lang="{{ LaravelLocalization::setLocale() }}">
     <meta charset="UTF-8">
+    <title>@section('title')@setting('core::site-name')@show</title>
     @section('meta')
-        <meta name="description" content="@setting('core::site-description')"/>
+    <meta name="description" content="@setting('core::site-description')"/>
     @show
     <meta name="user-api-token" content="{{ Auth::check() ?  $currentUser->getFirstApiKey() : null }}"><meta id="token" name="token" value="{{ csrf_token() }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,9 +13,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link media="all" type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <title>
-        @section('title')@setting('core::site-name')@show
-    </title>
+
     <link rel="shortcut icon" href="{{ Theme::url('favicon.ico') }}">
     <script>
         window.ast = {
@@ -84,7 +83,15 @@
                 })
             }
         })
-    })
+    });
+
+    $('#backtop').on('click',function() {
+        console.log(111)
+        $('html, body').animate({
+            scrollTop: 0
+        }, 500);
+    });
+    $(document).scroll(function(){$(this).scrollTop()>720?$("#fixedTools").removeClass("hidden"):$("#fixedTools").addClass("hidden")});
 </script>
 
 @stack('js-stack')

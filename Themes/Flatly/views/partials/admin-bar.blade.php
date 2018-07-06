@@ -78,8 +78,9 @@ $isCmsPage = in_array( $name , $arr );
         </div>
     </div>
 </nav>
+
 <div class="header">
-    <div class="container">
+  <div class="container">
         <a class="logo" href="/" title="Cheap Dresses Online Sale">
             <img src="/assets/images/logo.png" width="80px" alt="Cheap Dresses Online Sale at ">
         </a>

@@ -1,10 +1,15 @@
 @extends('layouts.master')
 
 @section('title')
-    product view | @parent
+    {{ $product->title }} | @parent
+@stop
+
+@section('meta')
+    <meta name="description" content="{{ $product->meta_description }}" />
 @stop
 
 @section('content')
+
     {!! Theme::style('css/easyzoom.css') !!}
     <div class="row page product-detail-page">
         <div class="col-md-12 product-view">
@@ -156,7 +161,7 @@
                             Add To Cart</a>
                         <a href="javascript:;" class="btn addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  user()->hasFavorited($product) ? 'active' : ''  }} "></span>
                             <input type="hidden" name="favorite_count" value="{{$favorite_count}}">
-                            <span class="favorite_count">Add to Favorites </span> </a>
+                            <span class="favorite_count"> {{  user()->hasFavorited($product) ? '('.$favorite_count.')'  : 'Add to Favorites'  }}  </span> </a>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -494,11 +499,11 @@
                     success:function(res){
                         if(res.result.attached.length == 0){
                             var favorite_count = $('.favorite_count').text() - 1;
-                            $('.favorite_count').text(favorite_count);
+                            $('.favorite_count').text('Add to Favoriate');
                             $('.addFavoriateBtn span.active').removeClass('active')
                         }else{
-                            var favorite_count = Number( $('.favorite_count').text() ) + 1;
-                            $('.favorite_count').text(favorite_count);
+                            //var favorite_count = Number( $('.favorite_count').text() ) + 1;
+                            $('.favorite_count').text( '('+res.result.attached.length+')'  );
                             $('.addFavoriateBtn span.glyphicon').addClass('active')
                         }
                     }
