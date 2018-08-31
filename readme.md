@@ -1,17 +1,17 @@
-[![Latest Version](https://img.shields.io/packagist/v/asgardcms/platform.svg?style=flat-square)](https://github.com/asgardcms/platform/releases)
-[![Build Status](https://img.shields.io/travis/AsgardCms/Platform/master.svg?style=flat-square)](https://travis-ci.org/AsgardCms/Platform)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dd/asgardcms/platform.svg?style=flat-square)](https://packagist.org/packages/asgardcms/platform)
-[![Total Downloads](https://img.shields.io/packagist/dm/asgardcms/platform.svg?style=flat-square)](https://packagist.org/packages/asgardcms/platform)
-[![Total Downloads](https://img.shields.io/packagist/dt/asgardcms/platform.svg?style=flat-square)](https://packagist.org/packages/asgardcms/platform)
-[![PHP7 Compatible](https://img.shields.io/badge/php-7-green.svg?style=flat-square)](https://packagist.org/packages/asgardcms/platform)
-
-## AsgardCMS Platform
-
-View the documentation at [AsgardCMS.com/docs](http://asgardcms.com/docs/).
-
-Join the conversation on Slack [![Slack](http://slack.asgardcms.com/badge.svg)](http://slack.asgardcms.com/)
-
-## License
-
-The AsgardCMS is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+## 分支记录
+1. dev: 基础后台功能完成,下单流程完成
+1. dev-2018-08-31:
+    - 后台产品模块流程优化
+    - 产品批量上传功能
+    - 前台ui(pc,移动)
+    - 前台用户中心, 后台订单流程优化
+    - 订单运费模板设置
+    - 前台登陆注册页面
+    - 产品tag
+    - 产品咨询
+    - google流量分析工具
+    
+## passport 入口
+1. 登陆：auth/login 
+    > 前后台登陆使用一个表
+2. 后台入口：backend
