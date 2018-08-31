@@ -227,4 +227,11 @@
       0 => 'Overtrue\\LaravelFollow\\FollowServiceProvider',
     ),
   ),
+  'roumen/sitemap' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Roumen\\Sitemap\\SitemapServiceProvider',
+    ),
+  ),
 );

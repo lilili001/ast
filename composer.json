@@ -42,7 +42,8 @@
         "maatwebsite/excel": "^3.0",
         "overtrue/laravel-follow": "^1.1",
         "socialiteproviders/qq": "^3.0",
-        "socialiteproviders/weibo": "^3.0"
+        "socialiteproviders/weibo": "^3.0",
+        "roumen/sitemap": "2.7.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
