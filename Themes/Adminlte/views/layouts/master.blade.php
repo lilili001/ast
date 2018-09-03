@@ -42,6 +42,7 @@
 </head>
 <body class="{{ config('asgard.core.core.skin', 'skin-blue') }} sidebar-mini" style="padding-bottom: 0 !important;">
 <div class="wrapper" id="app">
+
     <header class="main-header">
         <a href="{{ route('dashboard.index') }}" class="logo">
             <span class="logo-mini">

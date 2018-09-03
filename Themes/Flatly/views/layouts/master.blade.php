@@ -37,7 +37,6 @@
 
 </head>
 <body class="cmspage">
-
 @include('partials.admin-bar')
 
 @include('partials.navigation')
