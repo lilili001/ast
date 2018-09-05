@@ -196,6 +196,7 @@ return [
         \Ignited\LaravelOmnipay\LaravelOmnipayServiceProvider::class,
         \Overtrue\LaravelFollow\FollowServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class, // add
+        \MiyaYeh\Trans\BdTransServiceProvider::class
     ],
 
     /*
@@ -245,5 +246,6 @@ return [
         'AjaxResponse' => 'App\Facades\AjaxResponseFacade',
         'Omnipay' => \Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class, // add
+        "BdTrans" => \MiyaYeh\Trans\Facades\BdTransFacade::class
     ],
 ];

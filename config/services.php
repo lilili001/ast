@@ -54,5 +54,9 @@ return [
         'client_id' => env('WEIBO_CLIENT_ID'),
         'client_secret' => env('WEIBO_CLIENT_SECRET'),
         'redirect' => env('WEIBO_REDIRECT_URL')
+    ],
+    'baidutrans' => [
+        'appKey' => env('BAIDU_APPID'),
+        'appSecret' => env('BAIDU_APP_SECRET')
     ]
 ];

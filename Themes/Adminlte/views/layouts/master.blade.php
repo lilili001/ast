@@ -41,6 +41,7 @@
     @routes
 </head>
 <body class="{{ config('asgard.core.core.skin', 'skin-blue') }} sidebar-mini" style="padding-bottom: 0 !important;">
+<input type="hidden" name="_token" value="{{csrf_token()}}">
 <div class="wrapper" id="app">
 
     <header class="main-header">
@@ -86,8 +87,10 @@
         editor: '{{ $activeEditor }}',
         adminPrefix: '{{ config('asgard.core.core.admin-prefix') }}',
         hideDefaultLocaleInURL: '{{ config('laravellocalization.hideDefaultLocaleInURL') }}',
-        filesystem: '{{ config('asgard.media.config.filesystem') }}'
+        filesystem: '{{ config('asgard.media.config.filesystem') }}',
+        langs : '{!! json_encode(array_keys(LaravelLocalization::getSupportedLocales() )) !!}'
     };
+
 </script>
 
 <script src="{{ mix('js/app.js') }}"></script>

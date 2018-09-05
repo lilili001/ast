@@ -11,3 +11,5 @@ public/js
 */.DS_Store
 public/images/
 bootstrap/cache/
+public/assets/media/
+uploads/

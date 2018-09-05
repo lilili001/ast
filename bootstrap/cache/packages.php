@@ -167,17 +167,6 @@
       'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
   ),
-  'maatwebsite/excel' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
-    ),
-  ),
   'barryvdh/laravel-debugbar' => 
   array (
     'providers' => 
@@ -232,6 +221,28 @@
     'providers' => 
     array (
       0 => 'Roumen\\Sitemap\\SitemapServiceProvider',
+    ),
+  ),
+  'miyayeh/trans' => 
+  array (
+    'providers' => 
+    array (
+      0 => '\\MiyaYeh\\Trans\\BdTransServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'BdTrans' => '\\MiyaYeh\\Trans\\Facades\\BdTransFacade',
+    ),
+  ),
+  'maatwebsite/excel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
     ),
   ),
 );
