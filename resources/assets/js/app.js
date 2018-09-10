@@ -32,6 +32,7 @@ Vue.component('MediaManager', require('../../../Modules/Media/Assets/js/componen
 Vue.component('sku', require('../../../Modules/Product/Assets/js/components/sku.vue'));
 Vue.component('attr', require('../../../Modules/Product/Assets/js/components/attr.vue'));
 Vue.component('attrset', require('../../../Modules/Product/Assets/js/components/attrset.vue'));
+Vue.component('SizeHeader',require('../../../Modules/Attribute/Assets/js/components/SizeHeader.vue'));
 
 const currentLocale = window.AsgardCMS.currentLocale;
 const adminPrefix = window.AsgardCMS.adminPrefix;
