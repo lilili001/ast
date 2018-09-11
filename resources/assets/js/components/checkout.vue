@@ -214,6 +214,12 @@
         mounted(){
             let obj =  this.addrObj.find(item=> item.is_default ==1 );
             if( !!obj ) this.formData.addrSelected = obj.id;
+
+            /*如果没有产品则不允许进入到该页面*/
+            if( this.orderItems.length == 0 ){
+                location.href="/";
+            }
+
         },
         methods: {
             changeCountry(val){
