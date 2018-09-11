@@ -13,6 +13,7 @@
     - 产品咨询
     - google流量分析工具
     - 前台ui(pc,移动)
+    - 前后台翻译
     
 ## passport 入口
 1. 登陆：auth/login 
