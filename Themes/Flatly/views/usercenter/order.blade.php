@@ -99,6 +99,7 @@
                                         </tbody>
 
                                     </table>
+                                {{ $orders->links() }}
                                     <!-- /.box-body -->
                                 </div>
                             <!-- /.box -->

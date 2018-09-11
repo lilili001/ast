@@ -152,7 +152,7 @@
                                                   <?php
                                                   $origin_tracking_info = $tracking['data']['origin_info']['trackinfo'];
                                                   $destination_tracking_info = $tracking['data']['destination_info']['trackinfo'];
-                                                  
+
                                                   $packet_status = [
                                                   'pending' => '查询中',
                                                   'notfound' => '查询不到',
