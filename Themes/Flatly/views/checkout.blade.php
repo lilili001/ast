@@ -23,9 +23,7 @@
         $(function(){
             var previousPage = document.referrer;
             //如果来源页不是cart 则跳转到cart 只认从cart跳转过来的
-            if( previousPage.indexOf('cart') == -1 ){
-                location.href="/cart";
-            }
+
         })
     </script>
 @stop

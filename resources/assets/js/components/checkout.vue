@@ -254,9 +254,8 @@
                             order_remark : this.formData.shippingRemark,
                             order_freight: this.formData.shippingfreight
                         }).then((res)=>{
-                            if(res.data.code == 0) location.href = res.data.result;
+                            if(res.data.code == 0) location.href =  'http://localhost:8000/'+ res.data.result;
                         })
-
                     } else {
                         console.log('error submit!!');
                         return false;

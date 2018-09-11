@@ -159,7 +159,7 @@
                         <a href="javascript:;" class="btn  add_to_cart_btn" id="addCartBtn">
                             {{--<span class="glyphicon glyphicon-shopping-cart"></span>--}}
                             Add To Cart</a>
-                        <a href="javascript:;" class="btn addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  user()->hasFavorited($product) ? 'active' : ''  }} "></span>
+                        <a href="javascript:;" class="btn addFavoriateBtn"> <span class="glyphicon glyphicon-heart {{  Auth::check() && user()->hasFavorited($product) ? 'active' : ''  }}"></span>
                             <input type="hidden" name="favorite_count" value="{{$favorite_count}}">
                             <span class="favorite_count"> {{  user()->hasFavorited($product) ? '('.$favorite_count.')'  : 'Add to Favorites'  }}  </span> </a>
                     </div>
