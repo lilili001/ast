@@ -31,7 +31,6 @@
         "elasticsearch/elasticsearch": "5.0.x-dev",
         "ast/attribute-module": "^1.0",
         "joshbrw/laravel-module-installer": "^0.1.4",
-        "ast/tt-module": "^1.0",
         "ast/product-module": "^1.1",
         "ast/blog-module": "^1.0",
         "ast/sale-module": "^1.0",
