@@ -36,6 +36,8 @@
         "ast/blog-module": "^1.0",
         "ast/sale-module": "^1.0",
         "ast/media-module": "^1.2",
+        "ast/currency-module": "^1.0",
+        "ast/supplier-module": "^1.0",
         "gloudemans/shoppingcart": "^2.5",
         "paypal/rest-api-sdk-php": "^1.13",
         "sudiptpa/paypal-ipn": "^2.0",
