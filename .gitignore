@@ -13,3 +13,4 @@ public/images/
 bootstrap/cache/
 public/assets/media/
 uploads/
+storage/*

@@ -23,3 +23,26 @@
 ## 已完成功能
 后台：
 产品,分类, 属性, 属性集, 多语言, 多货币, 订单, 物流跟踪, 社会化登陆, 博客
+
+## 发布注意事项
+核心模块core用的是3.5.3, 高版本的模块会有兼容问题
+静态资源 ```php artisan stylist:publish```的目的是将主题下assets下的目录发布到public文件夹
+
+如果发布的目录不对 注意查看主题下assets下的目录对不对 有时候因为第三方包更新了 所以发布的时候要注意看看 引用文件的路径是否正确
+
+### 安装步骤：
+
+首先要保障各模块发布完毕：
+user
+media
+attribute
+page
+product
+sale
+supplier
+currency
+
+1. git clone https://github.com/lilili001/ast.git
+2. composer install
+3. 进入根目录 主题目录 npm install
+4. 拷贝产品图片目录至 public/assets/
