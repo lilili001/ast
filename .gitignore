@@ -7,6 +7,9 @@ Themes/Adminlte/assets/
 Modules/
 .env
 */.DS_Store
+public/js/app.js
+public/js/cart.js
+public/js/checkout.js
 public/themes
 public/modules
 public/images/
