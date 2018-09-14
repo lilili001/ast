@@ -45,4 +45,5 @@ currency
 1. git clone https://github.com/lilili001/ast.git
 2. composer install
 3. 进入根目录 主题目录 npm install
-4. 拷贝产品图片目录至 public/assets/
+4. php artisan stylist:publish
+5. php artisna module:publish
