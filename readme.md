@@ -47,3 +47,8 @@ currency
 3. 进入根目录 主题目录 npm install
 4. php artisan stylist:publish
 5. php artisna module:publish
+
+app.js cart.js checkout.js 是根目录npm run dev生成
+
+adminlte的webpack.js 主要是拷贝目录和文件到public
+flatly的webpack.js 是合并常用js lib, 以及拷贝flatly主题的assets到public
