@@ -76,16 +76,6 @@
       'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
   ),
-  'ast/sale-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Sale\\Providers\\SaleServiceProvider',
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
   'ast/tt-module' => 
   array (
     'providers' => 
@@ -260,6 +250,27 @@
     'providers' => 
     array (
       0 => 'Modules\\Product\\Providers\\ProductServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'zgabievi/promocodes' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Gabievi\\Promocodes\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Promocodes' => 'Gabievi\\Promocodes\\Facades\\Promocodes',
+    ),
+  ),
+  'ast/sale-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Sale\\Providers\\SaleServiceProvider',
     ),
     'aliases' => 
     array (

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "78ac46c2c77cb9c5c43ad86d774d692b",
+    "content-hash": "cca22ee5747e01380eb73bd1775f9154",
     "packages": [
         {
             "name": "ast/attribute-module",
@@ -241,16 +241,16 @@
         },
         {
             "name": "ast/sale-module",
-            "version": "1.0.1",
+            "version": "1.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/sale.git",
-                "reference": "0219ae5fe0cf4f37a0efa95428d231495c1916d7"
+                "reference": "7dbf57ae1ecb6db065d795619c74a38cb55d4132"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/sale/zipball/0219ae5fe0cf4f37a0efa95428d231495c1916d7",
-                "reference": "0219ae5fe0cf4f37a0efa95428d231495c1916d7",
+                "url": "https://api.github.com/repos/lilili001/sale/zipball/7dbf57ae1ecb6db065d795619c74a38cb55d4132",
+                "reference": "7dbf57ae1ecb6db065d795619c74a38cb55d4132",
                 "shasum": ""
             },
             "require": {
@@ -259,7 +259,8 @@
                 "ignited/laravel-omnipay": "^2.3",
                 "lokielse/omnipay-alipay": "^2.3",
                 "omnipay/paypal": "^2.6",
-                "php": ">=7.0.0"
+                "php": ">=7.0.0",
+                "zgabievi/promocodes": "^2.1"
             },
             "require-dev": {
                 "orchestra/testbench": "3.5.*",
@@ -285,11 +286,11 @@
             ],
             "authors": [
                 {
-                    "name": "Nicolas Widart",
-                    "email": "n.widart@gmail.com"
+                    "name": "MiyaYeh",
+                    "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-06-28T08:41:54+00:00"
+            "time": "2018-09-12T02:00:21+00:00"
         },
         {
             "name": "ast/supplier-module",
@@ -6352,6 +6353,67 @@
                 "laravel"
             ],
             "time": "2018-06-03T01:33:29+00:00"
+        },
+        {
+            "name": "zgabievi/promocodes",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zgabievi/laravel-promocodes.git",
+                "reference": "be208449e21e21e1a3d6d62a7c968c928e9c5d69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zgabievi/laravel-promocodes/zipball/be208449e21e21e1a3d6d62a7c968c928e9c5d69",
+                "reference": "be208449e21e21e1a3d6d62a7c968c928e9c5d69",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.5.0|~5.6.0|~5.7.0",
+                "illuminate/database": "~5.5.0|~5.6.0|~5.7.0",
+                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.6.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gabievi\\Promocodes\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Promocodes": "Gabievi\\Promocodes\\Facades\\Promocodes"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gabievi\\Promocodes\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zura Gabievi",
+                    "email": "zura.gabievi@gmail.com"
+                }
+            ],
+            "description": "Promotional Codes Generator for Laravel 5",
+            "homepage": "https://github.com/zgabievi/promocodes",
+            "keywords": [
+                "coupon code",
+                "discount code",
+                "laravel",
+                "php",
+                "promo code"
+            ],
+            "time": "2018-09-13T07:06:02+00:00"
         }
     ],
     "packages-dev": [
