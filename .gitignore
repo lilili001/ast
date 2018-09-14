@@ -6,7 +6,6 @@ build/
 public/themes/
 Themes/Adminlte/assets/
 Modules/
-public/js
 .env
 */.DS_Store
 public/images/

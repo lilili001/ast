@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "20fe276a9953f7146892b965317d6ab2",
+    "content-hash": "78ac46c2c77cb9c5c43ad86d774d692b",
     "packages": [
         {
             "name": "ast/attribute-module",
-            "version": "1.0.61",
+            "version": "1.062",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/attribute-module.git",
-                "reference": "7b7352321a4d15442a5eeee1a562d8884e36f7e4"
+                "reference": "61f21b1520f034d428ac29352daed138fd93caae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/attribute-module/zipball/7b7352321a4d15442a5eeee1a562d8884e36f7e4",
-                "reference": "7b7352321a4d15442a5eeee1a562d8884e36f7e4",
+                "url": "https://api.github.com/repos/lilili001/attribute-module/zipball/61f21b1520f034d428ac29352daed138fd93caae",
+                "reference": "61f21b1520f034d428ac29352daed138fd93caae",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                     "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-05-11T01:16:13+00:00"
+            "time": "2018-09-10T08:10:02+00:00"
         },
         {
             "name": "ast/blog-module",
@@ -100,6 +100,55 @@
             "time": "2018-04-27T08:02:32+00:00"
         },
         {
+            "name": "ast/currency-module",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lilili001/currency.git",
+                "reference": "1c7869c7f3dcf85c905a337629746a32d1d980fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lilili001/currency/zipball/1c7869c7f3dcf85c905a337629746a32d1d980fc",
+                "reference": "1c7869c7f3dcf85c905a337629746a32d1d980fc",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "idavoll/core-module": "~3.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "asgard-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Currency\\Providers\\CurrencyServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Currency\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Miya Yeh",
+                    "email": "miyaye3344@gmail.com"
+                }
+            ],
+            "time": "2018-09-12T02:34:48+00:00"
+        },
+        {
             "name": "ast/media-module",
             "version": "1.09",
             "source": {
@@ -143,16 +192,16 @@
         },
         {
             "name": "ast/product-module",
-            "version": "1.1.2",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/product.git",
-                "reference": "122065c433b1021c2275acdafd3f79b4fdd68db6"
+                "reference": "675b0ee417c13c012b5cbdf83fba2dcf5a5f03a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/product/zipball/122065c433b1021c2275acdafd3f79b4fdd68db6",
-                "reference": "122065c433b1021c2275acdafd3f79b4fdd68db6",
+                "url": "https://api.github.com/repos/lilili001/product/zipball/675b0ee417c13c012b5cbdf83fba2dcf5a5f03a0",
+                "reference": "675b0ee417c13c012b5cbdf83fba2dcf5a5f03a0",
                 "shasum": ""
             },
             "require": {
@@ -188,7 +237,7 @@
                     "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-06-26T09:24:52+00:00"
+            "time": "2018-09-14T05:44:17+00:00"
         },
         {
             "name": "ast/sale-module",
@@ -243,17 +292,17 @@
             "time": "2018-06-28T08:41:54+00:00"
         },
         {
-            "name": "ast/tt-module",
-            "version": "1.0.3",
+            "name": "ast/supplier-module",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lilili001/tt.git",
-                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c"
+                "url": "https://github.com/lilili001/supplier.git",
+                "reference": "786f5ce79aa06878edb9933cedb1a80ec7866d3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/tt/zipball/0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
-                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
+                "url": "https://api.github.com/repos/lilili001/supplier/zipball/786f5ce79aa06878edb9933cedb1a80ec7866d3a",
+                "reference": "786f5ce79aa06878edb9933cedb1a80ec7866d3a",
                 "shasum": ""
             },
             "require": {
@@ -265,21 +314,18 @@
                 "orchestra/testbench": "3.5.*",
                 "phpunit/phpunit": "~6.0"
             },
-            "type": "laravel-module",
+            "type": "asgard-module",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Modules\\Tt\\Providers\\TtServiceProvider"
+                        "Modules\\Supplier\\Providers\\SupplierServiceProvider"
                     ],
                     "aliases": []
-                },
-                "extra": {
-                    "module-dir": "Custom"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Modules\\Tt\\": ""
+                    "Modules\\Supplier\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -288,24 +334,24 @@
             ],
             "authors": [
                 {
-                    "name": "Nicolas Widart",
-                    "email": "n.widart@gmail.com"
+                    "name": "Miya Yeh",
+                    "email": "miyaye3344@gmail.com"
                 }
             ],
-            "time": "2018-04-27T06:22:31+00:00"
+            "time": "2018-09-12T02:33:32+00:00"
         },
         {
             "name": "ast/user-module",
-            "version": "1.0.13",
+            "version": "1.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lilili001/user.git",
-                "reference": "a9e74448447e8a67382a9c9a2fd35d89487c1c53"
+                "reference": "6b1eed75098b17dbe9325ec8d1d675cb9f2aea12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lilili001/user/zipball/a9e74448447e8a67382a9c9a2fd35d89487c1c53",
-                "reference": "a9e74448447e8a67382a9c9a2fd35d89487c1c53",
+                "url": "https://api.github.com/repos/lilili001/user/zipball/6b1eed75098b17dbe9325ec8d1d675cb9f2aea12",
+                "reference": "6b1eed75098b17dbe9325ec8d1d675cb9f2aea12",
                 "shasum": ""
             },
             "require": {
@@ -345,7 +391,7 @@
                 "authorisation",
                 "user"
             ],
-            "time": "2018-06-28T07:45:28+00:00"
+            "time": "2018-07-06T08:29:05+00:00"
         },
         {
             "name": "cartalyst/sentinel",
@@ -4675,6 +4721,7 @@
                 "generator",
                 "laravel"
             ],
+            "abandoned": "laravelium/sitemap",
             "time": "2017-09-07T16:19:37+00:00"
         },
         {
@@ -6369,6 +6416,58 @@
                 "oauth"
             ],
             "time": "2018-06-01T15:06:47+00:00"
+        },
+        {
+            "name": "ast/tt-module",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lilili001/tt.git",
+                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lilili001/tt/zipball/0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
+                "reference": "0c3e0b8beb21e2e9393c46487b9b7eb9883b8a7c",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "idavoll/core-module": "~3.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "laravel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Tt\\Providers\\TtServiceProvider"
+                    ],
+                    "aliases": []
+                },
+                "extra": {
+                    "module-dir": "Custom"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Tt\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Widart",
+                    "email": "n.widart@gmail.com"
+                }
+            ],
+            "time": "2018-04-27T06:22:31+00:00"
         },
         {
             "name": "aws/aws-sdk-php",

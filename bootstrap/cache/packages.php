@@ -1,34 +1,27 @@
 <?php return array (
-  'laravel/scout' => 
+  'nesbot/carbon' => 
   array (
     'providers' => 
     array (
-      0 => 'Laravel\\Scout\\ScoutServiceProvider',
+      0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-  'tamayo/laravel-scout-elastic' => 
+  'yajra/laravel-datatables-oracle' => 
   array (
     'providers' => 
     array (
-      0 => 'ScoutEngines\\Elasticsearch\\ElasticsearchProvider',
-    ),
-  ),
-  'gloudemans/shoppingcart' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider',
+      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     ),
     'aliases' => 
     array (
-      'Cart' => 'Gloudemans\\Shoppingcart\\Facades\\Cart',
+      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
     ),
   ),
-  'fideloper/proxy' => 
+  'tightenco/ziggy' => 
   array (
     'providers' => 
     array (
-      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+      0 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
     ),
   ),
   'nwidart/laravel-modules' => 
@@ -40,6 +33,67 @@
     'aliases' => 
     array (
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
+    ),
+  ),
+  'mcamara/laravel-localization' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Mcamara\\LaravelLocalization\\LaravelLocalizationServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'LaravelLocalization' => 'Mcamara\\LaravelLocalization\\Facades\\LaravelLocalization',
+    ),
+  ),
+  'laravelcollective/html' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Collective\\Html\\HtmlServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Form' => 'Collective\\Html\\FormFacade',
+      'Html' => 'Collective\\Html\\HtmlFacade',
+    ),
+  ),
+  'dimsav/laravel-translatable' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Dimsav\\Translatable\\TranslatableServiceProvider',
+    ),
+  ),
+  'intervention/image' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+  ),
+  'ast/sale-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Sale\\Providers\\SaleServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'ast/tt-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Tt\\Providers\\TtServiceProvider',
+    ),
+    'aliases' => 
+    array (
     ),
   ),
   'cartalyst/sentinel' => 
@@ -55,16 +109,22 @@
       'Sentinel' => 'Cartalyst\\Sentinel\\Laravel\\Facades\\Sentinel',
     ),
   ),
-  'laravelcollective/html' => 
+  'fideloper/proxy' => 
   array (
     'providers' => 
     array (
-      0 => 'Collective\\Html\\HtmlServiceProvider',
+      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    ),
+  ),
+  'gloudemans/shoppingcart' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider',
     ),
     'aliases' => 
     array (
-      'Form' => 'Collective\\Html\\FormFacade',
-      'Html' => 'Collective\\Html\\HtmlFacade',
+      'Cart' => 'Gloudemans\\Shoppingcart\\Facades\\Cart',
     ),
   ),
   'nwidart/laravel-menus' => 
@@ -78,52 +138,6 @@
       'Menu' => 'Nwidart\\Menus\\Facades\\Menu',
     ),
   ),
-  'tightenco/ziggy' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
-    ),
-  ),
-  'dimsav/laravel-translatable' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Dimsav\\Translatable\\TranslatableServiceProvider',
-    ),
-  ),
-  'mcamara/laravel-localization' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Mcamara\\LaravelLocalization\\LaravelLocalizationServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'LaravelLocalization' => 'Mcamara\\LaravelLocalization\\Facades\\LaravelLocalization',
-    ),
-  ),
-  'ast/tt-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Tt\\Providers\\TtServiceProvider',
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'ast/socialite' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
-    ),
-  ),
   'laravel/socialite' => 
   array (
     'providers' => 
@@ -135,20 +149,6 @@
       'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
     ),
   ),
-  'socialiteproviders/manager' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'SocialiteProviders\\Manager\\ServiceProvider',
-    ),
-  ),
-  'nesbot/carbon' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Carbon\\Laravel\\ServiceProvider',
-    ),
-  ),
   'laravel/tinker' => 
   array (
     'providers' => 
@@ -156,57 +156,26 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'intervention/image' => 
+  'maatwebsite/excel' => 
   array (
     'providers' => 
     array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     ),
     'aliases' => 
     array (
-      'Image' => 'Intervention\\Image\\Facades\\Image',
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
     ),
   ),
-  'barryvdh/laravel-debugbar' => 
+  'miyayeh/trans' => 
   array (
     'providers' => 
     array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+      0 => '\\MiyaYeh\\Trans\\BdTransServiceProvider',
     ),
     'aliases' => 
     array (
-      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
-    ),
-  ),
-  'yajra/laravel-datatables-oracle' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
-    ),
-  ),
-  'ast/product-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Product\\Providers\\ProductServiceProvider',
-    ),
-    'aliases' => 
-    array (
-    ),
-  ),
-  'ast/sale-module' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Sale\\Providers\\SaleServiceProvider',
-    ),
-    'aliases' => 
-    array (
+      'BdTrans' => '\\MiyaYeh\\Trans\\Facades\\BdTransFacade',
     ),
   ),
   'overtrue/laravel-follow' => 
@@ -223,26 +192,77 @@
       0 => 'Roumen\\Sitemap\\SitemapServiceProvider',
     ),
   ),
-  'miyayeh/trans' => 
+  'socialiteproviders/manager' => 
   array (
     'providers' => 
     array (
-      0 => '\\MiyaYeh\\Trans\\BdTransServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'BdTrans' => '\\MiyaYeh\\Trans\\Facades\\BdTransFacade',
+      0 => 'SocialiteProviders\\Manager\\ServiceProvider',
     ),
   ),
-  'maatwebsite/excel' => 
+  'laravel/scout' => 
   array (
     'providers' => 
     array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+      0 => 'Laravel\\Scout\\ScoutServiceProvider',
+    ),
+  ),
+  'tamayo/laravel-scout-elastic' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'ScoutEngines\\Elasticsearch\\ElasticsearchProvider',
+    ),
+  ),
+  'ast/socialite' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
     ),
     'aliases' => 
     array (
-      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
+      'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
+    ),
+  ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
+  ),
+  'ast/currency-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Currency\\Providers\\CurrencyServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'ast/supplier-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Supplier\\Providers\\SupplierServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
+  'ast/product-module' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Modules\\Product\\Providers\\ProductServiceProvider',
+    ),
+    'aliases' => 
+    array (
     ),
   ),
 );

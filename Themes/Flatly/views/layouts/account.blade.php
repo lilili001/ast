@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ asset('themes/adminlte/vendor/admin-lte/dist/css/AdminLTE.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('themes/adminlte/vendor/admin-lte/plugins/iCheck/square/blue.css') }}"/>
 
-    <script src="{{ asset('themes/adminlte/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('themes/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
