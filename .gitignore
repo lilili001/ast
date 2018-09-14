@@ -3,14 +3,14 @@ vendor/
 node_modules/
 build/
 .idea/
-public/themes/
 Themes/Adminlte/assets/
 Modules/
-public/themes
 .env
 */.DS_Store
+public/themes
+public/modules
 public/images/
-bootstrap/cache/
 public/assets/media/
+bootstrap/cache/
 uploads/
 storage/*
