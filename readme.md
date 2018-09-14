@@ -31,7 +31,6 @@
 如果发布的目录不对 注意查看主题下assets下的目录对不对 有时候因为第三方包更新了 所以发布的时候要注意看看 引用文件的路径是否正确
 
 ### 安装步骤：
-
 首先要保障各模块发布完毕：
 user
 media
@@ -46,9 +45,9 @@ currency
 2. composer install
 3. 进入根目录 主题目录 npm install
 4. php artisan stylist:publish
-5. php artisna module:publish
+5. php artisna module:publish(这个可以不用发布)
 
-app.js cart.js checkout.js 是根目录npm run dev生成
-
-adminlte的webpack.js 主要是拷贝目录和文件到public
-flatly的webpack.js 是合并常用js lib, 以及拷贝flatly主题的assets到public
+## webpack各目录用途
+- app.js cart.js checkout.js 是根目录npm run dev生成
+- adminlte的webpack.js 主要是拷贝目录和文件到public
+- flatly的webpack.js 是合并常用js lib, 以及拷贝flatly主题的assets到public
